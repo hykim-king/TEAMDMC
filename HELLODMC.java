@@ -1,5 +1,5 @@
 class HELLODMC{
 	public static void main(String []args) {
-		System.out.println("빨리 되어라!");
+		System.out.println("메일을 매일 확인하자..");
 	}
 }
