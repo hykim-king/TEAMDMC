@@ -2,7 +2,7 @@
 TEAMDMC
 
 ## :link: main
-![main](https://github.com/hykim-king/blob/main/main.png)
+![main](https://github.com/hykim-king/TEAMDMC/blob/main/img/main.png)
 
 
 ## :link: WBS
