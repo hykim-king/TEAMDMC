@@ -1,6 +1,10 @@
 # TEAMDMC
 TEAMDMC
 
+## :link: main
+![main](https://github.com/hykim-king/TEAMDMC/blob/main/main.png)
+
+
 ## :link: WBS
 ![WBS_1](https://github.com/hykim-king/TEAMDMC/blob/main/TeamDMC/img/wbs_1.png)
 ![WBS_2](https://github.com/hykim-king/TEAMDMC/blob/main/TeamDMC/img/wbs_2.png)
