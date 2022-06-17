@@ -23,6 +23,8 @@
 }
 
 /* 전체 container div */
+
+	.container a {color: black;}
 .container {
 	width: 100%;
 	height: calc(100vh - 80px);
