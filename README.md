@@ -1,5 +1,5 @@
 # TEAMDMC
-TEAMDMC
+TEAMDMC~~
 
 ## :link: WBS
 ![WBS_1](https://github.com/hykim-king/TEAMDMC/blob/main/TeamDMC/img/wbs_1.png)
