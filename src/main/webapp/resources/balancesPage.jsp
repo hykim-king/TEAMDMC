@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!-- Html comment -->
 <!DOCTYPE html>
 <html>
@@ -8,8 +8,8 @@
 <meta charset="UTF-8">
 <style>
 @import
-    url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap')
-    ;
+	url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap')
+	;
 </style>
 <link rel="stylesheet" type="text/css" href="css/header.css">
 <link rel="stylesheet" type="text/css" href="css/footer.css">
@@ -23,24 +23,28 @@
 }
 
 /* 전체 container div */
+.container a {
+	color: black;
+}
+
 .container {
 	width: 100%;
 	height: calc(100vh - 80px);
 	/* padding top> right> bottom> left */
 	position: relative;
-
 }
+
 .mainBox {
-    width: 90%;
-    height: auto;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    /*background : yellow;*/
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%,-50%);
+	width: 90%;
+	height: auto;
+	margin: 0 auto;
+	display: flex;
+	justify-content: space-between;
+	/*background : yellow;*/
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
 }
 /* 사용자 보유 자산 div */
 #userBalancesDiv {
@@ -51,23 +55,28 @@
 }
 
 .userTotalBalances {
-	width: 95%;
-	border: 1px solid #333;
-    box-sizing: border-box;
+	width: 85%;
 	margin: 0 auto;
 	margin-bottom: 20px;
 	margin-top: 20px;
+	display: flex;
+	justify-content: space-between;
 }
 
 .userBalancesTableDiv {
 	width: 95%;
 	margin: 0 auto;
-	border: 1px solid #333;
-    box-sizing: border-box;
+	box-sizing: border-box;
+	margin-top: 30px;
 }
 
 .userBalancesTable {
-    width: 95%;
+	width: 95%;
+	margin: 0 auto;
+	border: 1px solid gray;
+	border-collapse: collapse;
+	font-size: 15px;
+	text-align: 30px;
 }
 
 .uBTBody>tr {
@@ -79,17 +88,24 @@
 	width: 30%;
 	height: 550px;
 	border: 1px solid #333;
-    box-sizing: border-box;
+	box-sizing: border-box;
 }
 
-#mainBalancesDiv input {margin-left: 10px; height: 30px; border: 1px solid #333; border-radius: 2px; background: white;}
-#mainBalancesDiv label {margin-left: 10px;}
+#mainBalancesDiv input {
+	margin-left: 10px;
+	height: 30px;
+	border: 1px solid #333;
+	border-radius: 2px;
+	background: white;
+}
 
+#mainBalancesDiv label {
+	margin-left: 10px;
+}
 
 .mainBalancesTab>ul>li {
 	border: 1px solid #333;
-    box-sizing: border-box;
-    
+	box-sizing: border-box;
 	cursor: pointer;
 	text-align: center;
 }
@@ -106,7 +122,7 @@ div.on {
 	margin: 0 auto;
 	display: block;
 	border: 1px solid #333;
-    box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 .mainBalancesTabContextDivB, .mainBalancesTabContextDivC {
@@ -114,7 +130,7 @@ div.on {
 	margin: 0 auto;
 	display: none;
 	border: 1px solid #333;
-    box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 .mainBalancesTabContextDivAInputDiv, .mainBalancesTabContextDivBInputDiv,
@@ -126,7 +142,7 @@ div.on {
 
 .mainBalancesTabContextDivAWarnning, .mainBalancesTabContextDivBWarnning,
 	.mainBalancesTabContextDivCWarnning {
-	width: 95%;
+	width: 90%;
 	margin: 0 auto;
 	margin-top: 20px;
 }
@@ -134,7 +150,7 @@ div.on {
 .mainBalancesTab {
 	width: 95%;
 	margin: 0 auto;
-	height: 50px;
+	height: 40px;
 }
 
 .mainBalancesTab>ul {
@@ -145,7 +161,7 @@ div.on {
 .mainBalancesTab>ul>li {
 	width: 100%;
 	list-style: none;
-	line-height: 50px;
+	line-height: 40px;
 }
 
 .mainBalancesTab>ul>li>a {
@@ -154,19 +170,15 @@ div.on {
 }
 
 .mainBalancesTitle {
-	border: 1px solid #333;
-    box-sizing: border-box;
-    width: 95%;
-    margin: 0 auto;
-    margin-top: 20px;
+	width: 95%;
+	margin: 0 auto;
+	margin-top: 20px;
 }
 
 .mainBalancesContext {
 	width: 95%;
 	margin: 0 auto;
-	border: 1px solid #333;
-    box-sizing: border-box;
-    margin-top: 10px;
+	margin-top: 10px;
 }
 
 .temp {
@@ -174,18 +186,64 @@ div.on {
 	display: flex;
 	justify-content: space-between;
 }
+
+.temp:nth-child(1) {
+	margin-top: 30px;
+}
+
+.temp:nth-child(2) {
+	margin-top: 10px;
+	margin-bottom: 20px;
+}
 /* 코인 시세 div */
 #coinCharDiv {
 	width: 30%;
 	height: 550px;
 	border: 1px solid #333;
-    box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+td {
+	height: 30px;
+	border: 1px solid lightgray;
+	padding: 0 10px 0 10px;
+}
+
+td:nth-child(1) {
+	width: 30%;
+}
+
+td:nth-child(2) {
+	width: 25%;
+	text-align: right;
+}
+
+td:nth-child(3) {
+	width: 45%;
+	text-align: right;
+}
+
+.contextTop, .contextBottom {
+	width: 95%;
+	margin: 0 auto;
+	display: flex;
+	height: 30px;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.contextBottom input {
+	width: 300px; height : 30px;
+	border: 1px solid #333;
+	border-radius: 2px;
+	box-sizing: border-box;
+	height: 30px;
 }
 </style>
 
 <title>Insert title here</title>
 <!-- reset.css를 직접참조하여 가져오기 
-		<link rel="stylesheet" type="text/css" href="/studyhtml5/asset/css/reset.css"> -->
+        <link rel="stylesheet" type="text/css" href="/studyhtml5/asset/css/reset.css"> -->
 
 <!-- jQuery를 직접참조하여 설정 -->
 <!-- <script type="text/javascript" src="/studyhtml5/asset/js/jquery-1.12.4.js"></script> -->
@@ -199,70 +257,70 @@ div.on {
 
 <!-- 자바스크립트 -->
 <script type="text/javascript">
-			/* 자바스크립트 코드 */
-			$(document).ready(function(){
-				console.log('PCWK *** document');
-			
-				$(".uBTBody tr[id *= 'tr']").click(function(){
-					console.log($(this), "click!");
-					let trLastWord = ($(this).attr("id")).substr(($(this).attr("id")).length-3);
-					
-					console.log("trLastWord: ", $(trLastWord));
-					
-					$('.mainBalancesContextValueDivOwnValue').text(trLastWord);
-					$('.mainBalancesContextValueDivWaitValue').text(trLastWord);
-					console.log("change succed");
-				});
-				
-				/* a태그의 id의 마지막 문자열을 추출하여 원하는 div on */
-				$(".mainBalancesTab li[id *= 'mBT']").click(function(){
-					let mBTLastWord = ($(this).attr("id")).substr(($(this).attr("id")).length -1);
- 					
-					$('.mainBalancesTabContextDivA').css('display', 'none');
-					$('.mainBalancesTabContextDivB').css('display', 'none');
-					$('.mainBalancesTabContextDivC').css('display', 'none');
-					
-					switch(mBTLastWord){
-					case 'a':
-						/* $('.mainBalancesTabContextDivB').removeClass('on');
- 						$('.mainBalancesTabContextDivC').removeClass('on');
-						$('.mainBalancesTabContextDivA').addClass('on'); */
-						$('.mainBalancesTabContextDivA').css('display', 'block');
-						
-						console.log('mainBalancesTabContextDivA의 class에 on추가하기');
-						break;
-						
-					case 'b':
-						/* $('.mainBalancesTabContextDivA').removeClass('on');
- 						$('.mainBalancesTabContextDivC').removeClass('on');
-						$('.mainBalancesTabContextDivB').addClass('on'); */
-						$('.mainBalancesTabContextDivB').css('display', 'block');
-						
-						console.log('mainBalancesTabContextDivB의 class에 on추가하기');
-						break;
-						
-					case 'c':
-						/* $('.mainBalancesTabContextDivA').removeClass('on');
- 						$('.mainBalancesTabContextDivB').removeClass('on');
-						$('.mainBalancesTabContextDivC').addClass('on'); */
-						$('.mainBalancesTabContextDivC').css('display', 'block');
-						
-						console.log('mainBalancesTabContextDivA의 class에 on추가하기');
-						break;
-						default:
-							console.log("선언되지 않은 div");
-							return;
-					}
-				});
-			});
-		</script>
+            /* 자바스크립트 코드 */
+            $(document).ready(function(){
+                console.log('PCWK *** document');
+            
+                $(".uBTBody tr[id *= 'tr']").click(function(){
+                    console.log($(this), "click!");
+                    let trLastWord = ($(this).attr("id")).substr(($(this).attr("id")).length-3);
+                    
+                    console.log("trLastWord: ", $(trLastWord));
+                    
+                    $('.mainBalancesContextValueDivOwnValue').text(trLastWord);
+                    $('.mainBalancesContextValueDivWaitValue').text(trLastWord);
+                    console.log("change succed");
+                });
+                
+                /* a태그의 id의 마지막 문자열을 추출하여 원하는 div on */
+                $(".mainBalancesTab li[id *= 'mBT']").click(function(){
+                    let mBTLastWord = ($(this).attr("id")).substr(($(this).attr("id")).length -1);
+                    
+                    $('.mainBalancesTabContextDivA').css('display', 'none');
+                    $('.mainBalancesTabContextDivB').css('display', 'none');
+                    $('.mainBalancesTabContextDivC').css('display', 'none');
+                    
+                    switch(mBTLastWord){
+                    case 'a':
+                        /* $('.mainBalancesTabContextDivB').removeClass('on');
+                        $('.mainBalancesTabContextDivC').removeClass('on');
+                        $('.mainBalancesTabContextDivA').addClass('on'); */
+                        $('.mainBalancesTabContextDivA').css('display', 'block');
+                        
+                        console.log('mainBalancesTabContextDivA의 class에 on추가하기');
+                        break;
+                        
+                    case 'b':
+                        /* $('.mainBalancesTabContextDivA').removeClass('on');
+                        $('.mainBalancesTabContextDivC').removeClass('on');
+                        $('.mainBalancesTabContextDivB').addClass('on'); */
+                        $('.mainBalancesTabContextDivB').css('display', 'block');
+                        
+                        console.log('mainBalancesTabContextDivB의 class에 on추가하기');
+                        break;
+                        
+                    case 'c':
+                        /* $('.mainBalancesTabContextDivA').removeClass('on');
+                        $('.mainBalancesTabContextDivB').removeClass('on');
+                        $('.mainBalancesTabContextDivC').addClass('on'); */
+                        $('.mainBalancesTabContextDivC').css('display', 'block');
+                        
+                        console.log('mainBalancesTabContextDivA의 class에 on추가하기');
+                        break;
+                        default:
+                            console.log("선언되지 않은 div");
+                            return;
+                    }
+                });
+            });
+        </script>
 </head>
 <body>
 	<!-- header --------------------------------------------------------------->
-	<%@include file="header.jsp" %>
+	<%@include file="header.jsp"%>
 	<script type="text/javascript" src="js/header.js"></script>
 	<!-- header end ----------------------------------------------------------->
-    
+
 	<!-- div container -------------------------------------------------------->
 	<div class="container">
 
@@ -290,7 +348,7 @@ div.on {
 							<tr>
 								<td>{코인 이름}</td>
 								<td>{보유 비율}</td>
-								<td>{보유 수량} {해당 화폐의 단위}</td>
+								<td>{보유 수량} {단위}</td>
 							</tr>
 						</thead>
 						<tbody class="uBTBody">
@@ -352,9 +410,13 @@ div.on {
 
 					<!-- mainBalancesTabContextDivAInputDiv ---------------------------------->
 					<div class="mainBalancesTabContextDivAInputDiv">
-						<label>연계계좌</label><label>10*******2332 코리아뱅크</label><label>홍길동</label><br />
-						<!-- 아래 placeholder의 값은 선택한 코인에 따라 달라짐 -->
-						<label>입금금액</label><input type="text" placeholder="최소 5,000KRW" />
+						<div class="contextTop">
+							<label>연계계좌</label><label>10*******2332 코리아뱅크</label><label>홍길동</label>
+						</div>
+						<div class="contextBottom">
+							<!-- 아래 placeholder의 값은 선택한 코인에 따라 달라짐 -->
+							<label>입금금액</label><input type="text" placeholder="최소 5,000KRW" />
+						</div>
 					</div>
 					<!--// mainBalancesTabContextDivAInputDiv end ---------------------------->
 
@@ -369,9 +431,13 @@ div.on {
 
 					<!-- mainBalancesTabContextDivAInputDiv ---------------------------------->
 					<div class="mainBalancesTabContextDivBInputDiv">
-						<label>연계계좌</label><label>10*******2332 코리아뱅크</label><label>홍길동</label><br />
-						<!-- 아래 placeholder의 값은 선택한 코인에 따라 달라짐 -->
-						<label>출금금액</label><input type="text" placeholder="최소 5,000KRW" />
+						<div class="contextTop">
+							<label>연계계좌</label><label>10*******2332 코리아뱅크</label><label>홍길동</label>
+						</div>
+						<div class="contextBottom">
+							<!-- 아래 placeholder의 값은 선택한 코인에 따라 달라짐 -->
+							<label>출금금액</label><input type="text" placeholder="최소 5,000KRW" />
+						</div>
 					</div>
 					<!--// mainBalancesTabContextDivAInputDiv end ---------------------------->
 
@@ -386,9 +452,13 @@ div.on {
 
 					<!-- mainBalancesTabContextDivAInputDiv ---------------------------------->
 					<div class="mainBalancesTabContextDivAInputDiv">
-						<label>연계계좌</label><label>10*******2332 코리아뱅크</label><label>홍길동</label><br />
-						<!-- 아래 placeholder의 값은 선택한 코인에 따라 달라짐 -->
-						<label>입금금액</label><input type="text" placeholder="최소 5,000KRW" />
+						<div class="contextTop">
+							<label>연계계좌</label><label>10*******2332 코리아뱅크</label><label>홍길동</label>
+						</div>
+						<div class="contextBottom">
+							<!-- 아래 placeholder의 값은 선택한 코인에 따라 달라짐 -->
+							<label>입금금액</label><input type="text" placeholder="최소 5,000KRW" />
+						</div>
 					</div>
 					<!--// mainBalancesTabContextDivAInputDiv end ---------------------------->
 
@@ -412,7 +482,7 @@ div.on {
 	<!--// div container end -------------------------------------------------------->
 
 	<!-- footer --------------------------------------------------------------------->
-	<%@include file="footer.jsp" %>
+	<%@include file="footer.jsp"%>
 	<!-- footer end --------------------------------------------------------------------->
 </body>
 </html>
