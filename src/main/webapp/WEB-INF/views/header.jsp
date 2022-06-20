@@ -7,15 +7,15 @@
 	<div id="header">
         <div class="hdbox">
             <ul class="menu">
-                <li class="logo"><a href="mainPage.jsp"><img src="logo_white.png"></a></li>
-                <li><a href="exchange.jsp">거래소</a></li>
-                <li><a href="balancesPage.jsp">입출금</a></li>
-                <li><a href="board.jsp">커뮤니티</a></li>
-                <li><a href="faq.jsp">고객센터</a></li>
+                <li class="logo"><a href="mainPage.do"><img src="${CP_RES}/img/logo_white.png"></a></li>
+                <li><a href="exchange.do">거래소</a></li>
+                <li><a href="balancesPage.do">입출금</a></li>
+                <li><a href="board.do">커뮤니티</a></li>
+                <li><a href="faq.do">고객센터</a></li>
             </ul>
             <ul class="user">
-                <li><a href="loginPage.jsp">로그인</a></li>
-                <li><a href="signin.jsp">회원가입</a></li>
+                <li><a href="loginPage.do">로그인</a></li>
+                <li><a href="signin.do">회원가입</a></li>
             </ul>
         </div>
     </div>

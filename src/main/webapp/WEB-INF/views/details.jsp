@@ -176,6 +176,8 @@
 #btnReply {
 	width: 10%;
 }
+
+#all a {text-decoration: none;}
 </style>
 
 <title>Insert title here</title>
@@ -191,7 +193,7 @@
 		<form action="">
 			<!-- 버튼으로 목록 수정 삭제 만들기 -->
 			<div class="buttonDiv">
-				<button type="button" class="btn btn-sm btn-primary" id="btnList">목록</button>
+				<button type="button" class="btn btn-sm btn-primary" id="btnList"><a href="board.do">목록</a></button>
 				<button type="button" class="btn btn-sm btn-primary" id="btnUpdate">수정</button>
 				<button type="button" class="btn btn-sm btn-primary" id="btnDelete">삭제</button>
 			</div>

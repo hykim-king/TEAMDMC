@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="CP" value="${pageContext.request.contextPath }"></c:set>
+<c:set var="resources" value="/resources"></c:set>
+<c:set var="CP_RES" value="${CP}${resources}"></c:set>
 <!--html comment-->
 <!DOCTYPE html>
 <html>
@@ -25,8 +29,8 @@
 	url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap')
 	;
 </style>
-<link rel="stylesheet" type="text/css" href="css/header.css">
-<link rel="stylesheet" type="text/css" href="css/footer.css">
+<link rel="stylesheet" type="text/css" href="${CP_RES}/css/header.css">
+<link rel="stylesheet" type="text/css" href="${CP_RES}/css/footer.css">
 <!--스타일시트 -->
 <style type="text/css">
 * {
@@ -137,6 +141,8 @@ tr {
 .paging p {
 	cursor: pointer;
 }
+
+#wrap a {text-decoration: none; color: white;}
 </style>
 
 <title>Insert title here</title>
@@ -148,12 +154,12 @@ tr {
 
 <body>
 	<%@include file="header.jsp" %>
-	<script type="text/javascript" src="js/header.js"></script>
+	<script type="text/javascript" src="${CP_RES}/js/header.js"></script>
 	<!-- 전체 박스 시작 -->
 	<div id="wrap">
 		<!-- 글쓰기, 검색영역 -->
 		<div class="top">
-			<button class="bt1">글쓰기</button>
+			<button class="bt1"><a href="write.do">글쓰기</a></button>
 			<!-- 검색영역 div -->
 			<div class="scbox">
 				<select class="search" name="search">

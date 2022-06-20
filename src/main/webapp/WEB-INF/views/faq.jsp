@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="CP" value="${pageContext.request.contextPath }"></c:set>
+<c:set var="resources" value="/resources"></c:set>
+<c:set var="CP_RES" value="${CP}${resources}"></c:set>
 <!--html comment-->
 <!DOCTYPE html>
 <html>
@@ -18,8 +22,8 @@
 	;
 </style>
 <!--스타일시트 -->
-<link rel="stylesheet" type="text/css" href="css/header.css">
-<link rel="stylesheet" type="text/css" href="css/footer.css">
+<link rel="stylesheet" type="text/css" href="${CP_RES}/css/header.css">
+<link rel="stylesheet" type="text/css" href="${CP_RES}/css/footer.css">
 <style type="text/css">
 * {
 	margin: 0;
@@ -136,7 +140,7 @@ tr {
 
 <body>
 	<%@include file="header.jsp" %>
-	<script type="text/javascript" src="js/header.js"></script>
+	<script type="text/javascript" src="${CP_RES}/js/header.js"></script>
 	<!-- 전체 박스 시작 -->
 	<div id="wrap">
 		<!-- 글쓰기, 검색영역 -->

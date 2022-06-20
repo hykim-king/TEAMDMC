@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="CP" value="${pageContext.request.contextPath }"></c:set>
+<c:set var="resources" value="/resources"></c:set>
+<c:set var="CP_RES" value="${CP}${resources}"></c:set>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,8 +20,8 @@
 <!--reset 스타일 시트 -->
 <!--<link rel="stylesheet" type="text/css" href="/studyhtml5/asset/css/reset.css">  -->
 <!--스타일 시트 -->
-<link rel="stylesheet" type="text/css" href="css/header.css">
-<link rel="stylesheet" type="text/css" href="css/footer.css"><style type="text/css">
+<link rel="stylesheet" type="text/css" href="${CP_RES}/css/header.css">
+<link rel="stylesheet" type="text/css" href="${CP_RES}/css/footer.css"><style type="text/css">
 * {
 	margin: 0;
 	padding: 0;
@@ -51,7 +55,7 @@
 	justify-content: right;
 }
 
-.bu input {
+.bu button {
 	width: 50px;
 	height: 30px;
 	border: 1px solid #333333;
@@ -117,6 +121,8 @@
 	border-radius: 2px;
 	box-sizing: border-box;
 }
+
+#wrap a {text-decoration: none; color: black;}
 </style>
 <title>Insert title here</title>
 
@@ -128,14 +134,14 @@
 </head>
 <body>
 	<%@include file="header.jsp" %>
-	<script type="text/javascript" src="js/header.js"></script>
+	<script type="text/javascript" src="${CP_RES}/js/header.js"></script>
 	<!-- 내용 -->
 	<div id="wrap">
 		<div class="box">
 			<!-- button -->
 			<div class="bu">
-				<input type="button" value="목록"> <input type="button"
-					value="등록">
+			    <button type="button"><a href="board.do">목록</a></button>
+				<button type="button"><a href="#">등록</a></button>
 			</div>
 			<!-- button -------------------------------------------------->
 			<div class="titlebox">

@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="CP" value="${pageContext.request.contextPath }"></c:set>
+<c:set var="resources" value="/resources"></c:set>
+<c:set var="CP_RES" value="${CP}${resources}"></c:set>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,8 +18,8 @@
 
 <!--reset 스타일 시트 -->
 <!--<link rel="stylesheet" type="text/css" href="/studyhtml5/asset/css/reset.css">  -->
-<link rel="stylesheet" type="text/css" href="css/header.css">
-<link rel="stylesheet" type="text/css" href="css/footer.css">
+<link rel="stylesheet" type="text/css" href="${CP_RES}/css/header.css">
+<link rel="stylesheet" type="text/css" href="${CP_RES}/css/footer.css">
 <!--스타일 시트 -->
 <style>
 @import
@@ -103,7 +107,7 @@
 </head>
 <body>
 	<%@include file="header.jsp" %>
-	<script type="text/javascript" src="js/header.js"></script>
+	<script type="text/javascript" src="${CP_RES}/js/header.js"></script>
 	<!-- 내용 -->
 	<div id="wrap">
 		<div class="txtbox">

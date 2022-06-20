@@ -1,4 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="CP" value="${pageContext.request.contextPath }"></c:set>
+<c:set var="resources" value="/resources"></c:set>
+<c:set var="CP_RES" value="${CP}${resources}"></c:set>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,8 +13,8 @@
 	url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap')
 	;
 </style>
-<link rel="stylesheet" type="text/css" href="css/header.css">
-<link rel="stylesheet" type="text/css" href="css/footer.css">
+<link rel="stylesheet" type="text/css" href="${CP_RES }/css/header.css">
+<link rel="stylesheet" type="text/css" href="${CP_RES }/css/footer.css">
 <!-- 스타일 시트 -->
 <style type="text/css">
 /* 스타일 시트 */
@@ -130,7 +134,7 @@ h3 {
 <body>
 	<!-- header --------------------------------------------------------------->
 	<%@include file="header.jsp" %>
-	<script type="text/javascript" src="js/header.js"></script>
+	<script type="text/javascript" src="${CP_RES }/js/header.js"></script>
 	<!-- header end ----------------------------------------------------------->
 	<!-- div container -------------------------------------------------------->
     <div class="container">
