@@ -30,26 +30,6 @@
     <!-- 개발에 사용하는 Dummy Mail Sender -->
     <!-- <bean id="dummyMailSender" class="com.pcwk.ehr.cmn.DummyMailSender"></bean> -->
     
-    <!-- Naver smtp 계정 -->
-    <bean id="mailSenderImpl" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-        <property name="host" value="smtp.naver.com"/>
-        <property name="port" value="465"/>
-        <property name="username" value="xodnr571@naver.com"/>
-        <property name="password" value="Before1223@"/>
-        <property name="defaultEncoding" value="utf-8"/>
-        <property name="javaMailProperties">
-            <props>
-                <prop key="mail.smtp.host">smtp.naver.com</prop>
-                <prop key="mail.smtp.port">465</prop>
-                <prop key="mail.smtp.auth">true</prop>
-                <prop key="mail.smtp.ssl.protocols">TLSv1.2</prop>
-                <prop key="mail.smtp.ssl.enable">true</prop>
-                <prop key="mail.smtp.ssl.trust">smtp.naver.com</prop>
-                <prop key="mail.debug">true</prop>
-            </props>
-        </property>
-    </bean>
-    
     <!-- JDBC DataSourceTransactionManager -->
     <bean id= "transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource"/>
