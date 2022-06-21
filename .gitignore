@@ -2,9 +2,6 @@
 # Created by https://www.toptal.com/developers/gitignore/api/windows,maven,eclipse,web,java
 # Edit at https://www.toptal.com/developers/gitignore?templates=windows,maven,eclipse,web,java
 
-# empty directory file
-.keep
-
 ### Eclipse ###
 .metadata
 bin/
