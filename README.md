@@ -120,6 +120,6 @@
   
   
 ## Logo
-  마지막에 로고 이미지만!!! 첨부하기      
+![KEMIE_LOGO](https://github.com/hykim-king/TEAMDMC/blob/main/img/kemieLOGO.png)      
   
 </div>
