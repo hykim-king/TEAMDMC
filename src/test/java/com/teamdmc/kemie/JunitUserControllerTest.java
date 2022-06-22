@@ -1,4 +1,4 @@
-package com.pcwk.ehr;
+package com.teamdmc.kemie;
 
 import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -30,11 +30,10 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.pcwk.ehr.cmn.MessageVO;
-import com.pcwk.ehr.cmn.SearchVO;
-import com.pcwk.ehr.user.dao.UserDao;
-import com.pcwk.ehr.user.domain.Level;
-import com.pcwk.ehr.user.domain.UserVO;
+import com.teamdmc.kemie.cmn.MessageVO;
+import com.teamdmc.kemie.cmn.SearchVO;
+import com.teamdmc.kemie.dao.KemieDao;
+import com.teamdmc.kemie.user.domain.UserVO;
 
 @WebAppConfiguration
 @RunWith(SpringJUnit4ClassRunner.class) //JUnit기능을 스프링 프레임으로 확장!
@@ -52,7 +51,7 @@ public class JunitUserControllerTest {
 	MockMvc mockMvc;
 	
 	  @Autowired
-	  UserDao dao;
+	  KemieDao dao;
 	  UserVO  user01;
 	  UserVO  user02;
 	  UserVO  user03;
@@ -66,9 +65,9 @@ public class JunitUserControllerTest {
 		  LOG.debug("====================");
 		  searchVO = new SearchVO(10, 1, "", "");
 		  
-		  user01 = new UserVO("p12","문서혜12", "4321", Level.BASIC, 1, 0, "anstjgp@naver.com", "날짜_사용안함");
-	      user02 = new UserVO("p120","문서혜120", "4321", Level.SILVER, 50, 2, "anstjgp@naver.com", "날짜_사용안함");
-	      user03 = new UserVO("p1200","문서혜1200", "4321", Level.GOLD, 100, 31, "anstjgp@naver.com", "날짜_사용안함");
+		  user01 = new UserVO("no1","1234", "teamDMC1", "010-1234-5678", "닉네임1", "1", "날짜_사용_안_함");
+		  user02 = new UserVO("no2","1234", "teamDMC2", "010-1234-5678", "닉네임2", "0", "날짜_사용_안_함");
+		  user03 = new UserVO("no3","1234", "teamDMC3", "010-1234-5678", "닉네임3", "0", "날짜_사용_안_함");
 		  
 		  mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 		  LOG.debug("webApplicationContext : "+ webApplicationContext);
@@ -169,23 +168,23 @@ public class JunitUserControllerTest {
 		  isSameUser(outVO01, user01);
 		  
 		  String modifyStr = "_U";
-		  user01.setName(user01.getName() + modifyStr);
-		  user01.setPasswd(user01.getPasswd() + modifyStr);
-		  user01.setLevel(Level.GOLD);
-		  user01.setLogin(user01.getLogin() * 10);
-		  user01.setRecommend(user01.getRecommend() + 10);
-		  user01.setEmail(user01.getEmail() + modifyStr);
+		
+		  user01.setPasswd(user01.getPasswd()+modifyStr);
+		  user01.setName(user01.getName()+modifyStr);
+		  user01.setpNum(user01.getpNum()+modifyStr);
+		  user01.setNick(user01.getNick()+modifyStr);
+		  user01.setType(user01.getType());
+		  user01.setRegDt(user01.getRegDt());
 		  
 		//호출url, param, 호출방식(get/post)
 		  MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/user/doUpdate.do")
 				  .param("uId",user01.getuId())		  
-				  .param("name",user01.getName())		  
 				  .param("passwd",user01.getPasswd())		  
-				  .param("intLevel",user01.getIntLevel()+"")		  
-				  .param("login",user01.getLogin()+"")		  
-				  .param("recommend",user01.getRecommend()+"")		  
-				  .param("email",user01.getEmail())		
-				  ;
+				  .param("name",user01.getName())		  
+				  .param("pNum", user01.getpNum())	  
+				  .param("nick", user01.getNick())		  
+				  .param("type",user01.getType())		  
+				  .param("regDt",user01.getRegDt());
 		//대역 객체 통해 호출
 		  ResultActions resultActions = mockMvc.perform(requestBuilder).andExpect(status().is2xxSuccessful());
 		  String result = resultActions.andDo(print()).andReturn().getResponse().getContentAsString();		  
@@ -243,14 +242,13 @@ public class JunitUserControllerTest {
 	  
 	  private void isSameUser(UserVO vsVO, UserVO orgVO) {
 		  assertEquals(vsVO.getuId(), orgVO.getuId());
-		  assertEquals(vsVO.getName(), orgVO.getName());
 		  assertEquals(vsVO.getPasswd(), orgVO.getPasswd());
+		  assertEquals(vsVO.getName(), orgVO.getName());
 		  
-		  assertEquals(vsVO.getLevel(),orgVO.getLevel());
-		  assertEquals(vsVO.getLogin(),orgVO.getLogin());
-		  assertEquals(vsVO.getRecommend(),orgVO.getRecommend());
-		  assertEquals(vsVO.getEmail(),orgVO.getEmail());
-		  
+		  assertEquals(vsVO.getpNum(),orgVO.getpNum());
+		  assertEquals(vsVO.getNick(),orgVO.getNick());
+		  assertEquals(vsVO.getType(),orgVO.getType());
+		  assertEquals(vsVO.getRegDt(),orgVO.getRegDt());
 	  }
 	  
 	  //@Test
@@ -260,13 +258,12 @@ public class JunitUserControllerTest {
 		  //GET방식으로 : http://localhost:8081/ehr/user/add.do?uId=p12
 		  MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/user/add.do")
 				  .param("uId",user01.getuId())		  
-				  .param("name",user01.getName())		  
 				  .param("passwd",user01.getPasswd())		  
-				  .param("intLevel",user01.getIntLevel()+"")		  
-				  .param("login",user01.getLogin()+"")		  
-				  .param("recommend",user01.getRecommend()+"")		  
-				  .param("email",user01.getEmail())		
-				  ;
+				  .param("name",user01.getName())		  
+				  .param("pNum", user01.getpNum())	  
+				  .param("nick", user01.getNick())		  
+				  .param("type",user01.getType())		  
+				  .param("regDt",user01.getRegDt());
 		  //대역 객체 통해 호출
 		  ResultActions resultActions = mockMvc.perform(requestBuilder).andExpect(status().is2xxSuccessful());
 		  String result = resultActions.andDo(print()).andReturn().getResponse().getContentAsString();
