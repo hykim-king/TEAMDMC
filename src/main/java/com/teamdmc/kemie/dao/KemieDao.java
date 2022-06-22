@@ -7,6 +7,22 @@ import com.teamdmc.kemie.cmn.DTO;
 import com.teamdmc.kemie.user.domain.UserVO;
 
 public interface KemieDao {
+	
+	/**
+	 * 비밀번호 check
+	 * @param inVO
+	 * @return
+	 * @throws SQLException
+	 */
+	public int loginCheck(UserVO inVO) throws SQLException;
+	
+	/**
+	 * id중복 check
+	 * @param inVO
+	 * @return
+	 * @throws SQLException
+	 */
+	public int idCheck(UserVO inVO) throws SQLException;
 
 	/**
 	 * 목록 조회
