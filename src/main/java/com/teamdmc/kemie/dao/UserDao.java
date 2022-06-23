@@ -6,7 +6,7 @@ import java.util.List;
 import com.teamdmc.kemie.cmn.DTO;
 import com.teamdmc.kemie.user.domain.UserVO;
 
-public interface KemieDao {
+public interface UserDao {
 	
 	/**
 	 * 비밀번호 check

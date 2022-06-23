@@ -1,4 +1,4 @@
-package com.teamdmc.kemie;
+package com.teamdmc.kemie.user;
 
 import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -32,7 +32,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.teamdmc.kemie.cmn.MessageVO;
 import com.teamdmc.kemie.cmn.SearchVO;
-import com.teamdmc.kemie.dao.KemieDao;
+import com.teamdmc.kemie.dao.UserDao;
 import com.teamdmc.kemie.user.domain.UserVO;
 
 @WebAppConfiguration
@@ -51,7 +51,7 @@ public class JunitUserControllerTest {
 	MockMvc mockMvc;
 	
 	  @Autowired
-	  KemieDao dao;
+	  UserDao dao;
 	  UserVO  user01;
 	  UserVO  user02;
 	  UserVO  user03;
@@ -95,7 +95,7 @@ public class JunitUserControllerTest {
 		  //호출url, param, 호출방식(get/post)
 		  //GET방식으로 : http://localhost:8081/ehr/user/doSelectOne.do?uId=p12
 		  MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.
-				  get("/user/idCheck.do").param("uId", user01.getuId());
+				  get("/idCheck.do").param("uId", user01.getuId());
 		 //대역 객체 통해 호출
 		  ResultActions resultActions = mockMvc.perform(requestBuilder).andExpect(status().is2xxSuccessful());
 		  String result = resultActions.andDo(print()).andReturn().getResponse().getContentAsString();
@@ -105,13 +105,13 @@ public class JunitUserControllerTest {
 		  LOG.debug("====================");
 		  
 		  //jsonString to VO
-		  Gson gson = new Gson();
-		  MessageVO messageVO = gson.fromJson(result, MessageVO.class);
-		  LOG.debug("====================");
-		  LOG.debug("messageVO : "+ messageVO);
-		  LOG.debug("====================");
+		  //Gson gson = new Gson();
+		  //MessageVO messageVO = gson.fromJson(result, MessageVO.class);
+		  //LOG.debug("====================");
+		  //LOG.debug("messageVO : "+ messageVO);
+		  //LOG.debug("====================");
 		  
-		  assertEquals("1", messageVO.getMsgId());
+	      //assertEquals("1", messageVO.getMsgId());
 		  
 	  }
 	  
@@ -122,7 +122,7 @@ public class JunitUserControllerTest {
 		  searchVO.setSearchDiv("10");
 		  //searchVO.setSearchWord("p12");
 		  
-		  MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/user/doRetrieve.do")
+		  MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/doRetrieve.do")
 				  .param("pageSize", String.valueOf(searchVO.getPageSize()))
 				  .param("pageNum", String.valueOf(searchVO.getPageNum()))
 				  .param("SearchDiv", searchVO.getSearchDiv())
@@ -177,7 +177,7 @@ public class JunitUserControllerTest {
 		  user01.setRegDt(user01.getRegDt());
 		  
 		//호출url, param, 호출방식(get/post)
-		  MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/user/doUpdate.do")
+		  MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/doUpdate.do")
 				  .param("uId",user01.getuId())		  
 				  .param("passwd",user01.getPasswd())		  
 				  .param("name",user01.getName())		  

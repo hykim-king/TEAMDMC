@@ -1,3 +1,19 @@
+/**
+* <pre>
+* com.teamdmc.kemie.dao
+* Class Name : UserNewsDaoImpl.java
+* Description:
+* Author: Choi Jong Hee
+* Since: 2022/06/23
+* Version 0.1
+* Copyright (c) by H.R.KIM All right reserved.
+* Modification Information
+* 수정일   수정자    수정내용
+*-----------------------------------------------------
+*2022/06/23 최초생성
+*-----------------------------------------------------
+* </pre>
+*/
 package com.teamdmc.kemie.dao;
 
 import java.sql.SQLException;
@@ -10,54 +26,39 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.teamdmc.kemie.cmn.DTO;
-import com.teamdmc.kemie.user.domain.UserVO;
+import com.teamdmc.kemie.usernews.domain.UserNewsVO;
 
-@Repository("userDao")
-public class UserDaoImpl implements UserDao {
+/**
+ * @author Choi Jong Hee
+ *
+ */
+@Repository("userNewsDao")
+public class UserNewsDaoImpl implements UserNewsDao {
 	final Logger LOG = LogManager.getLogger(this.getClass());
-	final String NAMESPACE = "com.teamdmc.kemie.user";
+	final String NAMESPACE = "com.teamdmc.kemie.usernews";
 	
 	@Autowired
 	SqlSessionTemplate sqlSessionTemplate;
 	
-	public UserDaoImpl() {}
+	public UserNewsDaoImpl() {}
 
 	@Override
-	public int loginCheck(UserVO inVO) throws SQLException {
-		String statement = NAMESPACE+".loginCheck";
-		LOG.debug("==============================");
-		LOG.debug("param:" + inVO.toString());
-		LOG.debug("statement:" +statement);
-		LOG.debug("==============================");
-		
-		int count = sqlSessionTemplate.selectOne(statement, inVO);
-		LOG.debug("count: "+ count);
-		
-		return count;
+	public int loginCheck(UserNewsVO inVO) throws SQLException {
+		return 0;
 	}
 
 	@Override
-	public int idCheck(UserVO inVO) throws SQLException {
-		String statement = NAMESPACE+".idCheck";
-		LOG.debug("==============================");
-		LOG.debug("param:" + inVO.toString());
-		LOG.debug("statement:" +statement);
-		LOG.debug("==============================");
-		
-		int count = sqlSessionTemplate.selectOne(statement, inVO);
-		LOG.debug("count: "+ count);
-		
-		return count;
+	public int idCheck(UserNewsVO inVO) throws SQLException {
+		return 0;
 	}
 
 	@Override
-	public List<UserVO> doRetrieve(DTO dto) throws SQLException {
-		// TODO Auto-generated method stub
+	public List<UserNewsVO> doRetrieve(DTO dto) throws SQLException {
 		return null;
 	}
 
 	@Override
-	public int doDelete(UserVO inVO) throws SQLException {
+	public int doDelete(UserNewsVO inVO) throws SQLException {
 		int flag = 0;
 		
 		String statement = this.NAMESPACE+".doDelete";		
@@ -73,7 +74,7 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public int doUpdate(UserVO inVO) throws SQLException {
+	public int doUpdate(UserNewsVO inVO) throws SQLException {
 		int flag = 0;
         String statement =NAMESPACE+".doUpdate";	
 		LOG.debug("==============================");
@@ -89,7 +90,7 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public int doInsert(UserVO inVO) throws SQLException {
+	public int doInsert(UserNewsVO inVO) throws SQLException {
 		int flag = 0;
 
 		String statement = NAMESPACE+".doInsert";
@@ -114,11 +115,10 @@ public class UserDaoImpl implements UserDao {
 		LOG.debug("==============================");
 		
 		sqlSessionTemplate.delete(statement);
-		
 	}
 
 	@Override
-	public int getCount(UserVO inVO) throws SQLException {
+	public int getCount(UserNewsVO inVO) throws SQLException {
 		int count = 0;
 
 		String statement = this.NAMESPACE+".getCount";
@@ -136,8 +136,8 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public List<UserVO> getAll(UserVO inVO) {
-		List<UserVO> list= null;
+	public List<UserNewsVO> getAll(UserNewsVO inVO) {
+		List<UserNewsVO> list= null;
 	    String statement = NAMESPACE+".getAll";
 		LOG.debug("==============================");
 		LOG.debug("param:" + inVO.toString());
@@ -148,7 +148,7 @@ public class UserDaoImpl implements UserDao {
 		
 		//list = jdbcTemplate.query(sb.toString(),rowMapper,args);
 		
-		for(UserVO vo  :list) {
+		for(UserNewsVO vo  :list) {
 			LOG.debug("vo:"+vo.toString());
 		}
 		
@@ -156,8 +156,8 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public UserVO doSelectOne(UserVO inVO) throws SQLException {
-		UserVO outVO = null;
+	public UserNewsVO doSelectOne(UserNewsVO inVO) throws SQLException {
+UserNewsVO outVO = null;
 		
 		String statement = this.NAMESPACE +".doSelectOne";
 		LOG.debug("==============================");
@@ -172,5 +172,5 @@ public class UserDaoImpl implements UserDao {
 
 		return outVO;
 	}
-	
+
 }

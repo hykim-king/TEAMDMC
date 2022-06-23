@@ -3,14 +3,14 @@ package com.teamdmc.kemie.usernews.domain;
 import com.teamdmc.kemie.cmn.DTO;
 
 public class UserNewsVO extends DTO{
-	private int unIndex;       // 알림 인덱스
+	private String unIndex;       // 알림 인덱스
 	private String unContents; // 회원 알림 내용
 	private String unTime;     // 회원 알림 시간
 	private String uId;        // 회원 ID
 	
 	public UserNewsVO() {}
 	
-	public UserNewsVO(int unIndex, String unContents, String unTime, String uId) {
+	public UserNewsVO(String unIndex, String unContents, String unTime, String uId) {
 		super();
 		this.unIndex = unIndex;
 		this.unContents = unContents;
@@ -18,11 +18,11 @@ public class UserNewsVO extends DTO{
 		this.uId = uId;
 	}
 
-	public int getUnIndex() {
+	public String getUnIndex() {
 		return unIndex;
 	}
 
-	public void setUnIndex(int unIndex) {
+	public void setUnIndex(String unIndex) {
 		this.unIndex = unIndex;
 	}
 

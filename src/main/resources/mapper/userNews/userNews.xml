@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.teamdmc.kemie.userNews">
+  
+  <!-- ID중복 check -->
+  <select id="loginCheck" parameterType="UserNewsVO" resultType="int"/>
+  
+  <select id="idCheck" parameterType="UserNewsVO" resultType="int"/>
+  
+  <update id="doUpdate" parameterType="UserNewsVO">
+     UPDATE user_news       
+     SET un_index    = #{unIndex},     
+         un_contents    = #{unContents},     
+         un_time  = SYSDATE
+         u_id  = #{uId},     
+     WHERE u_id  = #{uId}   
+  </update>
+
+  <delete id="deleteAll">
+     DELETE FROM user_info
+  </delete>
+    <!-- 회원알림 전체 가져오기 -->
+  <select id="getAll" parameterType="UserNewsVO" resultType="UserNewsVO">
+       SELECT        
+         un_index,
+         un_contents,
+         TO_CHAR(un_time,'yyyy-mm-dd hh24:mi:ss') un_time
+         u_id,
+     FROM user_news                                          
+     WHERE un_id LIKE #{uId}  ||'%'                               
+     ORDER BY u_id
+  </select>
+  <select id="getCount" parameterType="UserNewsVO" resultType="int">
+    SELECT COUNT(*) AS cnt    
+    FROM  user_news           
+    WHERE un_index LIKE #{unIndex} ||'%' 
+  </select>
+  
+  <resultMap type="UserNewsVO" id="userResultMap">
+      <id      property="unIndex"        column="un_index"/>
+      <result  property="unContents"     column="un_contents"/>
+      <result  property="unTime"       column="un_time"/>
+      <result  property="uId"       column="u_id"/>
+  </resultMap>
+  
+  <!-- namespace+id = com.teamdmc.kemie.user.doSelectOne--> 
+  <select id="doSelectOne" parameterType="UserNewsVO" resultMap="userResultMap">
+       <![CDATA[ 
+        SELECT        
+            un_index,
+            un_contents,
+            un_time,
+            u_id,
+        FROM  user_info                                         
+        WHERE u_id = #{uId}
+        ]]>
+  </select>
+  
+  <delete id="doDelete" parameterType="UserNewsVO">
+    DELETE FROM user_info
+    WHERE un_index = #{unIndex}
+  </delete>
+
+  <insert id="doInsert" parameterType="UserNewsVO">
+     INSERT INTO user_news ( 
+        un_index,
+        un_contents,
+        un_time,
+        u_id
+     ) VALUES (              
+         #{unIndex},                  
+         #{unContents},                  
+         SYSDATE,             
+         #{uId}                  
+     )      
+  </insert>
+</mapper>

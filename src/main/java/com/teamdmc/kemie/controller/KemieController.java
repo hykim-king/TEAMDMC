@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-@Controller
+@Controller("kemieController")
 public class KemieController {
 	
 	public KemieController() {}
@@ -79,13 +79,5 @@ public class KemieController {
 		System.out.println("메인 테스트입니다 메인 테스트입니다.");
 		
 		return "write";
-	}
-	
-	@RequestMapping(value = "/idCheck.do", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-	@ResponseBody
-	public String idCheck() {
-		System.out.println("메인 테스트입니다 메인 테스트입니다.");
-		
-		return "안녕바뵹";
 	}
 }

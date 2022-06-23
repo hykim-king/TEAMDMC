@@ -1,3 +1,4 @@
+package com.teamdmc.kemie.usernews;
 /*
  * package com.teamdmc.kemie;
  * 
