@@ -35,27 +35,12 @@ import com.teamdmc.kemie.usernews.domain.UserNewsVO;
 @Repository("userNewsDao")
 public class UserNewsDaoImpl implements UserNewsDao {
 	final Logger LOG = LogManager.getLogger(this.getClass());
-	final String NAMESPACE = "com.teamdmc.kemie.usernews";
+	final String NAMESPACE = "com.teamdmc.kemie.userNews";
 	
 	@Autowired
 	SqlSessionTemplate sqlSessionTemplate;
 	
 	public UserNewsDaoImpl() {}
-
-	@Override
-	public int loginCheck(UserNewsVO inVO) throws SQLException {
-		return 0;
-	}
-
-	@Override
-	public int idCheck(UserNewsVO inVO) throws SQLException {
-		return 0;
-	}
-
-	@Override
-	public List<UserNewsVO> doRetrieve(DTO dto) throws SQLException {
-		return null;
-	}
 
 	@Override
 	public int doDelete(UserNewsVO inVO) throws SQLException {
@@ -107,7 +92,7 @@ public class UserNewsDaoImpl implements UserNewsDao {
 	}
 
 	@Override
-	public void deleteAll() throws SQLException {
+	public int deleteAll() throws SQLException {
 		String statement = NAMESPACE+".deleteAll";
 		
 		LOG.debug("==============================");
@@ -115,6 +100,8 @@ public class UserNewsDaoImpl implements UserNewsDao {
 		LOG.debug("==============================");
 		
 		sqlSessionTemplate.delete(statement);
+		
+		return 0;
 	}
 
 	@Override
@@ -157,7 +144,7 @@ public class UserNewsDaoImpl implements UserNewsDao {
 
 	@Override
 	public UserNewsVO doSelectOne(UserNewsVO inVO) throws SQLException {
-UserNewsVO outVO = null;
+		UserNewsVO outVO = null;
 		
 		String statement = this.NAMESPACE +".doSelectOne";
 		LOG.debug("==============================");

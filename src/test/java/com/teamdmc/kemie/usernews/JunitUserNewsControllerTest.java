@@ -63,9 +63,9 @@ public class JunitUserNewsControllerTest {
 		  LOG.debug("====================");
 		  searchVO = new SearchVO(10, 1, "", "");
 		  
-		  user01 = new UserNewsVO("1223","1234", "날짜_사용_안함", "010-1234-5678");
-		  user02 = new UserNewsVO("1234","1234", "날짜_사용_안함", "010-1234-5678");
-		  user03 = new UserNewsVO("12345","1234", "날짜_사용_안함", "010-1234-5678");
+		  user01 = new UserNewsVO(1,"1234", "날짜_사용_안함", "teamdmc01");
+		  user02 = new UserNewsVO(2,"1234", "날짜_사용_안함", "teamdmc02");
+		  user03 = new UserNewsVO(3,"1234", "날짜_사용_안함", "teamdmc03");
 		  
 		  mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 		  LOG.debug("webApplicationContext : "+ webApplicationContext);
@@ -146,6 +146,7 @@ public class JunitUserNewsControllerTest {
 	  }
 	  
 	  @Test
+	  @Ignore
 	  public void doUpdate() throws Exception{
 		  //1. 기존 데이터 삭제
 		  //2. 단건입력
@@ -156,6 +157,7 @@ public class JunitUserNewsControllerTest {
 		  doDelete(user01);
 		  doDelete(user02);
 		  doDelete(user03);
+//		  dao.deleteAll();
 		  
 		  //2.
 		  add(user01);
@@ -194,7 +196,6 @@ public class JunitUserNewsControllerTest {
 	  }
 	  
 	  @Test
-	  @Ignore
 	  public void addAndGet() throws Exception{
 		//1. 기존데이터 삭제
 		//2. 신규데이터 등록
@@ -202,19 +203,20 @@ public class JunitUserNewsControllerTest {
 		//4. 등록데이터와 비교
 		  
 		  //1.
-		  doDelete(user01);
-		  doDelete(user02);
-		  doDelete(user03);
+//		  doDelete(user01);
+//		  doDelete(user02);
+//		  doDelete(user03);
+		  dao.deleteAll();
 		  
 		  //2.
 		  add(user01);
 		  assertEquals(1, this.dao.getCount(user01));
 		  
 		  add(user02);
-		  assertEquals(2, this.dao.getCount(user01));
+		  assertEquals(1, this.dao.getCount(user02));
 		  
 		  add(user03);
-		  assertEquals(3, this.dao.getCount(user01));
+		  assertEquals(1, this.dao.getCount(user03));
 		  
 		  //3.
 		  UserNewsVO outVO01 = doSelectOne(user01);
@@ -228,9 +230,7 @@ public class JunitUserNewsControllerTest {
 	  }
 	  
 	  private void isSameUser(UserNewsVO vsVO, UserNewsVO orgVO) {
-		  assertEquals(vsVO.getUnIndex(), orgVO.getUnIndex());
 		  assertEquals(vsVO.getUnContents(), orgVO.getUnContents());
-		  assertEquals(vsVO.getUnTime(),orgVO.getUnTime());
 		  assertEquals(vsVO.getuId(), orgVO.getuId());
 	  }
 	  
@@ -239,10 +239,8 @@ public class JunitUserNewsControllerTest {
 	  public void add(UserNewsVO user01) throws Exception{
 		  //호출url, param, 호출방식(get/post)
 		  //GET방식으로 : http://localhost:8081/ehr/user/add.do?uId=p12
-		  MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/user/add.do")
-				  .param("unIndex",user01.getUnIndex())		  
-				  .param("unContents",user01.getUnContents())		  
-				  .param("unTime", user01.getUnTime())	  
+		  MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/user/add.do")	  
+				  .param("unContents",user01.getUnContents())		   
 				  .param("uId",user01.getuId());	  
 		  //대역 객체 통해 호출
 		  ResultActions resultActions = mockMvc.perform(requestBuilder).andExpect(status().is2xxSuccessful());
@@ -279,13 +277,13 @@ public class JunitUserNewsControllerTest {
 		  LOG.debug("result : "+ result);
 		  LOG.debug("====================");
 		  
-		  //jsonString to VO
-		  //Gson gson = new Gson();
-		  //MessageVO messageVO = gson.fromJson(result, MessageVO.class);
-		  //LOG.debug("====================");
-		  //LOG.debug("messageVO : "+ messageVO);
-		 // LOG.debug("====================");
+//		  jsonString to VO
+		  Gson gson = new Gson();
+		  MessageVO messageVO = gson.fromJson(result, MessageVO.class);
 		  
+		  LOG.debug("====================");
+		  LOG.debug("messageVO : "+ messageVO);
+		  LOG.debug("====================");
 	  }
 	  
 	  //@Test

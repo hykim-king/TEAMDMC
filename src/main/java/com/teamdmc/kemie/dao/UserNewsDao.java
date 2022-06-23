@@ -7,37 +7,7 @@ import com.teamdmc.kemie.cmn.DTO;
 import com.teamdmc.kemie.usernews.domain.UserNewsVO;
 
 public interface UserNewsDao {
-	
-	/**
-	 * 비밀번호 check
-	 * @param inVO
-	 * @return
-	 * @throws SQLException
-	 */
-	public int loginCheck(UserNewsVO inVO) throws SQLException;
-	
-	/**
-	 * id중복 check
-	 * @param inVO
-	 * @return
-	 * @throws SQLException
-	 */
-	public int idCheck(UserNewsVO inVO) throws SQLException;
 
-	/**
-	 * 목록 조회
-	 * @param dto
-	 * @return List<UserNewsVO>
-	 * @throws SQLException
-	 */
-	public List<UserNewsVO> doRetrieve(DTO dto) throws SQLException;
-	
-	/**
-	 * 사용자 삭제
-	 * @param inVO
-	 * @return 1(성공)/ 0(실패)
-	 * @throws SQLException
-	 */
 	public int doDelete(UserNewsVO inVO) throws SQLException;
 	
 	/**
@@ -59,9 +29,10 @@ public interface UserNewsDao {
 
 	/**
 	 * 모든 데이터 삭제
+	 * @return 
 	 * @throws SQLException
 	 */
-	public void deleteAll() throws SQLException;
+	public int deleteAll() throws SQLException;
 
 	/**
 	 * 조회 건수 출력
