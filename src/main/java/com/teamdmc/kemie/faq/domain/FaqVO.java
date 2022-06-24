@@ -2,7 +2,7 @@ package com.teamdmc.kemie.faq.domain;
 
 import com.teamdmc.kemie.cmn.DTO;
 
-public class faqVO extends DTO{
+public class FaqVO extends DTO{
 	private int fSeq;         // 게시판 순번
 	private String fTitle;    // 게시판 제목
 	private String fContents; // 게시판 내용
@@ -10,9 +10,9 @@ public class faqVO extends DTO{
 	private String uId;       // 작성자
 	private String regDt;     // 작성일
 	
-	public faqVO() {}
+	public FaqVO() {}
 	
-	public faqVO(int fSeq, String fTitle, String fContents, String fReadCnt, String uId, String regDt) {
+	public FaqVO(int fSeq, String fTitle, String fContents, String fReadCnt, String uId, String regDt) {
 		super();
 		this.fSeq = fSeq;
 		this.fTitle = fTitle;

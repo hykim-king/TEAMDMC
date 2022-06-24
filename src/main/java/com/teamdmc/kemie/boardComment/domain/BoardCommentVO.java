@@ -2,7 +2,7 @@ package com.teamdmc.kemie.boardComment.domain;
 
 import com.teamdmc.kemie.cmn.DTO;
 
-public class boardCommentVO extends DTO{
+public class BoardCommentVO extends DTO{
 	private int bcSeq;         // 게시판 댓글 순번
 	private String bcContents; // 게시판 댓글 내용
 	private int bSeq;          // 게시판 순번
@@ -10,9 +10,9 @@ public class boardCommentVO extends DTO{
 	private String uNick;      // 회원 닉네임
 	private String regDt;      // 작성일
 	
-	public boardCommentVO() {}
+	public BoardCommentVO() {}
 
-	public boardCommentVO(int bcSeq, String bcContents, int bSeq, String uId, String uNick, String regDt) {
+	public BoardCommentVO(int bcSeq, String bcContents, int bSeq, String uId, String uNick, String regDt) {
 		super();
 		this.bcSeq = bcSeq;
 		this.bcContents = bcContents;
