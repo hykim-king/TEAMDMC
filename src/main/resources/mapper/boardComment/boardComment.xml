@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.teamdmc.kemie.boardComment">
+<resultMap type="BoardCommentVO" id="boardCommentResultMap">
+      <id      property="bcSeq"        column="bc_seq"/>
+      <result  property="bcContents"   column="bc_contents"/>
+      <result  property="bSeq"         column="b_seq"/>
+      <result  property="uId"          column="u_id"/>
+      <result  property="uNick"        column="u_nick"/>
+      <result  property="regDt"        column="reg_dt"/>
+</resultMap>
+
+<!-- bc_seq : 게시판 댓글 순번 // b_seq : 게시판 순번 -->
+  <update id="doUpdate" parameterType="BoardCommentVO">
+    UPDATE user_info       
+     SET bc_seq       = #{bcSeq},     
+         bc_contents  = #{bcContents},     
+         b_seq        = #{bSeq},     
+         u_id         = #{uId},     
+         u_nick       = #{uNick}, 
+         reg_dt       = SYSDATE
+     WHERE u_id       = #{uId}   
+  </update>
+
+
+  <delete id="deleteAll" parameterType="BoardCommentVO">
+    DELETE FROM board_comment WHERE b_seq = #{bSeq} AND u_id = #{uId}
+  </delete>
+
+
+  <select id="getAll" parameterType="BoardCommentVO" resultMap="boardCommentResultMap">
+     SELECT        
+         bc_seq,
+         bc_contents,
+         b_seq,
+         u_id,
+         u_nick,                                       
+         TO_CHAR(reg_dt,'yyyy-mm-dd hh24:mi:ss') reg_dt
+     FROM board_comment
+     WHERE b_seq = #{bSeq}
+     AND u_id = #{uId}                          
+     ORDER BY reg_dt
+  </select>
+
+
+
+  <select id="getCount" parameterType="BoardCommentVO" resultType="int">
+    SELECT COUNT(*) AS cnt    
+    FROM  board_comment           
+    WHERE u_id = #{uId} 
+  </select>
+
+  
+  <select id="doSelectOne" parameterType="BoardCommentVO" resultMap="boardCommentResultMap">
+       <![CDATA[ 
+            SELECT
+                bc_seq,
+                bc_contents,
+                b_seq,
+                u_id,
+                u_nick,
+                reg_dt
+            FROM
+                board_comment
+            WHERE
+                u_id = #{uId}
+            AND
+                b_seq = #{bSeq}
+        ]]>
+  </select>
+  
+  
+  <delete id="doDelete" parameterType="BoardCommentVO">
+    DELETE FROM board_comment
+    WHERE u_id = #{uId} AND bc_seq = #{bcSeq} AND b_seq = #{bSeq} 
+  </delete>
+
+
+  <insert id="doInsert" parameterType="BoardCommentVO">
+    INSERT INTO board_comment (
+        bc_contents,
+        b_seq,
+        u_id,
+        u_nick,
+        reg_dt
+    ) VALUES (
+        #{bcContents},
+        #{bSeq},
+        #{uId},
+        #{uNick},
+        #{regDt}
+    )
+  </insert>
+</mapper>
