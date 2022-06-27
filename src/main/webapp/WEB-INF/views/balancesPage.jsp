@@ -185,6 +185,23 @@ div.on {
 	margin-top: 10px;
 }
 
+.mainBalacesTabButton {
+    width: 100%;
+    margin: 0 auto;
+    margin-top: 10px;
+}
+
+.mainBalacesTabButton>ul>li {
+    width: 100%;
+    list-style: none;
+    line-height: 40px;
+}
+
+.mainBalancesTabButton>ul>li>a {
+    width: 100%;
+    text-align: center;
+}
+
 .temp {
 	width: 100%;
 	display: flex;
@@ -264,7 +281,7 @@ td:nth-child(3) {
             /* 자바스크립트 코드 */
             $(document).ready(function(){
                 console.log('PCWK *** document');
-            
+                
                 $(".uBTBody tr[id *= 'tr']").click(function(){
                     console.log($(this), "click!");
                     let trLastWord = ($(this).attr("id")).substr(($(this).attr("id")).length-3);
@@ -284,12 +301,15 @@ td:nth-child(3) {
                     $('.mainBalancesTabContextDivB').css('display', 'none');
                     $('.mainBalancesTabContextDivC').css('display', 'none');
                     
+                    $('.contextBottom input[type="text"]').removeClass('amount');
+                    
                     switch(mBTLastWord){
                     case 'a':
                         /* $('.mainBalancesTabContextDivB').removeClass('on');
                         $('.mainBalancesTabContextDivC').removeClass('on');
                         $('.mainBalancesTabContextDivA').addClass('on'); */
                         $('.mainBalancesTabContextDivA').css('display', 'block');
+                        $('.mainBalancesTabContextDivA .contextBottom input[type="text"]').addClass('amount');
                         
                         console.log('mainBalancesTabContextDivA의 class에 on추가하기');
                         break;
@@ -299,6 +319,7 @@ td:nth-child(3) {
                         $('.mainBalancesTabContextDivC').removeClass('on');
                         $('.mainBalancesTabContextDivB').addClass('on'); */
                         $('.mainBalancesTabContextDivB').css('display', 'block');
+                        $('.mainBalancesTabContextDivB .contextBottom input[type="text"]').addClass('amount');
                         
                         console.log('mainBalancesTabContextDivB의 class에 on추가하기');
                         break;
@@ -308,6 +329,7 @@ td:nth-child(3) {
                         $('.mainBalancesTabContextDivB').removeClass('on');
                         $('.mainBalancesTabContextDivC').addClass('on'); */
                         $('.mainBalancesTabContextDivC').css('display', 'block');
+                        $('.mainBalancesTabContextDivC .contextBottom input[type="text"]').addClass('amount');
                         
                         console.log('mainBalancesTabContextDivA의 class에 on추가하기');
                         break;
@@ -315,6 +337,39 @@ td:nth-child(3) {
                             console.log("선언되지 않은 div");
                             return;
                     }
+                });
+                
+                $(".amountBtn").click(function(){
+                	console.log(".amountBtn Clicked!!");
+                    console.log($('.amount').val());
+                    
+                    const settings = {
+                            "async": true,
+                            "crossDomain": true,
+                            "url": "https://api.upbit.com/v1/market/all?isDetails=false",
+                            "method": "GET",
+                            "headers": {"Accept": "application/json"}
+                          };
+
+	                  $.ajax(settings).done(function (response) {
+	                	  let i = 0;
+	                	  let htmlData = "";
+	                    response.forEach(function(item, index, arr2){
+	                    	if(i>= 3) return;
+	                    	
+	                    	console.log(item, index);
+	                    	console.log('으악 방구' + item.market + index);
+	                    	i++;
+	                    	
+	                    	htmlData += "<tr>                                                                           ";
+	                        htmlData += "     <td class='text-center col-sm-1 col-md-1 col-lg-1'>"+ item.market +"</td>   ";
+	                        htmlData += "     <td class='text-left   col-sm-2 col-md-2 col-lg-2'>"+ item.korean_name +"</td>   ";
+	                        htmlData += "     <td class='text-left   col-sm-2 col-md-2 col-lg-2'>"+ item.english_name +"</td>  ";
+	                        htmlData += "</tr>                                                                          ";
+	                        
+	                        $(".uBTBody").append(htmlData);
+	                    });
+	                  });
                 });
             });
         </script>
@@ -367,6 +422,27 @@ td:nth-child(3) {
 								<td>12.34%</td>
 								<td>40.00 BTC</td>
 							</tr>
+							<c:choose>
+                            <%-- data가 있는 경우 --%>
+                            <c:when test="${list.size()>0}">
+                                <c:forEach var="vo" items="${list }">
+                                    <tr>
+                                        <td class="text-center col-sm-1 col-md-1 col-lg-1">${vo.num }</td>
+                                        <td class="text-left   col-sm-2 col-md-2 col-lg-2">${vo.uId }</td>
+                                        <td class="text-left   col-sm-2 col-md-2 col-lg-2">${vo.name }</td>
+                                        <td class="text-center col-sm-2 col-md-2 col-lg-2">${vo.level }</td>
+                                        <td class="text-left   col-sm-3 col-md-3 col-lg-3">${vo.email }</td>
+                                        <td class="text-center col-sm-2 col-md-2 col-lg-2">${vo.regDt }</td>
+                                    </tr>
+                                </c:forEach>
+                            </c:when>
+                            <%-- data가 없는 경우 --%>
+                            <c:otherwise>
+                                <tr>
+                                    <td colspan="99" class="text-center">no data found</td>
+                                </tr>
+                            </c:otherwise>
+                        </c:choose>
 						</tbody>
 					</table>
 					<!--// userBalances table end ------------------------------------->
@@ -415,11 +491,11 @@ td:nth-child(3) {
 					<!-- mainBalancesTabContextDivAInputDiv ---------------------------------->
 					<div class="mainBalancesTabContextDivAInputDiv">
 						<div class="contextTop">
-							<label>연계계좌</label><label>10*******2332 코리아뱅크</label><label>홍길동</label>
+							<label>연계계좌</label><label>10*******2332 코리아뱅크</label><label>방구홍길동</label>
 						</div>
 						<div class="contextBottom">
 							<!-- 아래 placeholder의 값은 선택한 코인에 따라 달라짐 -->
-							<label>입금금액</label><input type="text" placeholder="최소 5,000KRW" />
+							<label>입금금액</label><input type="text" class="amount" placeholder="최소 5,000KRW" />
 						</div>
 					</div>
 					<!--// mainBalancesTabContextDivAInputDiv end ---------------------------->
@@ -427,7 +503,11 @@ td:nth-child(3) {
 					<div class="mainBalancesTabContextDivAWarnning">입금 주의 사항
 						영역입니다.입금 주의 사항 영역입니다.입금 주의 사항 영역입니다.입금 주의 사항 영역입니다.입금 주의 사항
 						영역입니다.입금 주의 사항 영역입니다.입금 주의 사항 영역입니다.입금 주의 사항 영역입니다.입금 주의 사항
-						영역입니다.입금 주의 사항 영역입니다.입금 주의 사항 영역입니다.입금 주의 사항 영역입니다.</div>
+						영역입니다.입금 주의 사항 영역입니다.입금 주의 사항 영역입니다.입금 주의 사항 영역입니다.
+				    </div>
+				    <div class="mainBalacesTabButton">
+                        <ul><li><a href="#" class="amountBtn" name="amountBtn">신청 멍청이 버튼</a></li></ul>
+                    </div>
 				</div>
 				<!--// mainBalancesTabContextDivA end ---------------------------------------->
 				<!-- mainBalancesTabContextDivB ---------------------------------------------->
@@ -448,7 +528,11 @@ td:nth-child(3) {
 					<div class="mainBalancesTabContextDivBWarnning">출금 주의 사항
 						영역입니다.출금 주의 사항 영역입니다.출금 주의 사항 영역입니다.출금 주의 사항 영역입니다.출금 주의 사항
 						영역입니다.출금 주의 사항 영역입니다.출금 주의 사항 영역입니다.출금 주의 사항 영역입니다.출금 주의 사항
-						영역입니다.출금 주의 사항 영역입니다.출금 주의 사항 영역입니다.출금 주의 사항 영역입니다.</div>
+						영역입니다.출금 주의 사항 영역입니다.출금 주의 사항 영역입니다.출금 주의 사항 영역입니다.
+					</div>
+					<div class="mainBalacesTabButton">
+                        <ul><li><a href="#" class="amountBtn" name="amountBtn">신청 빙구 버튼</a></li></ul>
+                    </div>
 				</div>
 				<!--// mainBalancesTabContextDivB end ---------------------------------------->
 				<!-- mainBalancesTabContextDivC ---------------------------------------------->
@@ -470,8 +554,13 @@ td:nth-child(3) {
 						입출금 영역입니다~ 입출금 영역입니다~ 입출금 영역입니다~ 입출금 영역입니다~ 입출금 영역입니다~ 입출금 영역입니다~
 						입출금 영역입니다~ 입출금 영역입니다~ 입출금 영역입니다~ 입출금 영역입니다~ 입출금 영역입니다~ 입출금 영역입니다~
 					</div>
+					
+					<div class="mainBalacesTabButton">
+                        <ul><li><a href="#" class="amountBtn" name="amountBtn">신청 방구빵구 버튼</a></li></ul>
+                    </div>
 				</div>
 				<!--// mainBalancesTabContextDivC end ---------------------------------------->
+				
 			</div>
 			<!--// mainBalancesDiv end ----------------------------------------------------->
 
