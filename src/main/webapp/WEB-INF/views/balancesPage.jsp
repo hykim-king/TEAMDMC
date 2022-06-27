@@ -56,6 +56,7 @@
 	height: 550px;
 	border: 1px solid #333;
 	box-sizing: border-box;
+	overflow: scroll;
 }
 
 .userTotalBalances {
@@ -354,7 +355,26 @@ td:nth-child(3) {
 	                  $.ajax(settings).done(function (response) {
 	                	  let i = 0;
 	                	  let htmlData = "";
-	                    response.forEach(function(item, index, arr2){
+	                	  
+	                	  $(".uBTBody").empty();
+	                	  
+	                	  console.log(response);
+	                	  
+	                	  for(i=0; i<response.length; i++){
+	                		  let str = (response[i].market).substring(0, (response[i].market).indexOf('-'));
+	                		    
+	                		  if( str == 'KRW' ) {
+	                			  htmlData += "<tr>                                                                           ";
+	                              htmlData += "     <td class='text-center col-sm-1 col-md-1 col-lg-1'>"+ response[i].market +"</td>   ";
+	                              htmlData += "     <td class='text-left   col-sm-2 col-md-2 col-lg-2'>"+ response[i].korean_name +"</td>   ";
+	                              htmlData += "     <td class='text-left   col-sm-2 col-md-2 col-lg-2'>"+ response[i].english_name +"</td>  ";
+	                              htmlData += "</tr>                                                                          ";  
+	                		  }
+	                	  }
+	                	  
+	                	  $(".uBTBody").append(htmlData);
+	                  });
+	                    /* response.forEach(function(item, index, arr2){
 	                    	if(i>= 3) return;
 	                    	
 	                    	console.log(item, index);
@@ -368,8 +388,8 @@ td:nth-child(3) {
 	                        htmlData += "</tr>                                                                          ";
 	                        
 	                        $(".uBTBody").append(htmlData);
-	                    });
-	                  });
+	                    }); */
+	                  //});
                 });
             });
         </script>

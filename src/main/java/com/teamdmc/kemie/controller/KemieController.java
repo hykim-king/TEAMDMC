@@ -1,10 +1,7 @@
 package com.teamdmc.kemie.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller("kemieController")
 public class KemieController {
@@ -27,8 +24,14 @@ public class KemieController {
 	
 	@RequestMapping("/balancesPage.do")  
 	public String balancesPage() {
-		System.out.println("메인 테스트입니다 메인 테스트입니다.");
-		
+		/*
+		 * HttpRequest request = HttpRequest.newBuilder()
+		 * .uri(URI.create("https://api.upbit.com/v1/market/all?isDetails=false"))
+		 * .header("Accept", "application/json") .method("GET",
+		 * HttpRequest.BodyPublishers.noBody()) .build(); HttpResponse<String> response
+		 * = HttpClient.newHttpClient().send(request,
+		 * HttpResponse.BodyHandlers.ofString()); System.out.println(response.body());
+		 */
 		return "balancesPage";
 	}
 	
@@ -59,13 +62,6 @@ public class KemieController {
 		
 		return "loginPage";
 	}
-//	
-//	@RequestMapping("/myPage.do")  
-//	public String myPage() {
-//		System.out.println("메인 테스트입니다 메인 테스트입니다.");
-//		
-//		return "myPage";
-//	}
 	
 	@RequestMapping("/signin.do")  
 	public String signin() {
