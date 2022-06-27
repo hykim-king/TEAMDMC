@@ -59,13 +59,13 @@ public class KemieController {
 		
 		return "loginPage";
 	}
-	
-	@RequestMapping("/myPage.do")  
-	public String myPage() {
-		System.out.println("메인 테스트입니다 메인 테스트입니다.");
-		
-		return "myPage";
-	}
+//	
+//	@RequestMapping("/myPage.do")  
+//	public String myPage() {
+//		System.out.println("메인 테스트입니다 메인 테스트입니다.");
+//		
+//		return "myPage";
+//	}
 	
 	@RequestMapping("/signin.do")  
 	public String signin() {

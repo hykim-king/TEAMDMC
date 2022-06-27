@@ -106,26 +106,78 @@ h3 {
 <!-- 직접참조하여 favicon설정 -->
 <link rel="shortcut icon" type="image/x-icon" href="/studyhtml5/favicon.ico">
 
+<!-- 사용자 정의 function, ISEmpty -->
+<script src="${CP_RES}/js/eUtil.js"></script>
+<!-- 사용자 정의  function, callAjax -->
+<script src="${CP_RES}/js/eclass.js"></script>
+
 <!-- 자바스크립트 -->
 <script type="text/javascript">
 			/* 자바스크립트 코드 */
 			$(document).ready(function(){
 				console.log('PCWK *** document');
 				
+				function getByteLength(s, b, i, c){
+					for(b=i=0;c=s.charCodeAt(i++);b+=c>>11?3:c>>7?2:1);
+				    return b;
+				}
 				
-				/* https://zetawiki.com/wiki/%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8_onclick_%EC%9D%B4%EB%B2%A4%ED%8A%B8
-					script에 function을 만들고, button에 onclick으로 해당 메소드 실행 방식으로 구현*/
 				$("button[id*='Change']").click(function(){
 					let btnId = $(this).attr("id");
 					
 					if(btnId.includes('nick')){
-						let input = prompt('변경할 닉네임을 입력하세요.');
+						let uId = 'id01';
+						let input = prompt('변경할 닉네임을 입력하세요.(한글 2~10자)');
+						let inputLength = getByteLength(input);
 						
-						alert(`당신이 변경할 닉네임은 ${input}입니다.`);
+					    if(inputLength < 6 || inputLength >= 30) alert('닉네임은 최소2자, 최대 10자입니다!');
+					    else {
+					    	let url = "${CP}/nickCheck.do";
+				            let parameters = {"nick" : input};
+				            let method = "GET";
+				            let async;
+				            
+				            EClass.callAjax(url, parameters, method, async, function(data) {				            	
+				            	if(data.msgId == 0){   
+				            		if(confirm(data.msgContents+"변경하시겠습니까?")==true){
+				            			url = "${CP}/doNickUpdate.do";
+				            			parameters = {"uId": uId, "nick": input};
+				            			
+				            			EClass.callAjax(url, parameters, method, async, function(upData) {
+				            				alert(upData.msgContents);
+				            			});
+				            		}
+				            	}else{
+				            		alert(data.msgContents);
+				            	}
+				            });
+					    }
+					    	
+						/* alert('당신이 변경할 닉네임은 '+input+'입니다.'); */
 					} else if(btnId.includes('pw')){
-						let input = prompt('변경할 비밀번호을 입력하세요.');
+						let uId = 'id01';
 						
-						alert(`당신이 변경할 닉네임은 ${input}입니다.`);
+						let input = prompt('변경할 비밀번호를 입력하세요.');
+						
+						let url = "${CP}/passCheck.do";
+                        let parameters = {"uId" : uId, "passwd": input};
+                        let method = "POST";
+                        let async;
+						
+                        EClass.callAjax(url, parameters, method, async, function(data) {
+                        	if(data.msgId == 0){
+                        		if(confirm(data.msgContents+"변경하시겠습니까?")==true){
+                        			url = "${CP}/doPassUpdate.do";
+                                    parameters = {"uId": uId, "passwd": input};
+                                    
+                                    EClass.callAjax(url, parameters, method, async, function(upData) {
+                                        alert(upData.msgContents);
+                                    });
+                                }
+                        	}else{
+                        		alert(data.msgContents);
+                        	}
+                        });
 					} 
 				});
 			});

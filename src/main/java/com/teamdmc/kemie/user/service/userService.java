@@ -1,4 +1,4 @@
-package com.teamdmc.kemie.dao;
+package com.teamdmc.kemie.user.service;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -6,8 +6,8 @@ import java.util.List;
 import com.teamdmc.kemie.cmn.DTO;
 import com.teamdmc.kemie.user.domain.UserVO;
 
-public interface UserDao {
-
+public interface userService {
+	
 	/**
 	 * 이전 비밀번호와 같은지 비밀번호 체크
 	 * @param inVO
@@ -117,5 +117,4 @@ public interface UserDao {
 	 * @throws SQLException
 	 */
 	public UserVO doSelectOne(UserVO inVO) throws SQLException;
-
 }

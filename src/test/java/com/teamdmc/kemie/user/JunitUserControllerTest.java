@@ -78,6 +78,7 @@ public class JunitUserControllerTest {
 	  }
 	  
 	  @Test
+	  @Ignore
 	  public void idCheck() throws Exception{
 		  //1. 기존데이터 삭제
 		  //2. 한 건 입력
@@ -207,7 +208,6 @@ public class JunitUserControllerTest {
 	  }
 	  
 	  @Test
-	  @Ignore
 	  public void addAndGet() throws Exception{
 		//1. 기존데이터 삭제
 		//2. 신규데이터 등록

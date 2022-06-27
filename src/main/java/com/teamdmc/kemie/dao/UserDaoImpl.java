@@ -23,6 +23,45 @@ public class UserDaoImpl implements UserDao {
 	public UserDaoImpl() {}
 
 	@Override
+	public int passCheck(UserVO inVO) throws SQLException {
+		String statement = NAMESPACE+".passCheck";
+		LOG.debug("==============================");
+		LOG.debug("param:" + inVO.toString());
+		LOG.debug("statement:" +statement);
+		LOG.debug("==============================");
+		
+		int flag = sqlSessionTemplate.selectOne(statement, inVO);
+		LOG.debug("flag: "+ flag);
+		return flag;
+	}
+
+	@Override
+	public int doPassUpdate(UserVO inVO) throws SQLException {
+		String statement = NAMESPACE+".doPassUpdate";
+		LOG.debug("==============================");
+		LOG.debug("param:" + inVO.toString());
+		LOG.debug("statement:" +statement);
+		LOG.debug("==============================");
+		
+		int flag = sqlSessionTemplate.update(statement, inVO);
+		LOG.debug("flag: "+ flag);
+		return flag;
+	}
+	
+	@Override
+	public int doNickUpdate(UserVO inVO) throws SQLException {
+		String statement = NAMESPACE+".doNickUpdate";
+		LOG.debug("==============================");
+		LOG.debug("param:" + inVO.toString());
+		LOG.debug("statement:" +statement);
+		LOG.debug("==============================");
+		
+		int flag = sqlSessionTemplate.update(statement, inVO);
+		LOG.debug("flag: "+ flag);
+		return flag;
+	}
+
+	@Override
 	public int loginCheck(UserVO inVO) throws SQLException {
 		String statement = NAMESPACE+".loginCheck";
 		LOG.debug("==============================");
@@ -36,6 +75,20 @@ public class UserDaoImpl implements UserDao {
 		return count;
 	}
 
+	@Override
+	public int nickCheck(UserVO inVO) throws SQLException {
+		String statement = NAMESPACE+".nickCheck";
+		LOG.debug("==============================");
+		LOG.debug("param:" + inVO.toString());
+		LOG.debug("statement:" +statement);
+		LOG.debug("==============================");
+		
+		int count = sqlSessionTemplate.selectOne(statement, inVO);
+		LOG.debug("count: "+ count);
+		
+		return count;
+	}
+	
 	@Override
 	public int idCheck(UserVO inVO) throws SQLException {
 		String statement = NAMESPACE+".idCheck";

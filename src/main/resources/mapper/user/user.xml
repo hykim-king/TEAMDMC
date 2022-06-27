@@ -2,6 +2,43 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.teamdmc.kemie.user">
   
+  <resultMap type="UserVO" id="userResultMap">
+      <id      property="uId"        column="u_id"/>
+      <result  property="passwd"     column="u_pw"/>
+      <result  property="name"       column="u_name"/>
+      <result  property="pNum"       column="u_pnum"/>
+      <result  property="nick"       column="u_nick"/>
+      <result  property="type"       column="u_type"/>
+      <result  property="regDt"      column="reg_dt"/>
+  </resultMap>
+
+
+  <!-- 닉네임 체크 및 변경 부분 -->
+  <select id="nickCheck" parameterType="UserVO" resultType="int">
+    SELECT COUNT(*) cnt
+    FROM user_info
+    WHERE u_nick = #{nick}
+  </select>
+  
+  <update id="doNickUpdate" parameterType="UserVO">
+    UPDATE user_info
+    SET u_nick = #{nick}
+    WHERE u_id = #{uId}
+  </update>
+  
+  <!-- 비밀번호 체크 및 변경 부분  -->
+  <select id="passCheck" parameterType="UserVO" resultType="int">
+    SELECT COUNT(*) cnt
+    FROM user_info
+    WHERE u_id = #{uId} AND u_pw = #{passwd}
+  </select>
+  
+  <update id="doPassUpdate" parameterType="UserVO">
+    UPDATE user_info
+    SET u_pw = #{passwd}
+    WHERE u_id = #{uId}
+  </update>
+  
   <!-- ID중복 check -->
   <select id="loginCheck" parameterType="UserVO" resultType="int">
     SELECT COUNT(*) cnt
@@ -51,16 +88,6 @@
     FROM  user_info           
     WHERE u_id LIKE #{uId} ||'%' 
   </select>
-  
-  <resultMap type="UserVO" id="userResultMap">
-	  <id      property="uId"        column="u_id"/>
-	  <result  property="passwd"     column="u_pw"/>
-	  <result  property="name"       column="u_name"/>
-	  <result  property="pNum"       column="u_pnum"/>
-	  <result  property="nick"       column="u_nick"/>
-	  <result  property="type"       column="u_type"/>
-	  <result  property="regDt"      column="reg_dt"/>
-  </resultMap>
   
   <!-- namespace+id = com.teamdmc.kemie.user.doSelectOne-->
   <select id="doSelectOne" parameterType="UserVO" resultMap="userResultMap">
