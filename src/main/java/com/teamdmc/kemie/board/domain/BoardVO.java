@@ -6,7 +6,7 @@ public class BoardVO extends DTO{
 	private int bSeq;         // 게시판 순번
 	private String bTitle;    // 게시판 제목
 	private String bContents; // 게시판 내용
-	private String bReadCnt;  // 게시판 조회수
+	private int bReadCnt;  // 게시판 조회수
 	private String uNick;     // 회원 닉네임
 	private String regDt;     // 작성일
 	private String uId;       // 작성자
@@ -14,7 +14,7 @@ public class BoardVO extends DTO{
 	
 	public BoardVO() {}
 
-	public BoardVO(int bSeq, String bTitle, String bContents, String bReadCnt, String uNick, String regDt,
+	public BoardVO(int bSeq, String bTitle, String bContents, int bReadCnt, String uNick, String regDt,
 			String uId, String modDt) {
 		super();
 		this.bSeq = bSeq;
@@ -51,11 +51,11 @@ public class BoardVO extends DTO{
 		this.bContents = bContents;
 	}
 
-	public String getbReadCnt() {
+	public int getbReadCnt() {
 		return bReadCnt;
 	}
 
-	public void setbReadCnt(String bReadCnt) {
+	public void setbReadCnt(int bReadCnt) {
 		this.bReadCnt = bReadCnt;
 	}
 
