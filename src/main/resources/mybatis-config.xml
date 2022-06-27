@@ -15,5 +15,6 @@
         <typeAlias type="com.teamdmc.kemie.usernews.domain.UserNewsVO" alias="UserNewsVO"/>
         <typeAlias type="com.teamdmc.kemie.boardComment.domain.BoardCommentVO" alias="BoardCommentVO"/>
         <typeAlias type="com.teamdmc.kemie.board.domain.BoardVO" alias="BoardVO"/>
+        <typeAlias type="com.teamdmc.kemie.userinterested.domain.UserInterestedVO" alias="UserInterestedVO"/>
     </typeAliases>
 </configuration>
