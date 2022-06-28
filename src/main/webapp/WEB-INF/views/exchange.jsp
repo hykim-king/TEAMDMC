@@ -28,7 +28,9 @@
 	padding: 0;
 	font-family: 'Noto Sans KR', sans-serif;
 }
-
+th a {color: black;
+    text-decoration: none;}
+    
 li a {
 	color: black;
 	text-decoration: none;
@@ -250,6 +252,66 @@ th {
 <!--자바스크립트 코드 -->
 <script type="text/javascript">
     $(document).ready(function() { /* a태그의 id의 마지막 문자열을 추출하여 원하는 div on */
+
+    	let settings = {
+    			  "async": true,
+    			  "crossDomain": true,
+    			  "url": "https://api.upbit.com/v1/market/all?isDetails=false",
+    			  "method": "GET",
+    			  "headers": {
+    				   "Accept": "application/json"
+    			  }
+    	};
+        $.ajax(settings).done(function (response) {
+            let i = 0;
+            let htmlData = "";
+            let marketNames = "";
+            $(".fullCoin").empty();
+            
+            console.log(response);
+            
+            for(i=0; i<response.length; i++){
+               let str = (response[i].market).substring(0, (response[i].market).indexOf('-'));
+               let arr;
+               if( str == 'KRW' ) {
+            	     arr = response[i].korean_name;
+                     marketNames += response[i].market + '%2C';
+               }
+            }
+            
+            marketNames = marketNames.substr(0, marketNames.length-3);
+
+            let settings = {
+                    "async": true,
+                    "crossDomain": true,
+                    "url": "https://api.upbit.com/v1/ticker?markets="+marketNames,
+                    "method": "GET",
+                    "headers": {
+                      "Accept": "application/json"
+                    }
+            };
+            $.ajax(settings).done(function (data) {
+            	console.log('fart2222');
+            	console.log(data);
+            	
+            	
+            	
+            	for(i=0; i<data.length; i++){
+            		
+            		var no = Math.ceil(data[i].acc_trade_price_24h/1000000);
+            		no = String(no).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            		htmlData += "<tr>                                                                                                                ";
+            		htmlData += "     <td class='text-left   col-sm-2 col-md-2 col-lg-2'>"+ response[i].korean_name +"</td>                          ";
+                    htmlData += "     <td class='text-left   col-sm-2 col-md-2 col-lg-2'>"+ data[i].trade_price +"</td>                              ";
+                    htmlData += "     <td class='text-left   col-sm-2 col-md-2 col-lg-2'>"+ (data[i].signed_change_rate*100).toFixed(3)  +"%</td>    ";
+                    htmlData += "     <td class='text-left   col-sm-2 col-md-2 col-lg-2'>"+ no +"백만</td>                       ";
+                    htmlData += "<tr>                                                                                                                ";
+            	}
+            	$(".fullCoin").append(htmlData);
+            }); 
+            
+            
+        });
     	$(".mainExchangeTab li[id *= 'mET']").click(function() {
 	    	let mETLastWord = ($(this).attr("id")).substr(($(this).attr("id")).length - 1);
 	    	
@@ -350,8 +412,19 @@ th {
 				<!-- //코인그래프 끝 -->
 				<!-- 코인시세 -->
 				<div class="coinPrice">
-					<h2>코인 시세 영역</h2>
-				</div>
+	                <table class="">
+	                    <thead class="priceIndex">
+	                       <tr>
+                             <th><a href="#">한글명<img src="${CP_RES}/img/exchange.icon1.png" alt=""></a></th>
+                             <th><a href="#">현재가<img src="${CP_RES}/img/exchange.icon2.png" alt=""></a></th>
+                             <th><a href="#">전일대비<img src="${CP_RES}/img/exchange.icon2.png" alt=""></a></th>
+                             <th><a href="#">거래대금<img src="${CP_RES}/img/exchange.icon2.png" alt=""></a></th>
+                           </tr>   
+	                    </thead>   
+	                    <tbody class="fullCoin">
+	                    </tbody>
+	                </table>
+               </div>
 				<!-- //코인시세 끝 -->
 			</div>
 			<!-- //탑박스 끝 -->

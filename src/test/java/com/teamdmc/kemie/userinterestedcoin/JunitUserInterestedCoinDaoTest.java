@@ -14,7 +14,7 @@
 *-----------------------------------------------------
 * </pre>
 */
-package com.teamdmc.kemie.userInterestedCoin;
+package com.teamdmc.kemie.userinterestedcoin;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
