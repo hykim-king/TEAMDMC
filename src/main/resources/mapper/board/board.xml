@@ -54,6 +54,13 @@
         )B
     </select>
     
+    <!-- 조회수 증가 -->
+    <update id="updateReadCnt" parameterType="BoardVO">
+        UPDATE board
+        SET b_readcnt = NVL(b_readcnt,0) + 1
+        WHERE u_id = #{uId}
+    </update>
+    
     <!-- 전체 삭제 -->
     <delete id="deleteAll">
         DELETE FROM board
@@ -78,7 +85,7 @@
     <select id="getCount" parameterType="BoardVO" resultType="int">
         SELECT COUNT(*) AS cnt
         FROM board
-        WHERE b_readcnt LIKE #{bReadCnt} || '%'
+        WHERE b_title LIKE #{bTitle} || '%'
     </select>
     <!-- 테스트용으로 생성한 객체에 readcnt 기준으로 카운트 셀수 있도록 설정해두었습니다 -->
     

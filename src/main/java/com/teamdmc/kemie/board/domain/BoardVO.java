@@ -93,8 +93,9 @@ public class BoardVO extends DTO{
 
 	@Override
 	public String toString() {
-		return "UserNewsVO [bSeq=" + bSeq + ", bTitle=" + bTitle + ", bContents=" + bContents + ", bReadCnt=" + bReadCnt
+		return "BoardVO [bSeq=" + bSeq + ", bTitle=" + bTitle + ", bContents=" + bContents + ", bReadCnt=" + bReadCnt
 				+ ", uNick=" + uNick + ", regDt=" + regDt + ", uId=" + uId + ", modDt=" + modDt + ", toString()="
 				+ super.toString() + "]";
 	}
+	
 }

@@ -7,28 +7,59 @@
 <!--html comment-->
 <!DOCTYPE html>
 <html>
-
 <head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta charset="UTF-8">
+<!-- jQuery cdn -->
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="${CP_RES}/js/eUtil.js"></script>
+<script src="${CP_RES}/js/eclass.js"></script>
 
-<meta http-equiv="Expires" content="Mon, 01 Jan 2020 00:00:01 GMT">
-<!--위의 명시된 날짜 이후가 되면 페이지가 캐싱되지 않는다.(2020년 이후 쭉 ) -->
-<meta http-equiv="Expires" content="-1">
-<!--캐시된 페이지가 만료되어 삭제되는 시간을 정의하나 특별한 경우가 아니면 -1로 설정-->
-<meta http-equiv="Pragma" content="no-cache">
-<!--페이지 로드시마다 페이지를 캐싱하지 않는다.(HTTP 1.0)-->
-<meta http-equiv="Cache-Control" content="no-cache">
-<!--페이지 로드시마다 페이지를 캐싱하지 않는다.(HTTP 1.1)-->
+<!--자바스크립트 코드-->
+<script type="text/javascript">
+  $(document).ready(function(){
+      
+      console.log("document ready");
+      
+      function doRetrieve(page) {
+          console.log("function doRetrieve");
+          console.log("page : " + page);
+          
+          let url = "${CP}/board/doRetrieve.do";
+          let method = "GET";
+          let async = true;
+          let parameters = {
+                  searchDiv:$("#searchDiv").val(),
+                  searchWord:$("#searchWord").val(),
+                  pageSize:$("#pageSize").val(),
+                  pageNum:page,
+                  div:$("#div").val()
+          };
+          
+          EClass.callAjax(url,parameters,method,async,function(data) {
+              console.log("EClass.callAjax data : " + data);
+          });
+          
+      }
+      
 
-<!-- reset 스타일 시트-->
-<!--<link rel="stylesheet" type="text/css" href="/stutyhtml5/asset/css/reset.css">-->
+      $(".bt2").on("click",function(e){
+          console.log("얍얍");
+          doRetrieve(1);
+      });
+      
+      
+  });
+</script>
+
 <style>
 @import
 	url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap')
 	;
 </style>
+
 <link rel="stylesheet" type="text/css" href="${CP_RES}/css/header.css">
 <link rel="stylesheet" type="text/css" href="${CP_RES}/css/footer.css">
 <!--스타일시트 -->
@@ -147,8 +178,6 @@ tr {
 
 <title>Insert title here</title>
 
-<!-- jQuery cdn -->
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 
 </head>
 
@@ -185,27 +214,24 @@ tr {
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<td>1</td>
-					<td>제목 예시입니다.</td>
-					<td>작성자</td>
-					<td>2022.06.06</td>
-					<td>1</td>
-				</tr>
-				<tr>
-					<td>2</td>
-					<td>제목 예시입니다.2</td>
-					<td>작성자</td>
-					<td>2022.06.06</td>
-					<td>1</td>
-				</tr>
-				<tr>
-					<td>3</td>
-					<td>제목 예시입니다.3</td>
-					<td>작성자</td>
-					<td>2022.06.06</td>
-					<td>1</td>
-				</tr>
+			<c:choose>
+			 <c:when test="${list.size()>0 }">
+			     <c:forEach var="vo" items="${list}">
+			        <tr>
+	                    <td>${vo.bSeq}</td>
+	                    <td>${vo.bTitle}</td>
+	                    <td>${vo.uNick}</td>
+	                    <td>${vo.regDt}</td>
+                        <td>${vo.bReadCnt}</td>
+                </tr>
+			     </c:forEach>
+			 </c:when>
+			 <c:otherwise>
+			     <tr>
+			         <td colspan="99">데이터가 없습니다.</td>
+			     </tr>
+			 </c:otherwise>
+			</c:choose>
 			</tbody>
 		</table>
 		<!-- 게시판 목록 끝 -->
@@ -219,11 +245,4 @@ tr {
 	<%@include file="footer.jsp" %>
 </body>
 
-<!--자바스크립트 코드-->
-<script type="text/javascript">
-  $(document).ready(function(){
-	  
-	  console.log('yunam *** document');
-  });
-</script>
 </html>

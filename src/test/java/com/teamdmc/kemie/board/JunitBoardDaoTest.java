@@ -47,9 +47,9 @@ final Logger LOG = LogManager.getLogger(this.getClass());
 		LOG.debug("-----------------");
 		searchVO = new SearchVO(10, 1, "", "");
 		
-		board01 = new BoardVO(1, "테스트1", "테스트테스트", 2, "테스트", "날짜사용안함", "테스트", "날짜사용안함");
-		board02 = new BoardVO(2, "테스트2", "테스트테스트", 20, "테스트", "날짜사용안함", "테스트", "날짜사용안함");
-		board03 = new BoardVO(3, "테스트3", "테스트테스트", 200, "테스트", "날짜사용안함", "테스트", "날짜사용안함");
+		board01 = new BoardVO(1, "테스트1", "테스트테스트", 0, "테스트", "날짜사용안함", "테스트", "날짜사용안함");
+		board02 = new BoardVO(2, "테스트10", "테스트테스트", 0, "테스트", "날짜사용안함", "테스트", "날짜사용안함");
+		board03 = new BoardVO(3, "테스트100", "테스트테스트", 0, "테스트", "날짜사용안함", "테스트", "날짜사용안함");
 		
 		
 		LOG.debug("context : " + context);
@@ -57,6 +57,31 @@ final Logger LOG = LogManager.getLogger(this.getClass());
 		
 		assertNotNull(context);
 		assertNotNull(dao);
+	}
+	
+	@Test
+	public void updateReadCnt() throws SQLException {
+		LOG.debug("--------------------");
+		LOG.debug("---1.updateReadCnt---");
+		LOG.debug("--------------------");
+		
+		// 1. 데이터 삭제
+		dao.deleteAll();
+		assertEquals(0, dao.getCount(board01));
+		
+		// 2. 한 건 입력
+		dao.doInsert(board01);
+		assertEquals(1, dao.getCount(board01));
+		
+		// 3. 단 건 조회
+		dao.doSelectOne(board01);
+		
+		// 4. 조회 카운트 증가
+		dao.updateReadCnt(board01);
+		
+		// 5. 단 건 조회 비교
+		BoardVO vsVO = dao.doSelectOne(board01);
+		assertEquals(1, vsVO.getbReadCnt());
 	}
 
 	@Test

@@ -159,4 +159,21 @@ public class BoardDaoImpl implements BoardDao {
 		return outVO;
 	}
 
+	@Override
+	public int updateReadCnt(BoardVO inVO) throws SQLException {
+		int flag = 0;
+		
+		String statement = NAMESPACE+".updateReadCnt";
+		
+		LOG.debug("==============================");
+		LOG.debug("param:" + inVO.toString());
+		LOG.debug("statement: " + statement);
+		LOG.debug("==============================");
+		
+		flag = this.sqlSessionTemplate.update(statement, inVO);
+
+		LOG.debug("flag:" + flag);
+		return flag;
+	}
+
 }

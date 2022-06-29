@@ -12,6 +12,19 @@
     <!-- Root Context: defines shared resources visible to all other web components -->
     <!-- * 해당 root-context는 필수적인 transaction 등등의 정보만 들어가게 됨.
          * 우리가 applicationContext에서 썼던 Dao bean같은 것들은 bean으로 만들지 않고 annotation으로 설정을 함 -->
+    
+     <bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <!-- 특정 예외 -->
+        <property name="exceptionMappings">
+            <props>
+                <prop key="java.lang.NullPointerException">exception</prop>
+                <prop key="java.lang.IllegalArgumentException">exception</prop>
+            </props>
+        </property>
+        
+        <!-- default 예외 -->
+        <property name="defaultErrorView" value="exception"></property>
+    </bean>
          
     <!-- MyBatis db연결 객체 -->
     <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
