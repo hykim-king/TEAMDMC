@@ -15,13 +15,6 @@ public class KemieController {
 		return "mainPage";
 	}
 	
-	@RequestMapping("/exchange.do")  
-	public String exchange() {
-		System.out.println("메인 테스트입니다 메인 테스트입니다.");
-		
-		return "exchange";
-	}
-	
 	@RequestMapping("/balancesPage.do")  
 	public String balancesPage() {
 		/*

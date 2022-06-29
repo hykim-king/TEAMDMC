@@ -252,14 +252,53 @@ th {
 <!--자바스크립트 코드 -->
 <script type="text/javascript">
     $(document).ready(function() { /* a태그의 id의 마지막 문자열을 추출하여 원하는 div on */
-
+        
     	let settings = {
+    			  "async": true,
+    			  "crossDomain": true,
+    			  "url": "https://api.upbit.com/v1/candles/minutes/1?market=KRW-BTC&count=30",
+    			  "method": "GET",
+    			  "headers": {
+    			    "Accept": "application/json"
+    			  }
+    			};
+
+    			$.ajax(settings).done(function (response) {
+    				
+    				let i = 0;
+    	            let htmlData = "";
+    	            let marketNames = "";
+    	            $(".coinGraph").empty();
+    	            
+    			  console.log(response);
+    			  
+    			  for(i=0; i<response.length; i++){
+    	               let str = (response[i].market).substring(0, (response[i].market).indexOf('-'));
+    	               let arr;
+    	               if( str == 'KRW' ) {
+    	                     arr = response[i].korean_name;
+    	                     marketNames += response[i].market + '%2C';
+    			  marketNames = marketNames.substr(0, marketNames.length-3);
+    			  
+    			  htmlData += "<tr>                                                                                                                ";
+    			  htmlData += "     <td class='text-left   col-sm-2 col-md-2 col-lg-2'>"+ response[i].market +"</td>                 ";
+                  htmlData += "     <td class='text-left   col-sm-2 col-md-2 col-lg-2'>"+ response[i].candle_date_time_kst +"</td>                 ";
+                  htmlData += "     <td class='text-left   col-sm-2 col-md-2 col-lg-2'>"+ response[i].candle_acc_trade_price +"</td>               ";
+                  htmlData += "<tr>                                                                                                                ";
+    	               }
+    	            }
+    			  
+    			  $(".coinGraph").append(htmlData);
+    			});
+    	
+    	
+    	/* let settings = {
     			  "async": true,
     			  "crossDomain": true,
     			  "url": "https://api.upbit.com/v1/market/all?isDetails=false",
     			  "method": "GET",
     			  "headers": {
-    				   "Accept": "application/json"
+    			  "Accept": "application/json"
     			  }
     	};
         $.ajax(settings).done(function (response) {
@@ -308,10 +347,10 @@ th {
                     htmlData += "<tr>                                                                                                                ";
             	}
             	$(".fullCoin").append(htmlData);
-            }); 
+            });  
             
             
-        });
+        }); */
     	$(".mainExchangeTab li[id *= 'mET']").click(function() {
 	    	let mETLastWord = ($(this).attr("id")).substr(($(this).attr("id")).length - 1);
 	    	
@@ -407,7 +446,8 @@ th {
 			<div class="topbox">
 				<!-- 코인그래프 -->
 				<div class="graph">
-					<h2>그래프 영역</h2>
+					<div class="graphName"></div>
+					<div class="coinGraph"></div>
 				</div>
 				<!-- //코인그래프 끝 -->
 				<!-- 코인시세 -->
