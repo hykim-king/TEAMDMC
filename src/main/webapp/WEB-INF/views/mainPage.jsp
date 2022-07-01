@@ -10,7 +10,9 @@
 <meta charset="UTF-8">
     <!-- jQuery cdn -->
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    
+    <script src="${CP_RES }/js/eUtil.js"></script>
+    <!-- 사용자 정의 function, callAjax -->
+    <script src="${CP_RES }/js/eclass.js"></script>
     <script type="text/javascript">
     
     $(document).ready(function(){
@@ -26,7 +28,6 @@
         };
         
         $.ajax(settings).done(function (response) {
-            console.log(response);
             let htmlData = "";
             let array = [0, 1, 32, 47, 249, 232];
         
@@ -38,6 +39,7 @@
                 
                 htmlData += "<tr>                                                                                       ";
                 htmlData += " <td class='text-center col-sm-1 col-md-1 col-lg-1'>"+ response[value].market +"</td>      ";
+                htmlData += "<tr>                                                                                       ";
                 htmlData += " <td class='text-left   col-sm-2 col-md-2 col-lg-2'>"+ response[value].korean_name +"</td> ";
                 htmlData += " <td class='text-left   col-sm-2 col-md-2 col-lg-2'>"+ response[value].english_name +"</td>";
                 htmlData += "<tr>                                                                                       ";
@@ -48,19 +50,89 @@
             }
             
         });
+
+        for(let a = 0; a < 6; a++){
+            let marketArr = ["KRW-BTC", "KRW-ETH", "KRW-XRP", "KRW-ADA", "KRW-SOL", "KRW-DOGE"];
+            let settings2 = {
+                    "async": true,
+                      "crossDomain": true,
+                      "url": "https://api.upbit.com/v1/candles/minutes/1?market="+marketArr[a]+"&count=1",
+                      "method": "GET",
+                      "headers": {
+                      "Accept": "application/json"
+                      }
+            };
         
+            $.ajax(settings2).done(function (response1) {
+                let htmlData = "";
+                let array = [0, 1, 32, 47, 249, 232];
+                
+                for(let i = 0; i < array.length; i++){
+                    
+                    let value = array[i];
+                    htmlData += "<tr>                                                                                          ";
+                    htmlData += " <td class='text-left   col-sm-2 col-md-2 col-lg-2'>"+"시가 : "+response1[value].opening_price+ "</td>";
+                    htmlData += "<tr>                                                                                          ";
+                    htmlData += " <td class='text-left   col-sm-2 col-md-2 col-lg-2'>"+"고가 : "+response1[value].high_price+ "</td> ";
+                    htmlData += "<tr>                                                                                          ";
+                    htmlData += " <td class='text-left   col-sm-2 col-md-2 col-lg-2'>"+"저가 : "+response1[value].low_price+ "</td> ";
+                    htmlData += "<tr>                                                                                              ";
+                    htmlData += " <td class='text-left   col-sm-2 col-md-2 col-lg-2'>"+"종가 : "+response1[value].trade_price+ "</td> ";
+                    htmlData += "<tr>                                                                                           ";
+                    
+                    $("#coin"+(a+1)).append(htmlData);
+                    
+                    htmlData = "";
+                }
+            });
+        }
+        function convertDateFormat(date) {
+            let year = date.getFullYear();
+            let month = date.getMonth() + 1;
+            month = month >= 10 ? month : '0' + month;
+            let day = date.getDate();
+            day = day >= 10 ? day : '0' + day;
+            return [year, month, day].join('');
+        }
+
+        let pubdate = new Date();
+        let convertedDate = convertDateFormat(new Date());
+        console.log(pubdate);
+        console.log(convertedDate);  
+        
+        $("#date").append(convertedDate);
       
-        $("#coinNews1").on("click", function() {
-             window.location.href = 'https://search.naver.com/search.naver?where=nexearch&sm=top_sly.hst&fbm=1&acr=1&ie=utf8&query=%EC%BD%94%EC%9D%B8%EB%89%B4%EC%8A%A4'
-        });
-        
-        $("#coinNews2").on("click",function() {
-              window.open('https://search.naver.com/search.naver?where=nexearch&sm=top_sly.hst&fbm=1&acr=1&ie=utf8&query=%EC%BD%94%EC%9D%B8%EB%89%B4%EC%8A%A4');
-        });
-        
-        $("#coinNews3").on("click",function() {
-            window.open('https://search.naver.com/search.naver?where=nexearch&sm=top_sly.hst&fbm=1&acr=1&ie=utf8&query=%EC%BD%94%EC%9D%B8%EB%89%B4%EC%8A%A4');
-      });       
+            /* 클릭 이벤트로 ajax
+            console.log("doRetrieve");
+            let url = "${CP}/naver/doRetrieve.do";
+            let method = "GET";
+            let async = true;
+            let parameters = {};
+            
+            EClass.callAjax(url, parameters, method, async, function(data) {
+                console.log("EClass.callAjax.data"+ data);
+                let parsedData = data;
+                let htmlData = ""; //동적으로 tbody아래 데이터 생성
+                
+                $("#blog_table > tbody").empty();//기존 데이터 삭제
+                
+                //조회 데이터가 있는 경우
+                if(null != parsedData && parsedData.length > 0){
+                    $.each(parsedData, function(i, item) {
+                        console.log("item"+ item);
+                        htmlData += " <tr>                                                                        ";
+                        htmlData += " <td class='text-left col-sm-7 col-md-7 col-lg-9'>  "+<c:out value='item.title'/>+"</td>   ";
+                        htmlData += " </tr>                                                                       ";
+                      });
+                }else{
+                    htmlData += " <tr>                                                      ";
+                    htmlData += "   <td colspan='99' class='text-center'>No data found</td> ";
+                    htmlData += " </tr>                                                     ";
+                }
+                //조회 데이터가 없는 경우
+                $("#blog_table > tbody").append(htmlData);
+                
+            }); */
     });
         
     </script>
@@ -138,6 +210,9 @@
     margin: 0 auto;
     margin-top: 10px;
 }
+#coin a{
+    text-decoration: none; color: black;
+}
 </style>
 <title>Insert title here</title>
 
@@ -171,21 +246,22 @@
             <!-- 코인 뉴스=========================== -->
             <div id="coinNews">
                 <h2>코인 뉴스</h2>
-                <!-- div는 화면의 가로 전체를 사용, span은 콘텐츠만큼만 공간을 차지 -->
-                <div class="newsArea">
-                    <div class="newsone">
-                        <p id="coinNews1">코인 뉴스 제목 영역입니다.코인 뉴스 제목 영역입니다.코인 뉴스 제목 영역입니다.</p>
-                        <span>2022.06.09</span>
-                    </div>
-                    <div class="newsone">
-                        <p id="coinNews2">코인 뉴스 제목 영역입니다.코인 뉴스 제목 영역입니다.코인 뉴스 제목 영역입니다.</p>
-                        <span>2022.06.09</span>
-                    </div>
-                    <div class="newsone">
-                        <p id="coinNews3">코인 뉴스 제목 영역입니다.코인 뉴스 제목 영역입니다.코인 뉴스 제목 영역입니다.</p>
-                        <span>2022.06.09</span>
-                    </div>
-                </div>
+                <table id="coin">
+                    <thead>
+                    </thead>
+                    <tbody>
+                        <c:choose>
+                            <c:when test="${list.size()>0}">
+                                <c:forEach var="vo" items="${list}">
+                                    <tr>
+                                        <td><a href="${vo.link}">${vo.title}</a></td>
+                                        <td name="date"></td>
+                                    </tr>
+                                </c:forEach>
+                            </c:when>
+                        </c:choose>
+                    </tbody>
+                </table>
             </div>
             <!-- //코인 뉴스=========================== -->
         </div>

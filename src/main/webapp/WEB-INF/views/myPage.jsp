@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="CP" value="${pageContext.request.contextPath }"></c:set>
 <c:set var="resources" value="/resources"></c:set>
@@ -8,6 +9,42 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
+    <!-- jQuery cdn -->
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    
+    <script type="text/javascript">
+    
+    $(document).ready(function(){
+    	
+    	let settings = {
+    			  "async": true,
+    			  "crossDomain": true,
+    			  "url": "https://api.upbit.com/v1/trades/ticks?market=%20KRW-BTC&count=1",
+    			  "method": "GET",
+    			  "headers": {
+    			    "Accept": "application/json"
+    			  }
+    			};
+
+    		$.ajax(settings).done(function (response) {
+    		  console.log(response);
+              let htmlData = "";
+          
+                  //htmlData += "<tr>                                                                                       ";
+                 // htmlData += " <td class='text-center col-sm-1 col-md-1 col-lg-1'>"+ response.trade_date_utc +"</td>      ";
+                 // htmlData += "<tr>                                                                                       ";
+                 // htmlData += " <td class='text-left   col-sm-2 col-md-2 col-lg-2'>"+ response.trade_time_utc +"</td> ";
+                 // htmlData += " <td class='text-left   col-sm-2 col-md-2 col-lg-2'>"+ response.trade_price +"</td>";
+                 // htmlData += "<tr>                                                                                       ";
+                  
+                  $("#myCoin").append(htmlData);
+                  
+              });
+    		  
+    		});
+    		
+    		
+	</script>
 <style>
 @import
 	url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap')
@@ -226,13 +263,13 @@ h3 {
 			               
 			               2. 알림의 종류가 정확히 뭔지 모르겠음... 거래 체결 알림만 있는 건지,,, 그 외 알림도 있는 건지..?
 			    -->
-					<label class="userNewsContext">{거래 상태} 알림 - {거래 대상 암호 화폐명}
-						{거래 결과}가 체결되었습니다. ({거래 체결가})</label> <label class="userNewsTime">{알림
-						시간 형식: YYYY-MM-DD HH:mm}</label><br /> <label class="userNewsContext">거래
-						체결 알림 - 비트코인 매수가 체결되었습니다. (1234.1234)</label> <label class="userNewsTime">2022-06-06
-						00:00</label><br /> <label class="userNewsContext">거래 체결 알림 - 비트코인
-						매도가 체결되었습니다. (1234.1234)</label> <label class="userNewsTime">2022-06-06
-						00:00</label><br />
+					<label id="myCoin" class="userNewsContext">{거래 상태} 알림 - {거래 대상 암호 화폐명}
+						{거래 결과}가 체결되었습니다. ({거래 체결가})</label>
+					<label class="userNewsTime">{알림시간 형식: YYYY-MM-DD HH:mm}</label><br /> 
+					<label class="userNewsContext">거래체결 알림 - 비트코인 매수가 체결되었습니다. (1234.1234)</label> 
+					<label class="userNewsTime">2022-06-0600:00</label><br /> 
+					<label class="userNewsContext">거래 체결 알림 - 비트코인매도가 체결되었습니다. (1234.1234)</label> 
+					<label class="userNewsTime">2022-06-0600:00</label><br />
 				</div>
 				<!--// userNewsDiv end -------------------------------------------------->
 			</div>

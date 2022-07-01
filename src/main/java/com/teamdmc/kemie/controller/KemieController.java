@@ -8,13 +8,6 @@ public class KemieController {
 	
 	public KemieController() {}
 	
-	@RequestMapping("/mainPage.do")  
-	public String mainPage() {
-		System.out.println("메인 테스트입니다 메인 테스트입니다.");
-		
-		return "mainPage";
-	}
-	
 	@RequestMapping("/balancesPage.do")  
 	public String balancesPage() {
 		/*
