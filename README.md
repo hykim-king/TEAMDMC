@@ -30,6 +30,14 @@
 ***
   
   
+## :sparkles::sunglasses:teamDMC:sunglasses::sparkles:
+![KEMIE_CREW](https://github.com/hykim-king/TEAMDMC/blob/main/img/teamTest.png)
+ 
+  
+  
+***
+  
+  
 ## :key:화면설계서:key:
 [KEMIE_화면설계서]    (url 첨부)   
 
@@ -117,7 +125,7 @@
   
   
   
-## Logo
+## :name_badge:LOGO:name_badge:
 ![KEMIE_LOGO](https://github.com/hykim-king/TEAMDMC/blob/main/img/kemieLOGO.png)      
   
 </div>
