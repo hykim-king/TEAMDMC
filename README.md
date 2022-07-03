@@ -31,7 +31,7 @@
   
   
 ## :sparkles::sunglasses:teamDMC:sunglasses::sparkles:
-![KEMIE_CREW](https://github.com/hykim-king/TEAMDMC/blob/main/img/teamDMCTest.png)
+![KEMIE_CREW](https://github.com/hykim-king/TEAMDMC/blob/main/img/maybelast.png)
  
   
   
@@ -124,6 +124,7 @@
     
 [비트로 코어 폰트](http://vitro.co.kr/vitro/font.html)    
 [샌드박스 어그로 폰트](https://sandbox.co.kr/fonts/aggro)    
+[LAB 디지털 폰트](https://fontlab.kr/%eb%ac%b4%eb%a3%8c%ed%8f%b0%ed%8a%b8-%eb%8b%a4%ec%9a%b4%eb%a1%9c%eb%93%9c/)
   
   
   
