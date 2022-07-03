@@ -31,7 +31,7 @@
   
   
 ## :sparkles::sunglasses:teamDMC:sunglasses::sparkles:
-![KEMIE_CREW](https://github.com/hykim-king/TEAMDMC/blob/main/img/teamTest.png)
+![KEMIE_CREW](https://github.com/hykim-king/TEAMDMC/blob/main/img/teamDMCTest.png)
  
   
   
