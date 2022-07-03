@@ -120,8 +120,10 @@
   
 
 ## :paperclip:Links:paperclip:
-[업비트 API](https://docs.upbit.com/reference/)   
-  기타 등등 url 등등 첨부하기      
+[업비트 API](https://docs.upbit.com/reference/)    
+    
+[비트로 코어 폰트](http://vitro.co.kr/vitro/font.html)    
+[샌드박스 어그로 폰트](https://sandbox.co.kr/fonts/aggro)    
   
   
   
