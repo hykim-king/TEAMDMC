@@ -97,7 +97,7 @@
 ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)      
   
 
-  mybatis도 추가할 수 있으면 추가할 예정~
+  +mybatis
   
 ***
   
