@@ -13,6 +13,9 @@
 <!--스타일 시트 -->
 <!-- jQuery cdn -->
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.highcharts.com/stock/highstock.js"></script>
+<script src="https://code.highcharts.com/stock/modules/data.js"></script>
+<script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
 <style>
 @import
 	url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap')
@@ -252,8 +255,8 @@ th {
 <!--자바스크립트 코드 -->
 <script type="text/javascript">
     $(document).ready(function() { /* a태그의 id의 마지막 문자열을 추출하여 원하는 div on */
-        
-    	let settings = {
+        //업비트 오픈 소스 시작
+    	/*  let settings = {
     			  "async": true,
     			  "crossDomain": true,
     			  "url": "https://api.upbit.com/v1/candles/minutes/1?market=KRW-BTC&count=30",
@@ -284,15 +287,51 @@ th {
     			  htmlData += "     <td class='text-left   col-sm-2 col-md-2 col-lg-2'>"+ response[i].market +"</td>                 ";
                   htmlData += "     <td class='text-left   col-sm-2 col-md-2 col-lg-2'>"+ response[i].candle_date_time_kst +"</td>                 ";
                   htmlData += "     <td class='text-left   col-sm-2 col-md-2 col-lg-2'>"+ response[i].candle_acc_trade_price +"</td>               ";
+                  htmlData += "     <td class='text-left   col-sm-2 col-md-2 col-lg-2'>"+ response[i].opening_price +"</td>                 ";
+                  htmlData += "     <td class='text-left   col-sm-2 col-md-2 col-lg-2'>"+ response[i].high_price +"</td>               ";
+                  htmlData += "     <td class='text-left   col-sm-2 col-md-2 col-lg-2'>"+ response[i].low_price +"</td>                 ";
+                  htmlData += "     <td class='text-left   col-sm-2 col-md-2 col-lg-2'>"+ response[i].trade_price +"</td>               ";
                   htmlData += "<tr>                                                                                                                ";
     	               }
     	            }
     			  
     			  $(".coinGraph").append(htmlData);
-    			});
-    	
-    	
-    	/* let settings = {
+    			});  */
+    			
+     				  $('#coinPrice2 th').each(function (column) {
+    				    $(this).click(function() {
+    				    	console.log($(this)+"clicked!");
+    				    	
+    				      if($(this).is('.asc')) {
+    				        $(this).removeClass('asc');
+    				        $(this).addClass('desc');
+    				        sortdir=-1;
+
+    				        } else {
+	    				        $(this).addClass('asc');
+	    				        $(this).removeClass('desc'); sortdir=1;
+	    				    }
+
+    				      $(this).siblings().removeClass('asc');
+    				      $(this).siblings().removeClass('desc');
+
+    				      var rec = $('#coinPrice2').find('tbody>tr').get();
+    				      console.log(rec);
+    				      
+    				      
+    				      rec.sort(function(a, b)  {
+    				    	  if(a > b) return 1;
+    				    	  if(a === b) return 0;
+    				    	  if(a < b) return -1;
+    				    	});
+
+    				      $.each(rec, function(index, row) {
+    				          $('#coinPrice2 tbody').append(row);
+    				      });
+    				    });
+     				  });
+     				  
+    	let settings = {
     			  "async": true,
     			  "crossDomain": true,
     			  "url": "https://api.upbit.com/v1/market/all?isDetails=false",
@@ -313,7 +352,7 @@ th {
                let str = (response[i].market).substring(0, (response[i].market).indexOf('-'));
                let arr;
                if( str == 'KRW' ) {
-            	     arr = response[i].korean_name;
+            	     arr = response[i].market;
                      marketNames += response[i].market + '%2C';
                }
             }
@@ -330,27 +369,123 @@ th {
                     }
             };
             $.ajax(settings).done(function (data) {
-            	console.log('fart2222');
             	console.log(data);
-            	
-            	
             	
             	for(i=0; i<data.length; i++){
             		
             		var no = Math.ceil(data[i].acc_trade_price_24h/1000000);
             		no = String(no).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            		
             		htmlData += "<tr>                                                                                                                ";
-            		htmlData += "     <td class='text-left   col-sm-2 col-md-2 col-lg-2'>"+ response[i].korean_name +"</td>                          ";
+            		htmlData += "     <td class='text-left   col-sm-2 col-md-2 col-lg-2'>"+ data[i].market +"</td>                          ";
                     htmlData += "     <td class='text-left   col-sm-2 col-md-2 col-lg-2'>"+ data[i].trade_price +"</td>                              ";
                     htmlData += "     <td class='text-left   col-sm-2 col-md-2 col-lg-2'>"+ (data[i].signed_change_rate*100).toFixed(3)  +"%</td>    ";
                     htmlData += "     <td class='text-left   col-sm-2 col-md-2 col-lg-2'>"+ no +"백만</td>                       ";
                     htmlData += "<tr>                                                                                                                ";
             	}
             	$(".fullCoin").append(htmlData);
-            });  
+            }); 
+        }); 
+             
+           
+             
+           /* 전체 체결 내역
+             let settings = {
+                     "async": true,
+                     "crossDomain": true,
+                     "url": "https://api.upbit.com/v1/market/all?isDetails=false",
+                     "method": "GET",
+                     "headers": {
+                     "Accept": "application/json"
+                     }
+           };
+           $.ajax(settings).done(function (response) {
+               let i = 0;
+               let htmlData = "";
+               let marketNames = "";
+               $(".mainExchangeTabContextDivCaVote").empty();
+               
+               console.log(response);
+               
+               for(i=0; i<response.length; i++){
+                  let str = (response[i].market).substring(0, (response[i].market).indexOf('-'));
+                  let arr;
+                  if( str == 'KRW' ) {
+                        arr = response[i].market;
+                        marketNames += response[i].market + '%2C';
+                  }
+               }
+               
+               marketNames = marketNames.substr(0, marketNames.length-3);
+
+               let settings = {
+                       "async": true,
+                       "crossDomain": true,
+                       "url": "https://api.upbit.com/v1/trades/ticks?market=KRW-BTC&count=10",
+                       "method": "GET",
+                       "headers": {
+                         "Accept": "application/json"
+                       }
+               };
+               $.ajax(settings).done(function (data) {
+                   console.log(data);
+                   
+                   for(i=0; i<data.length; i++){
+                       
+                       
+                       htmlData += "<tr>                                                                                                        ";
+                       htmlData += "     <td class='text-left   '>"+ data[i].trade_date_utc +'-'+ data[i].trade_time_utc +"</td>                ";
+                       htmlData += "     <td class='text-left   '>"+ response[0].market+"</td>                                                 ";   
+                       htmlData += "     <td class='text-left   '>"+ data[i].trade_price +"</td>                                               ";  
+                       htmlData += "     <td class='text-left   '>"+ data[i].trade_volume +"</td>                                               ";   
+                       htmlData += "<tr>                                                                                                        ";
+                   }
+                   $(".mainExchangeTabContextDivCaVote").append(htmlData);
+               });  
+             
+            
+                   });
+           */
+                          
+            //호가창
+			/*	const settings = {
+				  "async": true,
+				  "crossDomain": true,
+				  "url": "https://api.upbit.com/v1/orderbook?markets=KRW-BTC",
+				  "method": "GET",
+				  "headers": {
+				    "Accept": "application/json"
+				  }
+				};
+				
+				$.ajax(settings).done(function (response) {
+					let i = 0;
+                    let htmlData = "";
+                    let marketNames = "";
+                    $(".mainExchangeTabContextDivCaVote").empty();
+                    
+                  console.log(response);
+                  
+                  for(i=0; i<response.length; i++){
+                      
+                      
+                      htmlData += "<tr>                                                                                                                ";
+                      htmlData += "     <td class='text-left   col-sm-2 col-md-2 col-lg-2'>"+ response[i].trade_date_utc+"</td>                          ";
+                      htmlData += "     <td class='text-left   col-sm-2 col-md-2 col-lg-2'>"+ response[i].trade_price +"</td>                              ";
+                      htmlData += "     <td class='text-left   col-sm-2 col-md-2 col-lg-2'>"+ response[i].trade_time_utc  +"</td>                              ";
+                      htmlData += "     <td class='text-left   col-sm-2 col-md-2 col-lg-2'>"+ response[i].trade_volume+"%</td>    ";
+                      htmlData += "     <td class='text-left   col-sm-2 col-md-2 col-lg-2'>"+ response[i].ask_bid +"</td>                       ";
+                      htmlData += "<tr>                                                                                                                ";
+                  }
+                  $(".realTransaction").append(htmlData);
+				});
+            });
+        */
+
+             //호가창
+            //업비트 오픈소스 끝
             
             
-        }); */
     	$(".mainExchangeTab li[id *= 'mET']").click(function() {
 	    	let mETLastWord = ($(this).attr("id")).substr(($(this).attr("id")).length - 1);
 	    	
@@ -430,9 +565,9 @@ th {
 	            default:
 	                console.log("선언되지 않은 div");
 	                return;
-		 	}
+	        }
 		});
-    });
+	});
 </script>
 </head>
 <body>
@@ -452,10 +587,10 @@ th {
 				<!-- //코인그래프 끝 -->
 				<!-- 코인시세 -->
 				<div class="coinPrice">
-	                <table class="">
+	                <table id="coinPrice2" class="tablesorter">
 	                    <thead class="priceIndex">
 	                       <tr>
-                             <th><a href="#">한글명<img src="${CP_RES}/img/exchange.icon1.png" alt=""></a></th>
+                             <th><a href="#">코인명</a></th>
                              <th><a href="#">현재가<img src="${CP_RES}/img/exchange.icon2.png" alt=""></a></th>
                              <th><a href="#">전일대비<img src="${CP_RES}/img/exchange.icon2.png" alt=""></a></th>
                              <th><a href="#">거래대금<img src="${CP_RES}/img/exchange.icon2.png" alt=""></a></th>
@@ -654,32 +789,34 @@ th {
 							<!-- //mainExchangeTabContextDivCAnOpenVote 끝 -->
 							<!-- mainExchangeTabContextDivCaVote -->
 							<div class="mainExchangeTabContextDivCaVote">
+							
 								<table class="aVote">
 									<tr>
-										<th rowspan="2">주문시간</th>
-										<th>마켓명</th>
-										<th>체결가격</th>
-										<th rowspan="2">체결수량</th>
+										<td rowspan="2">주문시간</td>
+										<td>마켓명</td>
+										<td>체결가격</td>
+										<td rowspan="2">체결수량</td>
 									</tr>
 									<tr>
-										<th>구분</th>
-										<th>체결금액</th>
+										<td>구분</td>
+										<td>체결금액</td>
 									</tr>
 								</table>
 								<table class="nothing">
 									<tr>
-										<th rowspan="2">2022.06.22<br>13:22
-										</th>
-										<th>비트코인</th>
-										<th>5,000,000</th>
-										<th rowspan="2">30</th>
+										<td rowspan="2">2022.06.22<br>13:22
+										</td>
+										<td>비트코인</td>
+										<td>5,000,000</td>
+										<td rowspan="2">30</td>
 									</tr>
 									<tr>
-										<th>체결</th>
-										<th>5,000,000</th>
+										<td>체결</td>
+										<td>5,000,000</td>
 									</tr>
 								</table>
-
+							  	
+ 
 							</div>
 							<!-- //mainExchangeTabContextDivCaVote 끝 -->
 						</div>
