@@ -14,6 +14,10 @@
 
 <!-- jQuery cdn -->
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <!-- 사용자 정의 function, ISEmpty -->
+    <script src="${CP_RES}/js/eUtil.js"></script>
+    <!-- 사용자 정의 function, callAjax -->
+    <script src="${CP_RES}/js/eclass.js"></script>
 
 <!--reset 스타일 시트 -->
 <!-- <link rel="stylesheet" type="text/css" href="/studyhtml5/asset/css/reset.css"> -->
@@ -116,7 +120,7 @@
 	padding-top: 20px;
 }
 
-.bt button {
+.bt input {
 	background: white;
 	border: 1px solid #333;
 	border-radius: 2px;
@@ -125,37 +129,117 @@
 }
 </style>
 
-<title>Insert title here</title>
-
+<title>KEMIE-로그인</title>
+            
+        <script type="text/javascript">
+      $(document).ready(function(){
+        console.log("document.ready");  
+        
+        
+        //숫자만 입력
+        //속성
+        // $("input:text[numberOnly]").on("keyup",function(e){
+        //      console.log("$(this).val():"+$(this).val());  
+        //});
+        
+        //검색어 Enter
+/*         $("#passwd").on("keypress",function(e){
+            console.log("passwd"+e.which);  
+            if(13==e.which){
+                e.preventDefault();
+              //trigger통한 호출: 로그인 호출
+                $( "#doLogin" ).trigger( "click" );
+            }
+        }); */
+        
+        
+        $("#doLogin").on("click",function(){
+            console.log("doLogin");
+            
+            if(eUtil.ISEmpty($("#uId").val())){
+                alert("아이디를 입력 하세요.")
+                $("#uId").focus();
+                return;
+            }
+            
+            if(eUtil.ISEmpty($("#passwd").val())){
+                alert("비밀번호를 입력 하세요.")
+                $("#passwd").focus();
+                return;
+            }           
+            
+            if(confirm("로그인 하시겠습니까?")==false)return;
+            
+            let url = "${CP}/login/doLogin.do";
+            let method = "POST";
+            let async  = true;
+            let parameters = {
+                    "uId": $("#uId").val(),
+                    "passwd":$("#passwd").val()
+            };
+            
+            EClass.callAjax(url, parameters, method, async, function(data) {
+                
+                if("10" == data.msgId){//ID확인
+                    alert(data.msgContents);
+                    $("#uId").focus();
+                }else if("20" == data.msgId){//비번확인
+                    alert(data.msgContents);
+                    $("#passwd").focus();
+                }else if("30" == data.msgId){//id/비번 통과
+                    alert(data.msgContents);
+                    //특정페이지로 이동: main
+                    
+                    window.location.href ="${CP}/main/mainView.do";
+                    
+                }else{
+                    alert(data.msgContents);
+                    $("#uId").focus();
+                } 
+                
+            });
+            
+        });//doLogin========================================
+        
+/*         
+        $("#forgetPw").on("click", function() {
+            console.log("forgetPass");
+        });
+        
+         */  
+      });
+    </script>
+    
 </head>
 
 <body>
-	<%@include file="header.jsp" %>
-	<script type="text/javascript" src="${CP_RES}/js/header.js"></script>
-	<div id="wrap">
-		<form action="#" class="LoginFrm">
-
-			<h1>로그인</h1>
-			<div class="loginbox">
-				<div class="idbox">
-					<label for="id">아이디</label> <input id="id" type="text"
-						placeholder="아이디를 입력하세요">
-					<p class="msgErr1">아이디를 입력하세요.</p>
-				</div>
-				<div class="pwbox">
-					<label for="password">비밀번호</label> <input id="password"
-						type="password" placeholder="비밀번호를 입력하세요">
-					<p class="msgErr2">아이디 또는 비밀번호를 잘못 입력했습니다.</p>
-				</div>
-			</div>
-
-			<div class="bt">
-				<button id="btnForgetPw">비밀번호찾기</button>
-				<button id="btnLogin">로그인</button>
-			</div>
-
-		</form>
-	</div>
-	<%@include file="footer.jsp" %>
+    <%@include file="header.jsp" %>
+    <script type="text/javascript" src="${CP_RES}/js/header.js"></script>
+    <div id="wrap">
+        <form action="${CP}/login/doLogin.do" class="LoginFrm" method="post">
+            <h1>로그인</h1>
+            <!-- 아이디, 비밀번호 미 입력시 validation -->
+            <div class="loginbox">
+                <div class="idbox">
+                    <label for="uId">아이디</label> 
+                    <input id="uId" type="text" placeholder="아이디를 입력하세요">
+                    <p class="msgErr1">아이디를 입력하세요.</p>
+                </div>
+                <div class="pwbox">
+                    <label for="passwd">비밀번호</label>
+                    <input id="passwd" type="password" placeholder="비밀번호를 입력하세요">
+                    <p class="msgErr2">아이디 또는 비밀번호를 잘못 입력했습니다.</p>
+                </div>
+            </div>
+            <div class="bt">
+                <input type="button" value="비밀번호 찾기" name="forgetPw" id="forgetPw" >
+                <input type="button" value="로그인" name="doLogin" id="doLogin" onclick="doLogin();" >
+<!--                 <button id="forgetPw">비밀번호찾기</button>
+                <button id="doLogin">로그인</button> -->
+            </div>
+        </form>
+    </div>
+    <%@include file="footer.jsp" %>
+    
 </body>
 </html>

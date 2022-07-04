@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.teamdmc.kemie.cmn.DTO;
+import com.teamdmc.kemie.cmn.MessageVO;
 import com.teamdmc.kemie.dao.UserDao;
 import com.teamdmc.kemie.user.domain.UserVO;
 
@@ -99,6 +100,11 @@ public class userServiceImpl implements userService {
 	@Override
 	public UserVO doSelectOne(UserVO inVO) throws SQLException {
 		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public MessageVO idPassCheck(UserVO inVO) throws SQLException {
 		return null;
 	}
 
