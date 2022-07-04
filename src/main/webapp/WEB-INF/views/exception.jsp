@@ -51,7 +51,7 @@
     <!-- 내용 -->
     <div id="wrap">
        <div class="exception">
-            <div class="imgBox"><img src="/img/kemieLOGO.png"></div>
+            <div class="imgBox"><img src="${CP_RES}/img/kemieLOGO.png"></div>
             <div class="msgBox">
                 <h3>요청 과정에서 에러가 발생했습니다.</h3>
                     <p>상태 코드 : <c:out value="${requestScope['javax.servlet.error.status_code'] }"/> </p>

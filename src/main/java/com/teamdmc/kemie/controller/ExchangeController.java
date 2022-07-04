@@ -15,26 +15,12 @@
 * </pre>
 */
 package com.teamdmc.kemie.controller;
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.util.EntityUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.teamdmc.kemie.upbit.domain.MinitesCandleVO;
-​
-​
+
 /**
  * @author Choi Jong Hee
  *

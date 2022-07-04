@@ -50,6 +50,7 @@
 	top: 50%;
 	transform: translate(-50%, -50%);
 }
+
 /* 사용자 보유 자산 div */
 #userBalancesDiv {
 	width: 30%;
@@ -263,7 +264,7 @@ td:nth-child(3) {
 }
 </style>
 
-<title>Insert title here</title>
+<title>Insert 바구 here</title>
 <!-- reset.css를 직접참조하여 가져오기 
         <link rel="stylesheet" type="text/css" href="/studyhtml5/asset/css/reset.css"> -->
 
@@ -274,24 +275,29 @@ td:nth-child(3) {
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 
 <!-- 직접참조하여 favicon설정 -->
-<link rel="shortcut icon" type="image/x-icon"
-	href="/studyhtml5/favicon.ico">
+<link rel="shortcut icon" type="image/x-icon" href="/studyhtml5/favicon.ico">
 
 <!-- 자바스크립트 -->
 <script type="text/javascript">
             /* 자바스크립트 코드 */
             $(document).ready(function(){
-                console.log('PCWK *** document');
-                
-                $(".uBTBody tr[id *= 'tr']").click(function(){
+            	
+                $(".uBTBody>tr").click(function(){
                     console.log($(this), "click!");
-                    let trLastWord = ($(this).attr("id")).substr(($(this).attr("id")).length-3);
+
+                    if($(this).children().eq(0).text() == "KRW"){
+                    	$('.mainBalancesTitle').text('KRW 입출금');
+                    	$('.mainBalancesContextValueDivOwn').text('보유금액');
+                    	$('#mBTa').children().eq(0).text('KRW충전');
+                    }
+                    else {
+                    	$('.mainBalancesTitle').text($(this).children().eq(0).text()+' 입출금');
+                    	$('.mainBalancesContextValueDivOwn').text('보유수량');
+                    	$('#mBTa').children().eq(0).text('입금주소');
+                    }
                     
-                    console.log("trLastWord: ", $(trLastWord));
-                    
-                    $('.mainBalancesContextValueDivOwnValue').text(trLastWord);
-                    $('.mainBalancesContextValueDivWaitValue').text(trLastWord);
-                    console.log("change succed");
+                    $('.mainBalancesContextValueDivOwnValue').text($(this).children().eq(1).text()+" "+$(this).children().eq(0).text());
+                    $('.mainBalancesContextValueDivWaitValue').text($('.uBTBody').children().eq(0).val()+" "+$(this).children().eq(0).text());
                 });
                 
                 /* a태그의 id의 마지막 문자열을 추출하여 원하는 div on */
@@ -339,6 +345,11 @@ td:nth-child(3) {
                             return;
                     }
                 });
+
+                $("#userBalancesDiv").click(function(){  
+                	console.log("clickeD166623!!");
+                	/* console.log("response == "+${response.currency}); */
+                });
                 
                 $(".amountBtn").click(function(){
                 	console.log(".amountBtn Clicked!!");
@@ -362,7 +373,7 @@ td:nth-child(3) {
 	                	  
 	                	  for(i=0; i<response.length; i++){
 	                		  let str = (response[i].market).substring(0, (response[i].market).indexOf('-'));
-	                		    
+	                		  
 	                		  if( str == 'KRW' ) {
 	                			  htmlData += "<tr>                                                                           ";
 	                              htmlData += "     <td class='text-center col-sm-1 col-md-1 col-lg-1'>"+ response[i].market +"</td>   ";
@@ -410,7 +421,7 @@ td:nth-child(3) {
 				<!-- userTotalBalances ------------------------------------------------>
 				<div class="userTotalBalances">
 					<h3 class="uTB">총 보유 자산</h3>
-					<h3 class="uTB">{보유금액}원</h3>
+					<h3 class="uTB">${sum} 원</h3>
 				</div>
 				<!-- userTotalBalances end -------------------------------------------->
 
@@ -421,48 +432,30 @@ td:nth-child(3) {
 						<thead>
 							<tr>
 								<td>코인명</td>
-								<td>보유 비율</td>
-								<td>보유 수량(평가 금액)</td>
-							</tr>
-							<tr>
-								<td>{코인 이름}</td>
-								<td>{보유 비율}</td>
-								<td>{보유 수량} {단위}</td>
+								<td>보유 수량</td>
+								<td>평가 금액</td>
 							</tr>
 						</thead>
 						<tbody class="uBTBody">
-
-							<tr id="trKRW">
-								<td>원화</td>
-								<td>12.34%</td>
-								<td>10,000 KRW</td>
-							</tr>
-							<tr id="trBTC">
-								<td>BTC</td>
-								<td>12.34%</td>
-								<td>40.00 BTC</td>
-							</tr>
 							<c:choose>
-                            <%-- data가 있는 경우 --%>
-                            <c:when test="${list.size()>0}">
-                                <c:forEach var="vo" items="${list }">
-                                    <tr>
-                                        <td class="text-center col-sm-1 col-md-1 col-lg-1">${vo.num }</td>
-                                        <td class="text-left   col-sm-2 col-md-2 col-lg-2">${vo.uId }</td>
-                                        <td class="text-left   col-sm-2 col-md-2 col-lg-2">${vo.name }</td>
-                                        <td class="text-center col-sm-2 col-md-2 col-lg-2">${vo.level }</td>
-                                        <td class="text-left   col-sm-3 col-md-3 col-lg-3">${vo.email }</td>
-                                        <td class="text-center col-sm-2 col-md-2 col-lg-2">${vo.regDt }</td>
-                                    </tr>
-                                </c:forEach>
-                            </c:when>
-                            <%-- data가 없는 경우 --%>
-                            <c:otherwise>
-                                <tr>
-                                    <td colspan="99" class="text-center">no data found</td>
-                                </tr>
-                            </c:otherwise>
-                        </c:choose>
+	                            <%-- data가 있는 경우 --%>
+	                            <c:when test="${list.size()>0}">
+	                                <c:forEach var="vo" items="${list }" varStatus="status">
+	                                    <input type="hidden" value="${vo.locked}">
+	                                    <tr>
+	                                        <td>${vo.currency }</td>
+	                                        <td>${vo.balance }</td>
+	                                        <td>${Math.round(mListList.get(status.index).get(0).getTrade_price() * vo.balance)} ${vo.unit_currency}</td>
+	                                    </tr>
+	                                </c:forEach>
+	                            </c:when>
+	                            <%-- data가 없는 경우 --%>
+	                            <c:otherwise>
+	                                <tr>
+	                                    <td colspan="99" class="text-center">no data found</td>
+	                                </tr>
+	                            </c:otherwise>
+                            </c:choose>
 						</tbody>
 					</table>
 					<!--// userBalances table end ------------------------------------->
@@ -485,8 +478,8 @@ td:nth-child(3) {
 				<!-- userBalances tr요소 클릭시 선택된 코인에 따라 내용이 변동됨 -------------------->
 				<div class="mainBalancesContext">
 					<div class="temp">
-						<label class="mainBalancesContextValueDivOwn">보유금액</label><label
-							class="mainBalancesContextValueDivOwnValue">0 KRW</label>
+						<label class="mainBalancesContextValueDivOwn">보유금액</label>
+						<label class="mainBalancesContextValueDivOwnValue">0 KRW</label>
 					</div>
 					<div class="temp">
 						<label class="mainBalancesContextValueDivWait">거래대기</label><label
