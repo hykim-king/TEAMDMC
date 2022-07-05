@@ -13,10 +13,15 @@
     <script src="${CP_RES }/js/eUtil.js"></script>
     <!-- 사용자 정의 function, callAjax -->
     <script src="${CP_RES }/js/eclass.js"></script>
-    <script type="text/javascript">
+    <!-- google chart  -->
+    <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+ <script type="text/javascript">
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawCharts);
+    console.log(google.charts)
     
-    $(document).ready(function(){
-        
         let settings = {
                 "async": true,
                 "crossDomain": true,
@@ -30,9 +35,8 @@
         $.ajax(settings).done(function (response) {
             let htmlData = "";
             let array = [0, 1, 32, 47, 249, 232];
-        
+            
             for(let i = 0; i < array.length; i++){
-                
                 $("#coin"+(i+1)).empty();
                 
                 let value = array[i];
@@ -50,90 +54,53 @@
             }
             
         });
-
-        for(let a = 0; a < 6; a++){
-            let marketArr = ["KRW-BTC", "KRW-ETH", "KRW-XRP", "KRW-ADA", "KRW-SOL", "KRW-DOGE"];
-            let settings2 = {
-                    "async": true,
-                      "crossDomain": true,
-                      "url": "https://api.upbit.com/v1/candles/minutes/1?market="+marketArr[a]+"&count=1",
-                      "method": "GET",
-                      "headers": {
-                      "Accept": "application/json"
-                      }
-            };
         
-            $.ajax(settings2).done(function (response1) {
+        function drawCharts() {
+            for(let a = 0; a < 6; a++){
+                let marketArr = ["KRW-BTC", "KRW-ETH", "KRW-XRP", "KRW-ADA", "KRW-SOL", "KRW-DOGE"];
+                let marketkoreaArr = ["비트코인", "이더리움", "리플", "에이다", "솔라나", "도지코인"];
+                let settings2 = {
+                        "async": true,
+                        "crossDomain": true,
+                        "url": "https://api.upbit.com/v1/candles/minutes/60?market="+marketArr[a]+"&count=30",
+                        "method": "GET",
+                        "headers": {
+                        "Accept": "application/json"
+                        }
+                };
+            
+                $.ajax(settings2).done(function (response1) {
                 let htmlData = "";
                 let array = [0, 1, 32, 47, 249, 232];
                 
-                for(let i = 0; i < array.length; i++){
-                    
-                    let value = array[i];
-                    htmlData += "<tr>                                                                                          ";
-                    htmlData += " <td class='text-left   col-sm-2 col-md-2 col-lg-2'>"+"시가 : "+response1[value].opening_price+ "</td>";
-                    htmlData += "<tr>                                                                                          ";
-                    htmlData += " <td class='text-left   col-sm-2 col-md-2 col-lg-2'>"+"고가 : "+response1[value].high_price+ "</td> ";
-                    htmlData += "<tr>                                                                                          ";
-                    htmlData += " <td class='text-left   col-sm-2 col-md-2 col-lg-2'>"+"저가 : "+response1[value].low_price+ "</td> ";
-                    htmlData += "<tr>                                                                                              ";
-                    htmlData += " <td class='text-left   col-sm-2 col-md-2 col-lg-2'>"+"종가 : "+response1[value].trade_price+ "</td> ";
-                    htmlData += "<tr>                                                                                           ";
-                    
-                    $("#coin"+(a+1)).append(htmlData);
-                    
-                    htmlData = "";
-                }
-            });
-        }
-        function convertDateFormat(date) {
-            let year = date.getFullYear();
-            let month = date.getMonth() + 1;
-            month = month >= 10 ? month : '0' + month;
-            let day = date.getDate();
-            day = day >= 10 ? day : '0' + day;
-            return [year, month, day].join('');
-        }
+                response1.reverse();
+                
+                // 업비트 캔들 데이터를 구글차트 캔들스틱 table 데이터 양식에 맞게 변경하는 작업
+                var candleData = response1.map(function(data) {
+                    var time = new Date(data.candle_date_time_kst);
+                    var printTime = `${time.getHours()}:00`
 
-        let pubdate = new Date();
-        let convertedDate = convertDateFormat(new Date());
-        console.log(pubdate);
-        console.log(convertedDate);  
-        
-        $("#date").append(convertedDate);
-      
-            /* 클릭 이벤트로 ajax
-            console.log("doRetrieve");
-            let url = "${CP}/naver/doRetrieve.do";
-            let method = "GET";
-            let async = true;
-            let parameters = {};
-            
-            EClass.callAjax(url, parameters, method, async, function(data) {
-                console.log("EClass.callAjax.data"+ data);
-                let parsedData = data;
-                let htmlData = ""; //동적으로 tbody아래 데이터 생성
+                    return [time, data.low_price, data.opening_price, data.trade_price, data.high_price];
+                });
+
+                // 현재 배열을 구글차트가 읽을 수 있는 DataTable 타입으로 변경
+                var visualizedData = google.visualization.arrayToDataTable(candleData, true);
+
+                var options = {
+                    legend: 'none',
+                    title: marketkoreaArr[a],
+                    titlePosition: 'out',
+                };
+
+                // 해당 element ID 에 차트를 출력
+                var chart = new google.visualization.CandlestickChart(document.getElementById('coin'+(a+1)));
+
+                chart.draw(visualizedData, options);
+            });  
                 
-                $("#blog_table > tbody").empty();//기존 데이터 삭제
                 
-                //조회 데이터가 있는 경우
-                if(null != parsedData && parsedData.length > 0){
-                    $.each(parsedData, function(i, item) {
-                        console.log("item"+ item);
-                        htmlData += " <tr>                                                                        ";
-                        htmlData += " <td class='text-left col-sm-7 col-md-7 col-lg-9'>  "+<c:out value='item.title'/>+"</td>   ";
-                        htmlData += " </tr>                                                                       ";
-                      });
-                }else{
-                    htmlData += " <tr>                                                      ";
-                    htmlData += "   <td colspan='99' class='text-center'>No data found</td> ";
-                    htmlData += " </tr>                                                     ";
-                }
-                //조회 데이터가 없는 경우
-                $("#blog_table > tbody").append(htmlData);
-                
-            }); */
-    });
+        }
+    }
         
     </script>
 <head>
@@ -155,13 +122,11 @@
     padding: 0;
     font-family: 'Noto Sans KR', sans-serif;
 }
-
 #wrap {
     width: 100%;
     height: calc(100vh - 80px);
     position: relative;
 }
-
 .box {
     width: 90%;
     position: absolute;
@@ -169,27 +134,21 @@
     left: 50%;
     transform: translate(-50%, -50%);
 }
-
 #coinGraph {
     width: 100%;
     height: 500px;
     margin: 0 auto;
 }
-
 .graphBox {
     margin-top: 20px;
     width: 100%;
     display: flex;
     justify-content: space-between;
 }
-
 .graph {
-    width: 30%;
+    width: 60%;
     height: 200px;
-    background: turquoise;
-    border: 1px solid #333;
 }
-
 #coinNews {
     width: 100%;
     height: 200px;
@@ -197,12 +156,10 @@
     border: 1px solid #333;
     margin-top: 30px;
 }
-
 #coinNews h2 {
     margin-top: 10px;
     margin-left: 10px;
 }
-
 .newsArea .newsone {
     display: flex;
     width: 90%;
