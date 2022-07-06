@@ -1,6 +1,6 @@
 package com.teamdmc.kemie.cmn;
 
-public class MessageVO {
+public class MessageVO extends DTO {
 	private String msgId;
 	private String msgContents;
 	

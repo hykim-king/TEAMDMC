@@ -4,8 +4,10 @@
   
   <resultMap type="UserInterestedVO" id="userInterestedCoinResultMap">
       <id      property="uicIndex"   column="uic_index"/>
-      <result  property="uicNameKor" column="uic_name_kor"/>
-      <result  property="uicNameEng" column="uic_name_eng"/>
+      <result  property="uicMarket" column="uic_market"/>
+      <result  property="uicNowPrice" column="uic_nowprice"/>
+      <result  property="uicToFixed" column="uic_tofixed"/>
+      <result  property="uicPrice24h" column="uic_price24h"/>
       <result  property="uId"        column="u_id"/>
   </resultMap>
     
@@ -68,12 +70,16 @@
 
   <insert id="doInsert" parameterType="UserInterestedVO">
      INSERT INTO user_interested_coin ( 
-        uic_name_kor,
-        uic_name_eng,
+        uic_market,
+	    uic_nowprice,
+	    uic_tofixed,
+	    uic_price24h,
         u_id
-     ) VALUES (              
-         #{uicNameKor},                  
-         #{uicNameEng},                  
+     ) VALUES (   
+         #{uicMarket},                  
+         #{uicNowPrice},  
+         #{uicToFixed},                  
+         #{uicPrice24h},                 
          #{uId}              
      )      
   </insert>

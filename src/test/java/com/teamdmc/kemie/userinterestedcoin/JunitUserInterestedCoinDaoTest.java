@@ -63,9 +63,9 @@ public class JunitUserInterestedCoinDaoTest {
 		
 		searchVO = new SearchVO(10, 1, "", "");
 		
-		uic01 = new UserInterestedVO(1, "한글_암호화폐_이름01", "영어_암호화폐_이름01", "userId01");
-		uic02 = new UserInterestedVO(2, "한글_암호화폐_이름02", "영어_암호화폐_이름02", "userId011");
-		uic03 = new UserInterestedVO(3, "한글_암호화폐_이름03", "영어_암호화폐_이름03", "userId012");
+		uic01 = new UserInterestedVO(1, "한글_암호화폐_이름01","","", "영어_암호화폐_이름01", "userId01");
+		uic02 = new UserInterestedVO(2, "한글_암호화폐_이름02","","", "영어_암호화폐_이름02", "userId011");
+		uic03 = new UserInterestedVO(3, "한글_암호화폐_이름03","","", "영어_암호화폐_이름03", "userId012");
 		
 		LOG.debug("dao: "+dao);
 		LOG.debug("context: "+context);
@@ -101,8 +101,10 @@ public class JunitUserInterestedCoinDaoTest {
 		
 		// [3] 데이터 수정
 		String modiStr = "_U";
-		uic01.setUicNameKor(uic01.getUicNameKor()+modiStr);
-		uic01.setUicNameEng(uic01.getUicNameEng()+modiStr);
+		uic01.setUicMarket(uic01.getUicMarket()+modiStr);
+		uic01.setUicNowPrice(uic01.getUicNowPrice()+modiStr);
+		uic01.setUicToFixed(uic01.getUicToFixed()+modiStr);
+		uic01.setUicPrice24h(uic01.getUicPrice24h()+modiStr);
 		uic01.setuId(uic01.getuId()+modiStr);
 
 		dao.doUpdate(uic01);
@@ -183,8 +185,10 @@ public class JunitUserInterestedCoinDaoTest {
 	}
 	
 	private void isSameuic(UserInterestedVO vsVO, UserInterestedVO orgVO) {
-		assertEquals(vsVO.getUicNameKor(), orgVO.getUicNameKor());
-		assertEquals(vsVO.getUicNameEng(), orgVO.getUicNameEng());
+		assertEquals(vsVO.getUicMarket(), orgVO.getUicMarket());
+		assertEquals(vsVO.getUicNowPrice(), orgVO.getUicNowPrice());
+		assertEquals(vsVO.getUicToFixed(), orgVO.getUicToFixed());
+		assertEquals(vsVO.getUicPrice24h(), orgVO.getUicPrice24h());
 		assertEquals(vsVO.getuId(), orgVO.getuId());
 	}
 }
