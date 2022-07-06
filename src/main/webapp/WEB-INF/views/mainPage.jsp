@@ -196,7 +196,6 @@
     width: 100%;
     height: 200px;
     margin: 0 auto;
-    border: 1px solid #333;
     margin-top: 30px;
 }
 #coinNews h2 {
@@ -212,6 +211,12 @@
 }
 #coin a{
     text-decoration: none; color: black;
+}
+.date{
+    text-align: right;
+}
+#coin{
+    width: 100%;
 }
 </style>
 <title>Insert title here</title>
@@ -255,7 +260,7 @@
                                 <c:forEach var="vo" items="${list}">
                                     <tr>
                                         <td><a href="${vo.link}">${vo.title}</a></td>
-                                        <td>${vo.pubDate}</td>
+                                        <td class="date">${vo.pubDate}</td>
                                     </tr>
                                 </c:forEach>
                             </c:when>
