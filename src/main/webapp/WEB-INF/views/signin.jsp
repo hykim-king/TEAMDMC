@@ -12,9 +12,10 @@
 
 <!-- jQuery cdn -->
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-
-<link rel="shortcut icon" type="image/x-icon"
-	href="/studyhtml5/favicon (3).ico">
+    <!-- 사용자 정의 function, ISEmpty -->
+    <script src="${CP_RES}/js/eUtil.js"></script>
+    <!-- 사용자 정의 function, callAjax -->
+    <script src="${CP_RES}/js/eclass.js"></script>
 
 <!--reset 스타일 시트 -->
 <!--<link rel="stylesheet" type="text/css" href="/studyhtml5/asset/css/reset.css">  -->
@@ -102,71 +103,223 @@
 	background: white;
 	border-radius: 2px;
 }
+
+ #idCheck{
+    width: 80px;
+    height: 30px;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 13px;
+    background: #38385d;
+    color: white;
+    float: right;
+ }
+
+ #nickCheck{
+    width: 80px;
+    height: 30px;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 13px;
+    background: #38385d;
+    color: white;
+    float: right;
+ }
+ 
 </style>
-<title>Insert title here</title>
+<title>KEMIE-회원가입</title>
+
+    <script type="text/javascript">
+    
+    $(document).ready(function(){
+/*         function checkForm() {
+            var empC = /\s/g;
+            var nameRegExp = /^[가-힣]{2,5}$/;
+            var idRegExp = /^[a-zA-z0-9]{4,20}$/;
+            var nickC = /^[가-힣]{2,4}|[a-zA-Z]{2,10}\s[a-zA-Z]{2,10}$/;
+            var pwRegExp = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{5,}$/;
+            var phoneExp /^01([0|1|6|7|8|9]?)?([0-9]{3,4})?([0-9]{4})$/;
+            }
+        }//checkForm========================================= */
+        
+        //=======등록
+        $("#doInsert").on("click",function(){
+            console.log("doInsert");  
+            
+            if(eUtil.ISEmpty($("#uId").val())){
+                alert("아이디를 입력하세요.");
+                $("#uId").focus();
+                return;                 
+            }
+            
+            if(eUtil.ISEmpty($("#passwd").val())){
+                alert("비밀번호를 입력하세요.");
+                $("#passwd").focus();
+                return;                 
+            }           
+            
+            if(eUtil.ISEmpty($("#passCheck").val())){
+                alert("비밀번호를 다시 입력하세요.");
+                $("#passCheck").focus();
+                return;                 
+            }
+            
+            if(eUtil.ISEmpty($("#name").val())){
+                alert("이름을 입력하세요.");
+                $("#name").focus();
+                return;                 
+            }  
+            
+            
+            if(eUtil.ISEmpty($("#pNum").val())){
+                alert("휴대폰 번호를 입력하세요.");
+                $("#pNum").focus();
+                return;                 
+            }    
+            
+            if(eUtil.ISEmpty($("#nick").val())){
+                alert("닉네임을 입력하세요.");
+                $("#nick").focus();
+                return;                 
+            }               
+            
+            if(confirm("등록 하시겠습니까?")==false )return;      
+            
+            let url = "${CP}/userinfo/doInsert.do";
+            let method = "POST";
+            let parameters = {
+                    "uId": $("#uId").val(),
+                    "passwd": $("#passwd").val(),
+                    "name": $("#name").val(),
+                    "pNum": $("#pNum").val(),
+                    "nick": $("#nick").val()
+/*                     "type": $("#type").val(),
+                    "regDt": $("#regDt").val() */
+            };
+            
+            let async;
+            EClass.callAjax(url,parameters,method,async,function(data){
+                console.log("data.msgId:"+data.msgId);
+                console.log("data.msgContents:"+data.msgContents);
+                if("1"==data.msgId){
+                    alert(data.msgContents);
+                //    doRetrieve(1);
+                }else{
+                    alert(data.msgContents);
+                }               
+                
+            });
+            
+        });//회원가입 등록========================================
+            
+         //id중복 Check : 등록된 경우만 동작!!!
+        $("#idCheck").on("click",function(){
+            console.log("idCheck");
+            if(eUtil.ISEmpty($("#uId").val())){
+                alert("아이디를 입력하세요.");
+                $("#uId").focus();
+                return;
+            }
+          
+            let url = "${CP}/userinfo/idCheck.do";
+            let method ="GET";
+            let async  = true;
+            
+            let parameters = {
+                    "uId": $("#uId").val()  
+            };
+            
+            EClass.callAjax(url, parameters, method, async, function(data) {
+                console.log('data:'+data);
+                if("1" == data.msgId){//id중복
+                    alert(data.msgContents); 
+                    //사용할수 없음
+                    $("#idCheckYN").val("0");
+                    
+                }else{//id사용 가능
+                    alert(data.msgContents); 
+                    //사용할수 있음
+                    $("#idCheckYN").val("1");                   
+                }
+            });
+        }); 
+        //idCheck============================================================= */
+        
+    });
+    //----------------------------------------------$(document).ready
+    </script>
+
 </head>
 <body>
-	<%@include file="header.jsp" %>
-	<script type="text/javascript" src="${CP_RES}/js/header.js"></script>
-	<!-- 내용 -->
-	<div id="wrap">
-		<div class="txtbox">
-			<h1>회원가입</h1>
-			<!-- id -->
-			<div class="box">
-				<label for="id">아이디</label> <input id="id" type="text"
-					placeholder="아이디를 입력하세요">
-				<p class="msgErr1">아이디 베리데이션 노출 영역.</p>
-			</div>
-			<!-- id ------------------------------------------------------->
-			<!-- passwd -->
-			<div class="box">
-				<label for="password">비밀번호</label> <input id="password"
-					type="password" placeholder="비밀번호를 입력하세요">
-				<p class="msgErr2">비밀번호 베리데이션 노출 영역.</p>
-			</div>
-			<!-- passwd --------------------------------------------------->
-			<!-- passwdCheck -->
-			<div class="box">
-				<label for="pwcheck">비밀번호 확인</label> <input id="pwcheck"
-					type="password" placeholder="비밀번호를 다시 입력하세요">
-				<p class="msgErr3">비밀번호 베리데이션 노출 영역.</p>
-			</div>
-			<!-- passwdCheck ---------------------------------------------->
-			<!-- name -->
-			<div class="box">
-				<label for="name">이름</label> <input id="name" type="text"
-					placeholder="이름을 입력해주세요">
-			</div>
-			<!-- name ----------------------------------------------------->
-			<!-- cell -->
-			<div class="box">
-				<label for="phone">휴대폰번호</label> <input id="phone" type="text"
-					placeholder="휴대폰번호를 입력해주세요">
-			</div>
-			<!-- cell ----------------------------------------------------->
-			<!-- nickName -->
-			<div class="box">
-				<label for="nickname">닉네임</label> <input id="nickname" type="text"
-					placeholder="닉네임을 입력해주세요">
-			</div>
-			<!-- nickName ------------------------------------------------->
-			<!-- button -->
-			<div class="gaib">
-				<input type="button" value="회원가입">
-			</div>
-			<!-- button --------------------------------------------------->
-		</div>
+    <%@include file="header.jsp" %>
+    <script type="text/javascript" src="${CP_RES}/js/header.js"></script>
+    
+    <!-- 내용 -->
+    <div id="wrap">
 
-	</div>
+        <div class="txtbox">
+            <h1>회원가입</h1>
+            <!-- id : 중복 확인 검사, 유효성 검사 필요 -->
+            <div class="box">
+                <input type="hidden" name="idCheckYN" id="idCheckYN">
+                <label for="uId">아이디</label> 
+                <input id="uId" type="text" placeholder="아이디를 입력하세요." required="required" maxlength="20" />
+                <input type="button" value="중복확인"  id="idCheck" name="idCheck" onclick="idCheck();" />
+                <p class="msgErr1">아이디 베리데이션 노출 영역.</p>
+            </div>
+            <!-- id ------------------------------------------------------->
+            
+            <!-- passwd -->
+            <div class="box">
+                <label for="passwd">비밀번호</label> 
+                <input name="pass" id="passwd" type="password" placeholder="비밀번호를 입력하세요." required="required" maxlength="20" />
+                <p class="msgErr2">비밀번호 베리데이션 노출 영역.</p>
+            </div>
+            <!-- passwd --------------------------------------------------->
+            
+            <!-- passCheck-->
+            <div class="box">
+                <label for="pwcheck">비밀번호 확인</label> 
+                <input id="passCheck" type="password" placeholder="비밀번호를 다시 입력하세요." required="required" maxlength="20" />
+                <p class="msgErr3">비밀번호 베리데이션 노출 영역.</p>
+            </div>
+            <!-- passCheck ---------------------------------------------->
+            
+            <!-- name -->
+            <div class="box">
+                <label for="name">이름</label> 
+                <input id="name" type="text" placeholder="이름을 입력하세요." required="required" maxlength="5" />
+            </div>
+            <!-- name ----------------------------------------------------->
+            
+            <!-- pNum : 휴대폰 : ^01(?:0|1|[6-9])-(?:\d{3}|\d{4})-\d{4}$ / 000-0000-0000 -->
+            <div class="box">
+                <label for="pNum">휴대폰번호</label> 
+                <input id="pNum" type="text" placeholder="ex) 010-xxxx-xxxx" required="required" />
+            </div>
+            <!-- pNum ----------------------------------------------------->
+            
+            <!-- nick : 영어 & 숫자만 : ^[a-zA-Z0-9]*$/20BYTE /로그인 시 아이디가 아닌 닉네임으로 보여줌-->
+            <div class="box">
+                <label for="nick">닉네임</label> 
+                <input id="nick" type="text" placeholder="닉네임을 입력하세요." required="required" maxlength="10" />
+                <input type="button" value="중복확인" id="nickCheck" name="nickCheck" onclick="nickCheck();" />
+            </div>
+            <!-- nick ------------------------------------------------->
+            
+            <!-- button -->
+                <form action="/doInsert.do" method="post" id="signFrm" >
+                <div class="gaib">
+                    <input type="button" value="회원가입" id="doInsert" name="doInsert" >
+                </div>
+                </form>
+            <!-- button --------------------------------------------------->
+        </div>
+ 
+    </div>
 
-	<%@include file="footer.jsp" %>
-	<!-- 내용 ----------------------------------------------------------->
-	<!--자바스크립트 코드 -->
-	<script type="text/javascript">
-    $(document).ready(function(){
-   
-     });   
-</script>
+    <%@include file="footer.jsp" %>
+    <!-- 내용 ----------------------------------------------------------->
+
 </body>
 </html>

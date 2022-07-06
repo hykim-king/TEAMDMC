@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import com.teamdmc.kemie.cmn.DTO;
+import com.teamdmc.kemie.cmn.MessageVO;
 import com.teamdmc.kemie.user.domain.UserVO;
 
 public interface userService {
@@ -15,6 +16,14 @@ public interface userService {
 	 * @throws SQLException
 	 */
 	public int passCheck(UserVO inVO) throws SQLException;
+	
+	/**
+	 * 아이디 비번확인
+	 * @param inVO
+	 * @return MessageVO
+	 * @throws SQLException
+	 */	
+	public MessageVO idPassCheck(UserVO inVO) throws SQLException;
 	
 	/**
 	 * 비밀번호 변경
