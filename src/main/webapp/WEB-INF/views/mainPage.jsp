@@ -101,6 +101,46 @@
                 
         }
     }
+        $(document).ready(function(){
+        	for(let i = 0; i <= 6; i++){
+		        $("#coin"+(i+1)).on("click", function(){
+		        	console.log("거래소");
+		        	window.location.href = "${CP}/exchange.do";
+		        });
+        	}
+            //paging
+            function renderingPage(pageTotal, page){
+                console.log("pageTotal : "+ pageTotal);//소숫점
+                console.log("page : "+ page);
+                
+                pageTotal = parseInt(pageTotal);
+                console.log("pageTotal : "+ pageTotal);//정수
+                
+                //이전 연결된 EventHandler 제거
+                $('#page-selection').unbind('page');
+                
+                $('#page-selection').bootpag({
+                    total: pageTotal,
+                    page: page,
+                    maxVisible: 10,
+                    leaps: true,
+                    firstLastUse: true,
+                    first: '←',
+                    last: '→',
+                    wrapClass: 'pagination',
+                    activeClass: 'active',
+                    disabledClass: 'disabled',
+                    nextClass: 'next',
+                    prevClass: 'prev',
+                    lastClass: 'last',
+                    firstClass: 'first'
+                }).on("page", function(event, num){
+                    console.log("num : "+ num);
+                    doRetrieve(num);
+                });            
+            }
+
+        });
         
     </script>
 <head>
@@ -148,6 +188,9 @@
 .graph {
     width: 60%;
     height: 200px;
+}
+.graph:hover {
+    background-color: blue; 
 }
 #coinNews {
     width: 100%;
@@ -212,7 +255,7 @@
                                 <c:forEach var="vo" items="${list}">
                                     <tr>
                                         <td><a href="${vo.link}">${vo.title}</a></td>
-                                        <td name="date"></td>
+                                        <td>${vo.pubDate}</td>
                                     </tr>
                                 </c:forEach>
                             </c:when>
@@ -221,6 +264,11 @@
                 </table>
             </div>
             <!-- //코인 뉴스=========================== -->
+        <!-- pagenation -->
+        <div class="text-center col-sm-12 col-md-12 col-lg-12">
+            <div id="page-selection" class="text-center page">페이징</div>
+        </div>
+        <!-- pagenation ---------------------------------------->
         </div>
     </div>
     <!-- //전체 div======================================================================== -->

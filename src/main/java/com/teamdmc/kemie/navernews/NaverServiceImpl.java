@@ -6,6 +6,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -13,7 +15,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
-import com.teamdmc.kemie.cmn.SearchVO;
 
 @Service("naverService")
 public class NaverServiceImpl implements NaverService {
@@ -67,6 +68,16 @@ public class NaverServiceImpl implements NaverService {
 			
 			for(Item item :channel.getItems()) {
 				LOG.debug(item);
+				String strDate = item.getPubDate();
+				LOG.debug("strDate: "+strDate);
+				SimpleDateFormat dtFormat = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss Z");
+				SimpleDateFormat pbFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+				
+				Date newStrDate = dtFormat.parse(strDate.trim());
+				LOG.debug("newStrDate: "+newStrDate.toString());
+				String newPubDate = pbFormat.format(newStrDate);
+				LOG.debug("newPubDate: "+newPubDate);
+				item.setPubDate(newPubDate);
 			}
 			
 		}catch(Exception e) {
