@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="CP" value="${pageContext.request.contextPath }"></c:set>
 <c:set var="resources" value="/resources"></c:set>
 <c:set var="CP_RES" value="${CP}${resources}"></c:set>
@@ -12,8 +13,7 @@
 <meta charset="UTF-8">
 <style>
 @import
-	url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap')
-	;
+	url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
 </style>
 <link rel="stylesheet" type="text/css" href="${CP_RES}/css/header.css">
 <link rel="stylesheet" type="text/css" href="${CP_RES}/css/footer.css">
@@ -188,20 +188,20 @@ div.on {
 }
 
 .mainBalacesTabButton {
-    width: 100%;
-    margin: 0 auto;
-    margin-top: 10px;
+  width: 100%;
+  margin: 0 auto;
+  margin-top: 10px;
 }
 
 .mainBalacesTabButton>ul>li {
-    width: 100%;
-    list-style: none;
-    line-height: 40px;
+  width: 100%;
+  list-style: none;
+  line-height: 40px;
 }
 
 .mainBalancesTabButton>ul>li>a {
-    width: 100%;
-    text-align: center;
+  width: 100%;
+  text-align: center;
 }
 
 .temp {
@@ -224,6 +224,28 @@ div.on {
 	height: 550px;
 	border: 1px solid #333;
 	box-sizing: border-box;
+}
+
+#cointableDiv {
+  width: 100%;
+  height: 450px;
+  overflow: scroll;
+}
+
+#cointableHeaderDiv {
+  margin-top: 20px;
+  width: 100%;
+}
+
+#cointableHeaderDiv {
+  margin-top: 20px;
+  width: 100%;
+}
+
+#cointableHeader th{
+  position: sticky;
+  top: 0px;
+  background-color: gray !important;
 }
 
 td {
@@ -266,7 +288,7 @@ td:nth-child(3) {
 
 <title>Insert 바구 here</title>
 <!-- reset.css를 직접참조하여 가져오기 
-        <link rel="stylesheet" type="text/css" href="/studyhtml5/asset/css/reset.css"> -->
+    <link rel="stylesheet" type="text/css" href="/studyhtml5/asset/css/reset.css"> -->
 
 <!-- jQuery를 직접참조하여 설정 -->
 <!-- <script type="text/javascript" src="/studyhtml5/asset/js/jquery-1.12.4.js"></script> -->
@@ -276,134 +298,180 @@ td:nth-child(3) {
 
 <!-- 직접참조하여 favicon설정 -->
 <link rel="shortcut icon" type="image/x-icon" href="/studyhtml5/favicon.ico">
-
+<!-- 사용자 정의 function, ISEmpty -->
+<script src="${CP_RES}/js/eUtil.js"></script>
+<!-- 사용자 정의 function, callAjax -->
+<script src="${CP_RES}/js/eclass.js"></script>
 <!-- 자바스크립트 -->
 <script type="text/javascript">
-            /* 자바스크립트 코드 */
-            $(document).ready(function(){
+      /* 자바스크립트 코드 */
+      $(document).ready(function(){
+      	$(".amount").on("keypress", function(e){
+          console.log(".amount: "+e.which);
+          
+          if(13==e.which){
+            if($(this).val() < 5000) alert("최소 입금 금액은 5000원입니다.");
+            else {
+	            if(confirm("원화 입금 금액은 "+$(this).val()+"입니다. 정말 입금하시겠습니까?")==false)return;
+	            
+	            let url = "${CP}/depositKRW.do";
+	            let method ="POST";
+	            let async  = true;
+	            let parameters = {
+	                "amount": $(this).val()  
+	            };
+	            
+	            EClass.callAjax(url, parameters, method, async, function(data) {
+	              console.log('data:'+data);
+	              if("1" == data){
+	              $('.mainBalancesTabContextDivA').css('display', 'none');
+	              $('.mainBalancesTabContextDivB').css('display', 'none');
+	              $('.mainBalancesTabContextDivC').css('display', 'none');
+	              
+	              $('.contextBottom input[type="text"]').removeClass('amount');
+	              
+	              $('.mainBalancesTabContextDivC').css('display', 'block');
+	              $('.mainBalancesTabContextDivC .contextBottom input[type="text"]').addClass('amount');
+	              
+	              alert("입금 요청 성공!"); 
+	              }else alert("입금 요청 실패!");         
+	            });
+            }
+          }
+          });
+      	
+        $(".uBTBody>tr").click(function(){
+          console.log($(this), "click!");
+
+          if($(this).children().eq(0).text() == "KRW"){
+          	$('.mainBalancesTitle').text('KRW 입출금');
+          	$('.mainBalancesContextValueDivOwn').text('보유금액');
+          	$('#mBTa').children().eq(0).text('KRW충전');
+          }
+          else {
+          	$('.mainBalancesTitle').text($(this).children().eq(0).text()+' 입출금');
+          	$('.mainBalancesContextValueDivOwn').text('보유수량');
+          	$('#mBTa').children().eq(0).text('입금주소');
+          }
+          
+          $('.mainBalancesContextValueDivOwnValue').text($(this).children().eq(1).text()+" "+$(this).children().eq(0).text());
+          $('.mainBalancesContextValueDivWaitValue').text($('.uBTBody').children().eq(0).val()+" "+$(this).children().eq(0).text());
+        });
+        
+        /* a태그의 id의 마지막 문자열을 추출하여 원하는 div on */
+        $(".mainBalancesTab li[id *= 'mBT']").click(function(){
+          let mBTLastWord = ($(this).attr("id")).substr(($(this).attr("id")).length -1);
+          
+          $('.mainBalancesTabContextDivA').css('display', 'none');
+          $('.mainBalancesTabContextDivB').css('display', 'none');
+          $('.mainBalancesTabContextDivC').css('display', 'none');
+          
+          $('.contextBottom input[type="text"]').removeClass('amount');
+          
+          switch(mBTLastWord){
+          case 'a':
+            $('.mainBalancesTabContextDivA').css('display', 'block');
+            $('.mainBalancesTabContextDivA .contextBottom input[type="text"]').addClass('amount');
+            
+            console.log('mainBalancesTabContextDivA의 class에 on추가하기');
+            
+            break;
+            
+          case 'b':
+            $('.mainBalancesTabContextDivB').css('display', 'block');
+            $('.mainBalancesTabContextDivB .contextBottom input[type="text"]').addClass('amount');
+            
+            console.log('mainBalancesTabContextDivB의 class에 on추가하기');
+            break;
+            
+          case 'c':
+            $('.mainBalancesTabContextDivC').css('display', 'block');
+            
+            console.log('mainBalancesTabContextDivA의 class에 on추가하기');
+            
+            $("#getDepoTableBody").empty();
+            
+            console.log($(".uBTBody>tr>td").eq(0).text()); // currnecy
+            
+            let url = "${CP}/getDeposit.do";
+            let method ="GET";
+            let async  = true;
+            let parameters = {
+                "currency": $(".uBTBody>tr>td").eq(0).text()  
+            };
+            
+            EClass.callAjax(url, parameters, method, async, function(data) {
+            	/* console.log("data: "+data); */
+            	  //data.forEach(element => console.log("구분자입니다."+element))
+            	  console.log(data);
             	
-                $(".uBTBody>tr").click(function(){
-                    console.log($(this), "click!");
-
-                    if($(this).children().eq(0).text() == "KRW"){
-                    	$('.mainBalancesTitle').text('KRW 입출금');
-                    	$('.mainBalancesContextValueDivOwn').text('보유금액');
-                    	$('#mBTa').children().eq(0).text('KRW충전');
-                    }
-                    else {
-                    	$('.mainBalancesTitle').text($(this).children().eq(0).text()+' 입출금');
-                    	$('.mainBalancesContextValueDivOwn').text('보유수량');
-                    	$('#mBTa').children().eq(0).text('입금주소');
-                    }
-                    
-                    $('.mainBalancesContextValueDivOwnValue').text($(this).children().eq(1).text()+" "+$(this).children().eq(0).text());
-                    $('.mainBalancesContextValueDivWaitValue').text($('.uBTBody').children().eq(0).val()+" "+$(this).children().eq(0).text());
-                });
-                
-                /* a태그의 id의 마지막 문자열을 추출하여 원하는 div on */
-                $(".mainBalancesTab li[id *= 'mBT']").click(function(){
-                    let mBTLastWord = ($(this).attr("id")).substr(($(this).attr("id")).length -1);
-                    
-                    $('.mainBalancesTabContextDivA').css('display', 'none');
-                    $('.mainBalancesTabContextDivB').css('display', 'none');
-                    $('.mainBalancesTabContextDivC').css('display', 'none');
-                    
-                    $('.contextBottom input[type="text"]').removeClass('amount');
-                    
-                    switch(mBTLastWord){
-                    case 'a':
-                        /* $('.mainBalancesTabContextDivB').removeClass('on');
-                        $('.mainBalancesTabContextDivC').removeClass('on');
-                        $('.mainBalancesTabContextDivA').addClass('on'); */
-                        $('.mainBalancesTabContextDivA').css('display', 'block');
-                        $('.mainBalancesTabContextDivA .contextBottom input[type="text"]').addClass('amount');
-                        
-                        console.log('mainBalancesTabContextDivA의 class에 on추가하기');
-                        break;
-                        
-                    case 'b':
-                        /* $('.mainBalancesTabContextDivA').removeClass('on');
-                        $('.mainBalancesTabContextDivC').removeClass('on');
-                        $('.mainBalancesTabContextDivB').addClass('on'); */
-                        $('.mainBalancesTabContextDivB').css('display', 'block');
-                        $('.mainBalancesTabContextDivB .contextBottom input[type="text"]').addClass('amount');
-                        
-                        console.log('mainBalancesTabContextDivB의 class에 on추가하기');
-                        break;
-                        
-                    case 'c':
-                        /* $('.mainBalancesTabContextDivA').removeClass('on');
-                        $('.mainBalancesTabContextDivB').removeClass('on');
-                        $('.mainBalancesTabContextDivC').addClass('on'); */
-                        $('.mainBalancesTabContextDivC').css('display', 'block');
-                        $('.mainBalancesTabContextDivC .contextBottom input[type="text"]').addClass('amount');
-                        
-                        console.log('mainBalancesTabContextDivA의 class에 on추가하기');
-                        break;
-                        default:
-                            console.log("선언되지 않은 div");
-                            return;
-                    }
-                });
-
-                $("#userBalancesDiv").click(function(){  
-                	console.log("clickeD166623!!");
-                	/* console.log("response == "+${response.currency}); */
-                });
-                
-                $(".amountBtn").click(function(){
-                	console.log(".amountBtn Clicked!!");
-                    console.log($('.amount').val());
-                    
-                    const settings = {
-                            "async": true,
-                            "crossDomain": true,
-                            "url": "https://api.upbit.com/v1/market/all?isDetails=false",
-                            "method": "GET",
-                            "headers": {"Accept": "application/json"}
-                          };
-
-	                  $.ajax(settings).done(function (response) {
-	                	  let i = 0;
-	                	  let htmlData = "";
-	                	  
-	                	  $(".uBTBody").empty();
-	                	  
-	                	  console.log(response);
-	                	  
-	                	  for(i=0; i<response.length; i++){
-	                		  let str = (response[i].market).substring(0, (response[i].market).indexOf('-'));
-	                		  
-	                		  if( str == 'KRW' ) {
-	                			  htmlData += "<tr>                                                                           ";
-	                              htmlData += "     <td class='text-center col-sm-1 col-md-1 col-lg-1'>"+ response[i].market +"</td>   ";
-	                              htmlData += "     <td class='text-left   col-sm-2 col-md-2 col-lg-2'>"+ response[i].korean_name +"</td>   ";
-	                              htmlData += "     <td class='text-left   col-sm-2 col-md-2 col-lg-2'>"+ response[i].english_name +"</td>  ";
-	                              htmlData += "</tr>                                                                          ";  
-	                		  }
-	                	  }
-	                	  
-	                	  $(".uBTBody").append(htmlData);
-	                  });
-	                    /* response.forEach(function(item, index, arr2){
-	                    	if(i>= 3) return;
-	                    	
-	                    	console.log(item, index);
-	                    	console.log('으악 방구' + item.market + index);
-	                    	i++;
-	                    	
-	                    	htmlData += "<tr>                                                                           ";
-	                        htmlData += "     <td class='text-center col-sm-1 col-md-1 col-lg-1'>"+ item.market +"</td>   ";
-	                        htmlData += "     <td class='text-left   col-sm-2 col-md-2 col-lg-2'>"+ item.korean_name +"</td>   ";
-	                        htmlData += "     <td class='text-left   col-sm-2 col-md-2 col-lg-2'>"+ item.english_name +"</td>  ";
-	                        htmlData += "</tr>                                                                          ";
-	                        
-	                        $(".uBTBody").append(htmlData);
-	                    }); */
-	                  //});
-                });
+            	let parseData = data;
+            	let htmlData="";
+            	
+            	if(!eUtil.ISEmpty(parseData)){
+	             	  $.each(data, function(index, value){
+	             		  console.log(index+", "+value.created_at);
+	             		  htmlData += "<tr>                                   ";
+                htmlData += "  <td class='text-center'>"+value.type+"</td>";
+                htmlData += "  <td class='text-center'>"+value.amount+"&nbsp;"+value.currency+"</td>";
+                htmlData += "  <td class='text-center'>"+value.transaction_type+"</td>";
+                htmlData += "  <td class='text-center'>"+value.created_at+"</td>";
+                htmlData += "  <td class='text-center'>"+value.done_at+"</td>";
+                htmlData += "</tr>                                  ";  
+	             	  });
+            	}else htmlData += " <tr><td colspan='99' class='text-center'>No data found</td></tr>" ;
+            	
+            	$("#getDepoTableBody").append(htmlData);
             });
-        </script>
+            
+            break;
+            default:
+              console.log("선언되지 않은 div");
+              return;
+          }
+        });
+
+        $("#userBalancesDiv").click(function(){  
+        	console.log("clickeD166623!!");
+        	/* console.log("response == "+${response.currency}); */
+        });
+       
+        $(".amountBtn").click(function(){
+        	console.log(".amountBtn Clicked!!");
+          console.log($('.amount').val());
+          
+          if($(this).parents().attr("id", "mainBalancesTabContextDivA")){
+	          if($('.amount').val() < 5000) alert("최소 입금 금액은 5000원입니다.");
+	          else {
+	            if(confirm("원화 입금 금액은 "+$(this).val()+"입니다. 정말 입금하시겠습니까?")==false)return;
+	            
+	            let url = "${CP}/depositKRW.do";
+	            let method ="POST";
+	            let async  = true;
+	            let parameters = {
+	                "amount": $(this).val()  
+	            };
+	            
+	            EClass.callAjax(url, parameters, method, async, function(data) {
+	              console.log('data:'+data);
+	              if("1" == data){
+	              $('.mainBalancesTabContextDivA').css('display', 'none');
+	              $('.mainBalancesTabContextDivB').css('display', 'none');
+	              $('.mainBalancesTabContextDivC').css('display', 'none');
+	              
+	              $('.contextBottom input[type="text"]').removeClass('amount');
+	              
+	              $('.mainBalancesTabContextDivC').css('display', 'block');
+	              $('.mainBalancesTabContextDivC .contextBottom input[type="text"]').addClass('amount');
+	              
+	              alert("입금 요청 성공!"); 
+	              }else alert("입금 요청 실패!");         
+	            });
+	          }
+          }
+        });
+      });
+    </script>
 </head>
 <body>
 	<!-- header --------------------------------------------------------------->
@@ -438,24 +506,24 @@ td:nth-child(3) {
 						</thead>
 						<tbody class="uBTBody">
 							<c:choose>
-	                            <%-- data가 있는 경우 --%>
-	                            <c:when test="${list.size()>0}">
-	                                <c:forEach var="vo" items="${list }" varStatus="status">
-	                                    <input type="hidden" value="${vo.locked}">
-	                                    <tr>
-	                                        <td>${vo.currency }</td>
-	                                        <td>${vo.balance }</td>
-	                                        <td>${Math.round(mListList.get(status.index).get(0).getTrade_price() * vo.balance)} ${vo.unit_currency}</td>
-	                                    </tr>
-	                                </c:forEach>
-	                            </c:when>
-	                            <%-- data가 없는 경우 --%>
-	                            <c:otherwise>
-	                                <tr>
-	                                    <td colspan="99" class="text-center">no data found</td>
-	                                </tr>
-	                            </c:otherwise>
-                            </c:choose>
+         <%-- data가 있는 경우 --%>
+         <c:when test="${list.size()>0}">
+           <c:forEach var="vo" items="${list }" varStatus="status">
+             <input type="hidden" value="${vo.locked}">
+             <tr>
+               <td>${vo.currency }</td>
+               <td>${vo.balance }</td>
+               <td>${Math.round(mListList.get(status.index).get(0).getTrade_price() * vo.balance)} ${vo.unit_currency}</td>
+             </tr>
+           </c:forEach>
+         </c:when>
+         <%-- data가 없는 경우 --%>
+         <c:otherwise>
+           <tr>
+             <td colspan="99" class="text-center">no data found</td>
+           </tr>
+         </c:otherwise>
+        </c:choose>
 						</tbody>
 					</table>
 					<!--// userBalances table end ------------------------------------->
@@ -479,7 +547,7 @@ td:nth-child(3) {
 				<div class="mainBalancesContext">
 					<div class="temp">
 						<label class="mainBalancesContextValueDivOwn">보유금액</label>
-						<label class="mainBalancesContextValueDivOwnValue">0 KRW</label>
+						<label class="mainBalancesContextValueDivOwnValue">${list.get(0).balance} KRW</label>
 					</div>
 					<div class="temp">
 						<label class="mainBalancesContextValueDivWait">거래대기</label><label
@@ -517,10 +585,10 @@ td:nth-child(3) {
 						영역입니다.입금 주의 사항 영역입니다.입금 주의 사항 영역입니다.입금 주의 사항 영역입니다.입금 주의 사항
 						영역입니다.입금 주의 사항 영역입니다.입금 주의 사항 영역입니다.입금 주의 사항 영역입니다.입금 주의 사항
 						영역입니다.입금 주의 사항 영역입니다.입금 주의 사항 영역입니다.입금 주의 사항 영역입니다.
-				    </div>
-				    <div class="mainBalacesTabButton">
-                        <ul><li><a href="#" class="amountBtn" name="amountBtn">신청 멍청이 버튼</a></li></ul>
-                    </div>
+				  </div>
+				  <div class="mainBalacesTabButton">
+            <ul><li><a href="#" class="amountBtn" name="amountBtn">신청 버튼</a></li></ul>
+          </div>
 				</div>
 				<!--// mainBalancesTabContextDivA end ---------------------------------------->
 				<!-- mainBalancesTabContextDivB ---------------------------------------------->
@@ -544,33 +612,32 @@ td:nth-child(3) {
 						영역입니다.출금 주의 사항 영역입니다.출금 주의 사항 영역입니다.출금 주의 사항 영역입니다.
 					</div>
 					<div class="mainBalacesTabButton">
-                        <ul><li><a href="#" class="amountBtn" name="amountBtn">신청 빙구 버튼</a></li></ul>
-                    </div>
+            <ul><li><a href="#" class="amountBtn" name="amountBtn">신청 버튼</a></li></ul>
+          </div>
 				</div>
 				<!--// mainBalancesTabContextDivB end ---------------------------------------->
 				<!-- mainBalancesTabContextDivC ---------------------------------------------->
 				<div class="mainBalancesTabContextDivC">
 
 					<!-- mainBalancesTabContextDivAInputDiv ---------------------------------->
-					<div class="mainBalancesTabContextDivAInputDiv">
-						<div class="contextTop">
-							<label>연계계좌</label><label>10*******2332 코리아뱅크</label><label>홍길동</label>
-						</div>
-						<div class="contextBottom">
-							<!-- 아래 placeholder의 값은 선택한 코인에 따라 달라짐 -->
-							<label>입금금액</label><input type="text" placeholder="최소 5,000KRW" />
+					<div class="mainBalancesTabContextDivCInputDiv">
+						<div class="selectDiv" style="float:right;">
+			        <select>
+			        <option value="10">전체</option>
+			        <option value="20">입금</option>
+			        <option value="30">출금</option>
+			        </select>
+			        <hr/>
 						</div>
 					</div>
 					<!--// mainBalancesTabContextDivAInputDiv end ---------------------------->
 
-					<div class="mainBalancesTabContextDivAWarnning">입출금 영역입니다~
-						입출금 영역입니다~ 입출금 영역입니다~ 입출금 영역입니다~ 입출금 영역입니다~ 입출금 영역입니다~ 입출금 영역입니다~
-						입출금 영역입니다~ 입출금 영역입니다~ 입출금 영역입니다~ 입출금 영역입니다~ 입출금 영역입니다~ 입출금 영역입니다~
+					<div class="mainBalancesTabContextDivCWarnning">
+					  <table>
+					  <tbody id="getDepoTableBody">
+					  </tbody>
+					  </table>
 					</div>
-					
-					<div class="mainBalacesTabButton">
-                        <ul><li><a href="#" class="amountBtn" name="amountBtn">신청 방구빵구 버튼</a></li></ul>
-                    </div>
 				</div>
 				<!--// mainBalancesTabContextDivC end ---------------------------------------->
 				
@@ -579,7 +646,35 @@ td:nth-child(3) {
 
 			<!-- coinChartDiv -------------------------------------------------------------->
 			<div id="coinCharDiv">
-				<h3>코 인 시 세 영 역</h3>
+			  <div id="cointableDiv">
+	    <table id="cointable">
+		      <thead id="cointableHeader">
+	        <tr>
+	        <th><a href="#">코인명</a></th>
+	        <th><a href="#">현재가<img src="${CP_RES}/img/exchange.icon2.png" alt=""></a></th>
+	        <th><a href="#">전일대비<img src="${CP_RES}/img/exchange.icon2.png" alt=""></a></th>
+	        <th><a href="#">거래대금<img src="${CP_RES}/img/exchange.icon2.png" alt=""></a></th>
+	        </tr>
+	      </thead> 
+		      <tbody id="fullCoin">
+		       <c:choose>
+		       <c:when test="${tickerList.size()>0}">
+		         <c:forEach var="ticker" items="${tickerList}">
+		         <tr>
+		           <td>${ticker.market}</td>
+		           <td>${ticker.trade_price}</td>
+		           <td><fmt:formatNumber value="${ticker.signed_change_rate*100}" pattern="0.000"/>%</td>
+		           <td><fmt:formatNumber value="${Math.ceil(ticker.acc_trade_price_24h/1000000)}" pattern="###,###,###,###" />백만</td>
+		         </tr>
+		         </c:forEach>
+		       </c:when>
+		       <c:otherwise>
+		         <tr><td colspan="99" class="text-center">no data found</td></tr>
+		       </c:otherwise>
+		       </c:choose>
+		      </tbody>
+	    </table>
+    </div>
 			</div>
 			<!-- coinChartDiv end --------------------------------------------------------->
 		</div>

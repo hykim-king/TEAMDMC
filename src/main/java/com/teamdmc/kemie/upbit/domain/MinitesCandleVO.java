@@ -37,8 +37,6 @@ public class MinitesCandleVO extends DTO{
 		this.unit = unit;
 	}
 
-
-
 	public String getMarket() {
 		return market;
 	}
