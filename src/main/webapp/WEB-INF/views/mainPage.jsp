@@ -32,6 +32,7 @@
     google.charts.setOnLoadCallback(drawCharts);
     console.log(google.charts)
     
+        //코인이름
         let settings = {
                 "async": true,
                 "crossDomain": true,
@@ -65,6 +66,7 @@
             
         });
         
+        //주요코인 차트
         function drawCharts() {
             for(let a = 0; a < 6; a++){
                 let marketArr = ["KRW-BTC", "KRW-ETH", "KRW-XRP", "KRW-ADA", "KRW-SOL", "KRW-DOGE"];
@@ -112,6 +114,7 @@
         }
     }
         $(document).ready(function(){
+        	//차트 클릭시 거래소 이동
         	for(let i = 0; i <= 6; i++){
 		        $("#coin"+(i+1)).on("click", function(){
 		        	console.log("거래소");
@@ -119,9 +122,9 @@
 		        });
         	}
         	
+            //paging
         	renderingPage('${pageTotal}',1);
         	
-            //paging
             function renderingPage(pageTotal, page){
                 console.log("pageTotal : "+ pageTotal);//소숫점
                 console.log("page : "+ page);
@@ -166,6 +169,12 @@
                 };
                 
                 EClass.callAjax(url, parameters, method, async, function(data) {
+                	console.log("아무거나");
+                	
+                	$("#coin > tbody").empty();
+                	
+                	let parseData = data;
+                	
    /*                  console.log("EClass.callAjax.data"+ data);
                     
                     //1. 기존 table데이터 삭제
@@ -195,14 +204,8 @@
                             htmlData += " </tr>                                                                       ";
                           });
                         
-                    }else{
-                        htmlData += " <tr>                                                      ";
-                        htmlData += "   <td colspan='99' class='text-center'>No data found</td> ";
-                        htmlData += " </tr>                                                     ";
                     }
-                    
-                    //조회 데이터가 없는 경우
-                    $("#board_table > tbody").append(htmlData); */
+                     */
                 });
             }
             

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.teamdmc.kemie.cmn.SearchVO;
@@ -39,7 +40,8 @@ public class MainController {
 		return "mainPage";
 	}
 	
-	@RequestMapping(value="/newsDetail.do", method=RequestMethod.GET)
+	@RequestMapping(value="/newsDetail.do", method=RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	@ResponseBody
 	public String newsDetail(Item item, SearchVO searchVO, HttpServletRequest req)throws SQLException{
 		String jsonString = "";
 		
@@ -56,14 +58,6 @@ public class MainController {
         if(0 == searchVO.getPageNum()) {
     	    searchVO.setPageNum(1);
         }
-       
-        //검색어
-        if(null == searchVO.getSearchWord()) {
-    	    searchVO.setSearchWord(StringUtil.nvl(searchVO.getSearchWord(), ""));
-        }
-        
-        String pageSize = req.getParameter("pageSize");
-        String pageNum = req.getParameter("pageNum");
         
         List<Item> list = naverService.doRetrieve();
         
