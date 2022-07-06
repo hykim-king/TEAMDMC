@@ -8,14 +8,24 @@
 <html>
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta charset="UTF-8">
-    <!-- jQuery cdn -->
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <!-- 부트스트랩 -->
+    <link href="${CP_RES }/js/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->
+    <script src="${CP_RES }/js/jquery-1.12.4.js"></script>
+    <!-- 모든 컴파일된 플러그인을 포함합니다 (아래), 원하지 않는다면 필요한 각각의 파일을 포함하세요 -->
+    <!-- 사용자 정의 function, isEmpty -->
     <script src="${CP_RES }/js/eUtil.js"></script>
     <!-- 사용자 정의 function, callAjax -->
     <script src="${CP_RES }/js/eclass.js"></script>
+    
+    <script src="${CP_RES }/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="${CP_RES }/js/jquery.bootpag.js"></script>
     <!-- google chart  -->
     <!--Load the AJAX API-->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    
+    <!-- jquery_bootstrap paging -->
+    <script type="text/javascript" src="${CP_RES}/js/jquery.bootpag.js"></script>
 
  <script type="text/javascript">
     google.charts.load('current', {'packages':['corechart']});
@@ -108,6 +118,9 @@
 		        	window.location.href = "${CP}/exchange.do";
 		        });
         	}
+        	
+        	renderingPage('${pageTotal}',1);
+        	
             //paging
             function renderingPage(pageTotal, page){
                 console.log("pageTotal : "+ pageTotal);//소숫점
@@ -139,6 +152,65 @@
                     doRetrieve(num);
                 });            
             }
+            
+            function doRetrieve(page){
+                console.log("function doRetrieve");
+                console.log("page : "+ page);
+                
+                let url = "${CP}/newsDetail.do";
+                let method = "GET";
+                let async = true;
+                let parameters = {
+                        pageSize: 5,
+                        pageNum: page
+                };
+                
+                EClass.callAjax(url, parameters, method, async, function(data) {
+   /*                  console.log("EClass.callAjax.data"+ data);
+                    
+                    //1. 기존 table데이터 삭제
+                    //동적으로 table 데이터 표시
+                    
+                    let parsedData = data;
+                    
+                    $("#board_table > tbody").empty();
+                    
+                    console.log("parsedData.length : "+ parsedData.length);
+                    
+                    let htmlData = "";//동적으로 tbody아래 데이터 생성
+                    let totalCnt = 0;//총글수
+                    let pageTotal = 1;//페이지 수
+                    
+                    //조회 데이터가 있는 경우
+                    if(null != parsedData && parsedData.length > 0){
+                        
+                        $.each(parsedData, function(i, boardVO) {
+                            htmlData += " <tr>                                                                        ";
+                            htmlData += " <td class='text-center col-sm-1 col-md-1 col-lg-1'>"+<c:out value='boardVO.num'/>+"</td>     ";
+                            htmlData += " <td class='text-left col-sm-6 col-md-6 col-lg-8'>  "+<c:out value='boardVO.title'/>+"</td>   ";
+                            htmlData += " <td class='text-center col-sm-2 col-md-2 col-lg-1'>"+<c:out value='boardVO.modId'/>+"</td>   ";
+                            htmlData += " <td class='text-center col-sm-2 col-md-2 col-lg-1'>"+<c:out value='boardVO.modDt'/>+"</td>   ";
+                            htmlData += " <td class='text-right col-sm-1 col-md-1 col-lg-1'> "+<c:out value='boardVO.readCnt'/>+"</td> ";
+                            htmlData += " <td style='display: none;'>"+<c:out value='boardVO.seq'/>+ "</td>                            ";
+                            htmlData += " </tr>                                                                       ";
+                          });
+                        
+                    }else{
+                        htmlData += " <tr>                                                      ";
+                        htmlData += "   <td colspan='99' class='text-center'>No data found</td> ";
+                        htmlData += " </tr>                                                     ";
+                    }
+                    
+                    //조회 데이터가 없는 경우
+                    $("#board_table > tbody").append(htmlData); */
+                });
+            }
+            
+            $("#doRetrieve").on("click", function (e) {
+                console.log("doRetrieve");
+                doRetrieve(1);
+                
+            });
 
         });
         
@@ -271,7 +343,7 @@
             <!-- //코인 뉴스=========================== -->
         <!-- pagenation -->
         <div class="text-center col-sm-12 col-md-12 col-lg-12">
-            <div id="page-selection" class="text-center page">페이징</div>
+            <div id="page-selection" class="text-center page"></div>
         </div>
         <!-- pagenation ---------------------------------------->
         </div>
