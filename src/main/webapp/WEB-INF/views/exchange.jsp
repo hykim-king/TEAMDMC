@@ -13,13 +13,14 @@
 <!--스타일 시트 -->
 <!-- jQuery cdn -->
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.highcharts.com/stock/highstock.js"></script>
-<script src="https://code.highcharts.com/stock/modules/data.js"></script>
-<script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
 <!-- 사용자 정의 function, ISEmpty -->
 <script src="${CP_RES}/js/eUtil.js"></script>
 <!-- 사용자 정의 function, callAjax -->
 <script src="${CP_RES}/js/eclass.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<!-- google chart  -->
+<!--Load the AJAX API-->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <style>
 @import
     url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap')
@@ -41,6 +42,9 @@ background:blue;
     font-family: 'Noto Sans KR', sans-serif;
 }
 th a {color: black;
+    text-decoration: none;}
+
+td a {color: black;
     text-decoration: none;}
     
 li a {
@@ -94,9 +98,17 @@ input {
     height: 320px;
 }
 
-.graph {
+#coinGraph {
     width: 63%;
     border: 1px solid #333;
+}
+
+.graph {
+    width: 100%;
+    max-width: 1200px;
+    height: 300px;
+    border: 1px solid #333;
+    margin-bottom: 100px;
 }
 
 .coinPrice {
@@ -260,57 +272,16 @@ th {
     box-sizing: border-box;
     color: #333;
 }
+
+
+
 </style>
 <title>Insert title here</title>
 <!--자바스크립트 코드 -->
 <script type="text/javascript">
     $(document).ready(function() { /* a태그의 id의 마지막 문자열을 추출하여 원하는 div on */
         //업비트 오픈 소스 시작
-        /*  let settings = {
-                  "async": true,
-                  "crossDomain": true,
-                  "url": "https://api.upbit.com/v1/candles/minutes/1?market=KRW-BTC&count=30",
-                  "method": "GET",
-                  "headers": {
-                    "Accept": "application/json"
-                  }
-                };
-
-                $.ajax(settings).done(function (response) {
-                    
-                    let i = 0;
-                    let htmlData = "";
-                    let marketNames = "";
-                    $(".coinGraph").empty();
-                    
-                  console.log(response);
-                  
-                  for(i=0; i<response.length; i++){
-                       let str = (response[i].market).substring(0, (response[i].market).indexOf('-'));
-                       let arr;
-                       if( str == 'KRW' ) {
-                             arr = response[i].korean_name;
-                             marketNames += response[i].market + '%2C';
-                  marketNames = marketNames.substr(0, marketNames.length-3);
-                  
-                  htmlData += "<tr>                                                                                                                ";
-                  htmlData += "     <td class='text-left   col-sm-2 col-md-2 col-lg-2'>"+ response[i].market +"</td>                 ";
-                  htmlData += "     <td class='text-left   col-sm-2 col-md-2 col-lg-2'>"+ response[i].candle_date_time_kst +"</td>                 ";
-                  htmlData += "     <td class='text-left   col-sm-2 col-md-2 col-lg-2'>"+ response[i].candle_acc_trade_price +"</td>               ";
-                  htmlData += "     <td class='text-left   col-sm-2 col-md-2 col-lg-2'>"+ response[i].opening_price +"</td>                 ";
-                  htmlData += "     <td class='text-left   col-sm-2 col-md-2 col-lg-2'>"+ response[i].high_price +"</td>               ";
-                  htmlData += "     <td class='text-left   col-sm-2 col-md-2 col-lg-2'>"+ response[i].low_price +"</td>                 ";
-                  htmlData += "     <td class='text-left   col-sm-2 col-md-2 col-lg-2'>"+ response[i].trade_price +"</td>               ";
-                  htmlData += "<tr>                                                                                                                ";
-                       }
-                    }
-                  
-                  $(".coinGraph").append(htmlData);
-                });  */
-                
-                 
-                      
-                let settings = {
+              let full = {
                         "async": true,
                         "crossDomain": true,
                         "url": "https://api.upbit.com/v1/market/all?isDetails=false",
@@ -319,7 +290,7 @@ th {
                         "Accept": "application/json"
                         }
               };
-              $.ajax(settings).done(function (response) {
+              $.ajax(full).done(function (response) {
                   let i = 0;
                   let htmlData = "";
                   let marketNames = "";
@@ -338,7 +309,7 @@ th {
                   
                   marketNames = marketNames.substr(0, marketNames.length-3);
 
-                  let settings = {
+                  let full2 = {
                           "async": true,
                           "crossDomain": true,
                           "url": "https://api.upbit.com/v1/ticker?markets="+marketNames,
@@ -347,7 +318,7 @@ th {
                             "Accept": "application/json"
                           }
                   };
-                  $.ajax(settings).done(function (data) {
+                  $.ajax(full2).done(function (data) {
                       console.log(data);
                       
                       for(i=0; i<data.length; i++){
@@ -364,14 +335,135 @@ th {
                           htmlData += "<tr>                                                                                                                ";
                       }
                       $(".fullCoin").append(htmlData);
+                      
+                      $('[id*="uicMarket"]').on('click', function(){
+                    	  let marketCoin= $(this).text();
+                          //호가창
+                          let really = {
+                            "async": true,
+                            "crossDomain": true,
+                            "url": "https://api.upbit.com/v1/orderbook?markets="+marketCoin,
+                            "method": "GET",
+                            "headers": {
+                              "Accept": "application/json"
+                            }
+                          };
+                          
+                          $.ajax(really).done(function (real) {
+                              let i = 0;
+                              let htmlData = "";
+                              $(".realTransaction").empty();
+                            
+                            for(i=0; i<real.length; i++){
+                                    htmlData += "<tr>                                                                            ";
+                                    htmlData += "<td class='text-left red'>"+ '매도총량'+"</td>             ";
+                                    htmlData += "<td class='text-left red'>"+ (real[i].total_ask_size).toFixed(3)+"</td>             ";
+                                    htmlData += "<tr>                                                                            ";
+                                for(j=14; j>=0; j--){
+                                    htmlData += "<tr>                                                                            ";   
+                                    htmlData += "<td class='text-left red'>"+ real[i].orderbook_units[j].ask_price +"</td>           ";
+                                    htmlData += "<td class='text-left red'>"+ real[i].orderbook_units[j].ask_size+"</td>             ";
+                                    htmlData += "<tr>                                                                            ";
+                                }
+                                for(j=0; j<15; j++){
+                                    htmlData += "<tr>                                                                            ";            
+                                    htmlData += "<td class='text-left blue'>"+ real[i].orderbook_units[j].bid_price +"</td>           ";
+                                    htmlData += "<td class='text-left blue'>"+ real[i].orderbook_units[j].bid_size+"</td>             ";
+                                    htmlData += "<tr>                                                                            ";
+                                }  
+                                    htmlData += "<tr>                                                                            ";
+                                    htmlData += "<td class='text-left blue'>"+ '매수총량' +"</td>             ";
+                                    htmlData += "<td class='text-left blue'>"+ (real[i].total_bid_size).toFixed(3)+"</td>             ";
+                                    htmlData += "<tr>                                                                            ";
+                            }
+                            $(".realTransaction").append(htmlData);
+                          });
+                          //호가창 끝
+                          
+                        //그래프
+                          google.charts.load('current', {'packages':['corechart']});
+                          google.charts.setOnLoadCallback(drawCharts);
+                          console.log(google.charts)
+                          let settings = {
+                                  "async": true,
+                                  "crossDomain": true,
+                                  "url": "https://api.upbit.com/v1/market/all?isDetails=false",
+                                  "method": "GET",
+                                  "headers": {
+                                  "Accept": "application/json"
+                                  }
+                          };
+                          
+                          $.ajax(settings).done(function (response) {
+                              let htmlData = "";
+                              let array = [0];
+                              
+                              for(let i = 0; i < array.length; i++){
+                                  $("#coin").empty();
+                                  
+                                  let value = array[i];
+                                  
+                                  htmlData += "<tr>                                                                                       ";
+                                  htmlData += " <td class='text-center col-sm-1 col-md-1 col-lg-1'>"+ response[value].market +"</td>      ";
+                                  htmlData += "<tr>                                                                                       ";
+                                  htmlData += " <td class='text-left   col-sm-2 col-md-2 col-lg-2'>"+ response[value].korean_name +"</td> ";
+                                  htmlData += " <td class='text-left   col-sm-2 col-md-2 col-lg-2'>"+ response[value].english_name +"</td>";
+                                  htmlData += "<tr>                                                                                       ";
+                                  
+                                  $("#coin").append(htmlData);
+                                  htmlData = "";
+                              }
+                          });
+                          function drawCharts() {
+                                  let settings2 = {
+                                          "async": true,
+                                          "crossDomain": true,
+                                          "url": "https://api.upbit.com/v1/candles/minutes/60?market="+marketCoin+"&count=30",
+                                          "method": "GET",
+                                          "headers": {
+                                          "Accept": "application/json"
+                                          }
+                                  };
+                                  
+                                  $.ajax(settings2).done(function (response1) {
+                                  let htmlData = "";
+                                  let array = [0];
+                                  
+                                  response1.reverse();
+                                  console.log(response1)
+                                  
+                                  const candleData = response1.map(data => {
+                                      const time = new Date(data.candle_date_time_kst);
+                                      const printTime = `${time.getHours()}:00`
+                  
+                                      return [time, data.low_price, data.opening_price, data.trade_price, data.high_price];
+                                  });
+                  
+                                  console.log(candleData)
+                  
+                                  const visualizedData = google.visualization.arrayToDataTable(candleData, true);
+                  
+                                  const options = {
+                                      legend: 'none'
+                                  };
+                  
+                                  const chart = new google.visualization.CandlestickChart(document.getElementById(`coin${a+1}`))
+                  
+                                  chart.draw(visualizedData, options)
+                  
+                              });  
+                          }
+    				            //그래프끝
+                      });
+                       
+                    	  
+                      })
                     
-                      $('[id^="look"]').on("click", function() {
+                      $('[id*="look"]').on("click", function() {
                           alert("관심코인이 등록되었습니다.");
                           console.log($(this).attr("id"));
                           let t1 = $(this).attr("id");
                           t1 = t1.substring(t1.lastIndexOf("k")+1, t1.length);
-                          t1= 0;
-                          console.log(t1);
                           console.log(`uicMarket${'${t1}'}`);
                           let uicMarket = "uicMarket"+t1;
                           let uicNowPrice = "uicNowPrice"+t1;
@@ -383,7 +475,7 @@ th {
                           console.log(uicToFixed);
                           console.log(uicPrice24h);
                           console.log(uId);
-                          $(this).parents().attr("id", uicMarket)).text()
+                          $(this).parents().attr("id", "${uicMarket}").text();
                         	  
                           let url = "${CP}/insert.do99";
                           let method ="POST";
@@ -481,50 +573,7 @@ th {
             
                    }); */
                           
-            //호가창
-                let really = {
-                  "async": true,
-                  "crossDomain": true,
-                  "url": "https://api.upbit.com/v1/orderbook?markets=KRW-BTC",
-                  "method": "GET",
-                  "headers": {
-                    "Accept": "application/json"
-                  }
-                };
-                
-                $.ajax(really).done(function (real) {
-                    let i = 0;
-                    let htmlData = "";
-                    $(".realTransaction").empty();
-                    
-                  console.log(real);
-                  
-                  for(i=0; i<real.length; i++){
-                          htmlData += "<tr>                                                                            ";
-                          htmlData += "<td class='text-left red'>"+ '매도총량'+"</td>             ";
-                          htmlData += "<td class='text-left red'>"+ (real[i].total_ask_size).toFixed(3)+"</td>             ";
-                          htmlData += "<tr>                                                                            ";
-                      for(j=14; j>=0; j--){
-                          htmlData += "<tr>                                                                            ";   
-                          htmlData += "<td class='text-left red'>"+ real[i].orderbook_units[j].ask_price +"</td>           ";
-                          htmlData += "<td class='text-left red'>"+ real[i].orderbook_units[j].ask_size+"</td>             ";
-                          htmlData += "<tr>                                                                            ";
-                      }
-                      for(j=0; j<15; j++){
-                          htmlData += "<tr>                                                                            ";            
-                          htmlData += "<td class='text-left blue'>"+ real[i].orderbook_units[j].bid_price +"</td>           ";
-                          htmlData += "<td class='text-left blue'>"+ real[i].orderbook_units[j].bid_size+"</td>             ";
-                          htmlData += "<tr>                                                                            ";
-                      }  
-                          htmlData += "<tr>                                                                            ";
-                          htmlData += "<td class='text-left blue'>"+ '매수총량' +"</td>             ";
-                          htmlData += "<td class='text-left blue'>"+ (real[i].total_bid_size).toFixed(3)+"</td>             ";
-                          htmlData += "<tr>                                                                            ";
-                  }
-                  $(".realTransaction").append(htmlData);
-                });
-            });
-             //호가창 끝
+  
              
             	 
             	 
@@ -629,11 +678,14 @@ th {
             <!-- 탑박스 -->
             <div class="topbox">
                 <!-- 코인그래프 -->
-                <div class="graph">
-                    <div class="graphName"></div>
-                    <div class="coinGraph"></div>
-                </div>
-                <!-- //코인그래프 끝 -->
+                <div id="coinGraph">
+                <h2>코인 그래프</h2>
+                <!-- 코인 그래프 박스 영역=========== -->
+                <div class="graph" id="coin1">1</div>
+                <!-- //코인 그래프 박스 영역=========== -->
+            </div>
+            <!-- //주요 코인 시세=========================== -->
+
                 <!-- 코인시세 -->
                 <div class="coinPrice">
                     <table id="coinPrice2" class="tablesorter">
