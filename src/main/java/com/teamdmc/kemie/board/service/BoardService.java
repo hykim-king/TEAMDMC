@@ -14,7 +14,7 @@ public interface BoardService {
 	 * @return List<boardVO>
 	 * @throws SQLException
 	 */
-	public List<BoardVO> doRetrieve(DTO dto) throws SQLException;
+	List<BoardVO> doRetrieve(DTO dto) throws SQLException;
 	
 	/**
 	 * 게시물 삭제
@@ -22,7 +22,7 @@ public interface BoardService {
 	 * @return 1(성공)/ 0(실패)
 	 * @throws SQLException
 	 */
-	public int doDelete(BoardVO inVO) throws SQLException;
+	int doDelete(BoardVO inVO) throws SQLException;
 	
 	/**
 	 * 게시물 수정
@@ -30,7 +30,7 @@ public interface BoardService {
 	 * @return 1(성공)/ 0(실패)
 	 * @throws SQLException
 	 */
-	public int doUpdate(BoardVO inVO) throws SQLException;
+	int doUpdate(BoardVO inVO) throws SQLException;
 	
 	/**
 	 * 게시물 등록
@@ -39,7 +39,7 @@ public interface BoardService {
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
-	public int doInsert(BoardVO inVO) throws SQLException;
+	int doInsert(BoardVO inVO) throws SQLException;
 
 	
 	/**
@@ -49,5 +49,5 @@ public interface BoardService {
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
-	public BoardVO doSelectOne(BoardVO inVO) throws SQLException;
+	BoardVO doSelectOne(BoardVO inVO) throws SQLException;
 }

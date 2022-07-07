@@ -1,6 +1,7 @@
 package com.teamdmc.kemie.dao;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -29,18 +30,19 @@ public class BoardDaoImpl implements BoardDao {
 	@Override
 	public List<BoardVO> doRetrieve(DTO dto) throws SQLException {
 		
-		SearchVO inVO = (SearchVO)dto;
+		List<BoardVO> list = new ArrayList<BoardVO>();
 		String statement = NAMESPACE + ".doRetrieve";
+		SearchVO inVO = (SearchVO)dto;
 		
 		LOG.debug("==============================");
-		LOG.debug("param: " + dto.toString());
+		LOG.debug("param: " + inVO.toString());
 		LOG.debug("statement : " + statement);
 		LOG.debug("==============================");
 		
-		List<BoardVO> list = sqlSessionTemplate.selectList(statement,inVO);
+		list = sqlSessionTemplate.selectList(statement,inVO);
 		
 		for(BoardVO vo : list) {
-			LOG.debug(vo);
+			LOG.debug("LLLL"+vo);
 		}
 		return list;
 	}

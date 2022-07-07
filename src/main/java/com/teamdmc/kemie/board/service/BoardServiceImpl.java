@@ -50,7 +50,7 @@ public class BoardServiceImpl implements BoardService {
 		BoardVO outVO = boardDao.doSelectOne(inVO);
 		
 		if(null != outVO) {
-			boardDao.updateReadCnt(inVO);
+			boardDao.updateReadCnt(outVO);
 		}
 		return outVO;
 	}

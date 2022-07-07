@@ -14,19 +14,6 @@ public class BoardVO extends DTO{
 	
 	public BoardVO() {}
 
-	public BoardVO(int bSeq, String bTitle, String bContents, int bReadCnt, String uNick, String regDt,
-			String uId, String modDt) {
-		super();
-		this.bSeq = bSeq;
-		this.bTitle = bTitle;
-		this.bContents = bContents;
-		this.bReadCnt = bReadCnt;
-		this.uNick = uNick;
-		this.regDt = regDt;
-		this.uId = uId;
-		this.modDt = modDt;
-	}
-
 	public int getbSeq() {
 		return bSeq;
 	}
@@ -91,11 +78,24 @@ public class BoardVO extends DTO{
 		this.modDt = modDt;
 	}
 
+	public BoardVO(int bSeq, String bTitle, String bContents, int bReadCnt, String uNick, String regDt, String uId,
+			String modDt) {
+		super();
+		this.bSeq = bSeq;
+		this.bTitle = bTitle;
+		this.bContents = bContents;
+		this.bReadCnt = bReadCnt;
+		this.uNick = uNick;
+		this.regDt = regDt;
+		this.uId = uId;
+		this.modDt = modDt;
+	}
+
 	@Override
 	public String toString() {
 		return "BoardVO [bSeq=" + bSeq + ", bTitle=" + bTitle + ", bContents=" + bContents + ", bReadCnt=" + bReadCnt
 				+ ", uNick=" + uNick + ", regDt=" + regDt + ", uId=" + uId + ", modDt=" + modDt + ", toString()="
 				+ super.toString() + "]";
 	}
-	
+
 }
