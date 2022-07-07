@@ -12,61 +12,23 @@
   </resultMap>
     
   <!-- namespace+id = com.teamdmc.kemie.user.doSelectOne-->
-    <select id="doSelectOne" parameterType="UserInterestedVO" resultMap="userInterestedCoinResultMap">
-        <![CDATA[ 
-        SELECT        
-            uic_name_kor,
-            uic_name_eng,
-            u_id
-        FROM  user_interested_coin                                         
-        WHERE u_id = #{uId}
-        ]]>
-  </select>
-  
-  <!-- ID중복 check -->
-  <select id="loginCheck" parameterType="UserInterestedVO" resultType="int">
-
-  </select>
-  
-  <select id="idCheck" parameterType="UserInterestedVO" resultType="int">
-
-  </select>
-  
-  <update id="doUpdate" parameterType="UserInterestedVO">
-     UPDATE user_interested_coin       
-     SET uic_index       = #{uicIndex},     
-         uic_name_kor    = #{uicNameKor},     
-         uic_name_eng    = #{uicNameEng},     
-         u_id  = #{uId}     
-     WHERE u_id  = #{uId}   
-  </update>
-
-  <delete id="deleteAll">
-     DELETE FROM user_interested_coin
-  </delete>
-
-  <select id="getAll" parameterType="UserInterestedVO" resultType="UserInterestedVO">
-       SELECT        
-         uic_index,
-         uic_name_kor,
-         uic_name_eng,
-         u_id
-     FROM user_interested_coin                                          
-     WHERE u_id LIKE #{uId}  ||'%'                               
-     ORDER BY u_id
-  </select>
-
-  <select id="getCount" parameterType="UserInterestedVO" resultType="int">
-    SELECT COUNT(*) AS cnt    
-    FROM  user_interested_coin           
-    WHERE u_id LIKE #{uId} ||'%' 
-  </select>
-  
   <delete id="doDelete" parameterType="UserInterestedVO">
     DELETE FROM user_interested_coin
     WHERE u_id = #{uId}
     AND uic_name_kor = #{uicNameKor}
   </delete>
+
+  <select id="getAll" parameterType="UserInterestedVO" resultMap="userInterestedCoinResultMap">
+     SELECT uic_index,
+            uic_market,
+            uic_nowprice,
+	        uic_tofixed,
+	        uic_price24h,
+	        u_id
+	 FROM user_interested_coin
+	 WHERE u_id = #{uId}
+	 ORDER BY uic_nowprice
+  </select>
 
   <insert id="doInsert" parameterType="UserInterestedVO">
      INSERT INTO user_interested_coin ( 

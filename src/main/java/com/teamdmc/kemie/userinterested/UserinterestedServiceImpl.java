@@ -17,13 +17,13 @@
 package com.teamdmc.kemie.userinterested;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.teamdmc.kemie.dao.BoardDao;
 import com.teamdmc.kemie.dao.UserInterestedCoinDao;
 import com.teamdmc.kemie.userinterested.domain.UserInterestedVO;
 
@@ -38,6 +38,11 @@ final Logger LOG = LogManager.getLogger(getClass());
 	
 	@Autowired
 	private UserInterestedCoinDao userInterestedCoinDao;
+
+	@Override
+	public List<UserInterestedVO> getAll(UserInterestedVO inVO) {
+		return userInterestedCoinDao.getAll(inVO);
+	}
 
 	@Override
 	public int doDelete(UserInterestedVO inVO) throws SQLException {

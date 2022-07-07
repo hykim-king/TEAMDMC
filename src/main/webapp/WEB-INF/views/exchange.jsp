@@ -272,7 +272,9 @@ th {
     box-sizing: border-box;
     color: #333;
 }
-
+#uicTable{
+    width : 100%;
+}
 
 
 </style>
@@ -331,13 +333,53 @@ th {
                           htmlData += "     <td class='text-left   col-sm-2 col-md-2 col-lg-2' id='uicNowPrice"+i+"'>"+ data[i].trade_price +"</td>                            ";
                           htmlData += "     <td class='text-left   col-sm-2 col-md-2 col-lg-2' id='uicToFixed"+i+"'>"+ (data[i].signed_change_rate*100).toFixed(3)  +"%</td>   ";
                           htmlData += "     <td class='text-left   col-sm-2 col-md-2 col-lg-2' id='uicPrice24h"+i+"'>"+ no +"백만</td>                                           ";
-                          htmlData += "     <td class='text-left'> <input type='button' id='look"+i+"' value='관심등록' /> </td>                                                    ";
+                          htmlData += "     <td class='text-left'> <input type='button' id='interCoin"+i+"' value='관심등록' /> </td>                                                    ";
                           htmlData += "<tr>                                                                                                                ";
                       }
                       $(".fullCoin").append(htmlData);
                       
+                      $('[id*="interCoin"]').on('click', function(){
+                          alert("관심코인이 등록되었습니다.");
+                          console.log("$(this): "+$(this));
+                          console.log("텍스트값"+$(this).parent().siblings('[id*="uicMarket"]').text());
+                          
+                          let url = "${CP}/insert.do";
+                          let method ="GET";
+                          let async  = true;
+                          let parameters = {
+                        		  "uicMarket"   : $(this).parent().siblings('[id*="uicMarket"]').text(),
+                        		  "uicNowPrice" : $(this).parent().siblings('[id*="uicNowPrice"]').text(), 
+                   				  "uicToFixed"  : $(this).parent().siblings('[id*="uicToFixed"]').text(),
+                   				  "uicPrice24h" : $(this).parent().siblings('[id*="uicPrice24h"]').text(),
+                   				  "uId": $("#admin").val()
+                   				  //"uId"         : $(this).parent().siblings('[id*="uId"]').text()
+                          };
+                          EClass.callAjax(url,parameters,method,async,function(data){
+                              console.log("data.msgId:"+data.msgId);
+                              console.log("data.msgContents:"+data.msgContents);
+                              if("1"==data.msgId){//수정 성공
+                            	  alert(data.msgContents); 
+                                  //사용할수 없음
+                                  $("#interCoin").val("관심등록");
+                              }else{
+                            	  alert(data.msgContents); 
+                                  //사용할수 있음
+                                  $("#interCoin").val("2"); 
+                              }               
+                              
+                              url = "${CP}/getAll.do"
+                                  method = "GET";
+                                  parameters = {
+                                          "uId": $("#admin").val()
+                                  };
+                                  EClass.callAjax(url,parameters,method,async,function(data){
+                                      console.log("data: "+data);
+                                  });
+                          });
+                      });
+             
                       $('[id*="uicMarket"]').on('click', function(){
-                    	  let marketCoin= $(this).text();
+                          let marketCoin= $(this).text();
                           //호가창
                           let really = {
                             "async": true,
@@ -380,7 +422,7 @@ th {
                           });
                           //호가창 끝
                           
-                        //그래프
+                            //그래프
                           google.charts.load('current', {'packages':['corechart']});
                           google.charts.setOnLoadCallback(drawCharts);
                           console.log(google.charts)
@@ -451,135 +493,33 @@ th {
                   
                                   chart.draw(visualizedData, options)
                   
-                              });  
-                          }
-    				            //그래프끝
-                      });
-                       
-                    	  
-                      })
-                    
-                      $('[id*="look"]').on("click", function() {
-                          alert("관심코인이 등록되었습니다.");
-                          console.log($(this).attr("id"));
-                          let t1 = $(this).attr("id");
-                          t1 = t1.substring(t1.lastIndexOf("k")+1, t1.length);
-                          console.log(`uicMarket${'${t1}'}`);
-                          let uicMarket = "uicMarket"+t1;
-                          let uicNowPrice = "uicNowPrice"+t1;
-                          let uicToFixed = "uicToFixed"+t1;
-                          let uicPrice24h = "uicPrice24h"+t1;
-                          let uId = "uId"+t1;
-                          console.log(uicMarket);
-                          console.log(uicNowPrice);
-                          console.log(uicToFixed);
-                          console.log(uicPrice24h);
-                          console.log(uId);
-                          $(this).parents().attr("id", "${uicMarket}").text();
-                        	  
-                          let url = "${CP}/insert.do99";
-                          let method ="POST";
-                          let async  = true;
-                          let parameters = {
-                                "uicMarket": ($(this).parents().attr("id", uicMarket)).text(),
-                                "uicNowPrice": ($(this).parents().attr("id", uicNowPrice)).text(),
-                                "uicToFixed": ($(this).parents().attr("id", uicToFixed)).text(),
-                                "uicPrice24h": ($(this).parents().attr("id", uicPrice24h)).text(),
-                                "uId": ($(this).parents().attr("id", uId)).text()
-                          };
-                            EClass.callAjax(url, parameters, method, async, function(data) {
-                                console.log('data:'+data);
-                                //alert(data.msgContents); 
-                                if("1" == data.msgId){//id중복
-                                    alert(data.msgContents); 
-                                    //사용할수 없음
-                                    $(".look").val("0");
-                         //           uicTable
-                         //           let hData;
-                                    
-                         //           hData += "<tr>                                                                                                                                    ";
-                           //         hData += "     <td class='text-left   col-sm-2 col-md-2 col-lg-2' id='uicMarket"+i+"'>"+ data[i].market +"</td>                                   ";
-                             //       hData += "     <td class='text-left   col-sm-2 col-md-2 col-lg-2' id='uicNowPrice"+i+"'>"+ data[i].trade_price +"</td>                            ";
-                               //     hData += "     <td class='text-left   col-sm-2 col-md-2 col-lg-2' id='uicToFixed"+i+"'>"+ (data[i].signed_change_rate*100).toFixed(3)  +"%</td>   ";
-                                 //   hData += "     <td class='text-left   col-sm-2 col-md-2 col-lg-2' id='uicPrice24h"+i+"'>"+ no +"백만</td>                                           ";
-                                   // hData += "     <td class='text-left'> <input type='button' id='look"+i+"' value='관심등록' /> </td>                                                    ";
-                                    //hData += "<tr>                                                                                                                ";
-                                }else{//id사용 가능
-                                    alert(data.msgContents); 
-                                    //사용할수 있음
-                                    $(".look").val("관심등록");                   
-                                }
-                            });
-                      }); 
-              }); 
-       //관심목록 끝
-             
-           
-             
-           //실시간 체결 내역
-           /*   let settings = {
-                     "async": true,
-                     "crossDomain": true,
-                     "url": "https://api.upbit.com/v1/market/all?isDetails=false",
-                     "method": "GET",
-                     "headers": {
-                     "Accept": "application/json"
-                     }
-           };
-           $.ajax(settings).done(function (response) {
-               let i = 0;
-               let htmlData = "";
-               let marketNames = "";
-               $(".mainExchangeTabContextDivCaVote").empty();
-               
-               console.log(response);
-               
-               for(i=0; i<response.length; i++){
-                  let str = (response[i].market).substring(0, (response[i].market).indexOf('-'));
-                  let arr;
-                  if( str == 'KRW' ) {
-                        arr = response[i].market;
-                        marketNames += response[i].market + '%2C';
-                  }
-               }
-               
-               marketNames = marketNames.substr(0, marketNames.length-3);
-
-               let settings = {
-                       "async": true,
-                       "crossDomain": true,
-                       "url": "https://api.upbit.com/v1/trades/ticks?market=KRW-BTC&count=10",
-                       "method": "GET",
-                       "headers": {
-                         "Accept": "application/json"
-                       }
-               };
-               $.ajax(settings).done(function (data) {
-                   console.log(data);
-                   
-                   for(i=0; i<data.length; i++){
-                       
-                       
-                       htmlData += "<tr>                                                                                                        ";
-                       htmlData += "     <td class='text-left   '>"+ data[i].trade_date_utc +'-'+ data[i].trade_time_utc +"</td>                ";
-                       htmlData += "     <td class='text-left   '>"+ response[0].market+"</td>                                                 ";   
-                       htmlData += "     <td class='text-left   '>"+ data[i].trade_price +"</td>                                               ";  
-                       htmlData += "     <td class='text-left   '>"+ data[i].trade_volume +"</td>                                               ";   
-                       htmlData += "<tr>                                                                                                        ";
-                   }
-                   $(".mainExchangeTabContextDivCaVote").append(htmlData);
-               });  
-             
-            
-                   }); */
+                                  });  
+                                  }
+                                  //그래프끝
+                                  
+                                buildTable(myArray) 
+								function buildTable(marketCoin) { 
+								    var table = document.getElementById('table1') 
+								    for (var i=0; i < data.length; i++) { 
+								        var row = `<tr>
+								                    <td>${marketCoin[i]}</td> 
+								                    <td>${marketCoin[i]}</td> 
+								                    <td>${marketCoin[i]}</td> 
+                                                    <td>${marketCoin[i]}</td> 
+								                  </tr>` 
+								        table.innerHTML += row 
+								    }
+                                  };    
+                              });
+                              //마켓클릭이벤트
                           
-  
-             
-            	 
-            	 
-          
+                          });
+                         //full2끝
+                    
+                      }); 
+                      //full끝 
+                 
             //업비트 오픈소스 끝
-            
             
         $(".mainExchangeTab li[id *= 'mET']").click(function() {
             let mETLastWord = ($(this).attr("id")).substr(($(this).attr("id")).length - 1);
@@ -669,9 +609,7 @@ th {
     <%@include file="header.jsp"%>
     <script type="text/javascript" src="${CP_RES}/js/header.js"></script>
     <!-- 와렙 -->
-    <form>
     <input type="text" id="admin" value="admin">
-    </form>
     <div id="wrap">
         <!-- 메인 -->
         <div class="main">
@@ -929,6 +867,14 @@ th {
                 <div class="interestCoin">
                     <h2>관심코인</h2>
                     <table id="uicTable">
+                        <tr>
+                            <td>코인명</td>
+                            <td>현재가</td>
+                            <td>전일대비</td>
+                            <td>거래대금</td>
+                        </tr>
+                          <tbody id="table1">
+                          </tbody>
                     </table>
                 </div>
                 <!-- //관심코인 끝 -->

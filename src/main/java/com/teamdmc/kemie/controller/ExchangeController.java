@@ -16,9 +16,12 @@
 */
 package com.teamdmc.kemie.controller;
 import java.sql.SQLException;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,6 +41,13 @@ import com.teamdmc.kemie.userinterested.domain.UserInterestedVO;
 public class ExchangeController {
 	final Logger LOG = LogManager.getLogger(getClass());
 	
+	final String NAMESPACE ="com.teamdmc.kemie.controller";
+	
+	//mybatis db연결객체
+	@Autowired
+	SqlSessionTemplate sqlSessionTemplate;
+		
+	@Autowired
 	UserinterestedService userinterestedService;
 	
 	@RequestMapping("/exchange.do")  
@@ -63,8 +73,30 @@ public class ExchangeController {
 		
         return "exchange";
 	}	
+
+	//GET방식으로 : http://localhost:8081/ehr/user/doSelectOne.do?uId=p31
+		@RequestMapping(value = "/getAll.do",method = RequestMethod.GET
+				,produces = "application/json;charset=UTF-8")
+		@ResponseBody //스프링에서 비동기 처리를 하는 경우, Http 요청의 본문 body부분이 전달된다.
+		//UserVO inVO : form name VO 멤버변수명이 동일하면 자동으로 메핑한다.
+		public String getAll(UserInterestedVO inVO) throws SQLException{
+			LOG.debug("==============================");
+			LOG.debug("=getAll()=");
+			LOG.debug("=inVO="+inVO);
+			LOG.debug("==============================");
+			
+			List<UserInterestedVO> list = userinterestedService.getAll(inVO);
+			Gson gson=new Gson();
+			String jsonString = gson.toJson(list);
+			LOG.debug("==============================");
+			LOG.debug("=doSelectOne()=");
+			LOG.debug("=jsonString="+jsonString);
+			LOG.debug("==============================");	
+			
+			return jsonString;
+		}
 	
-	@RequestMapping(value = "/insert.do",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
+	@RequestMapping(value = "/insert.do",method = RequestMethod.GET,produces = "application/json;charset=UTF-8")
 	@ResponseBody//스프링에서 비동기 처리를 하는 경우,HTTP 요청의 분문 body 부분이 그대로 전달된다.
 	public String add(UserInterestedVO inVO) throws SQLException{
 		String jsonString = "";
@@ -75,9 +107,9 @@ public class ExchangeController {
 		int flag = userinterestedService.doInsert(inVO);
 		String resultMessage = "";
 		if(1==flag) {//등록 성공	
-			resultMessage = inVO.getuId()+"가 등록 되었습니다.";
+			resultMessage = inVO.getUicMarket()+"가 등록 되었습니다.";
 		}else {
-			resultMessage = inVO.getuId()+"등록 실패.";
+			resultMessage = inVO.getUicMarket()+"등록 실패.";
 		}
 		
 		MessageVO message=new MessageVO(String.valueOf(flag), resultMessage);
@@ -89,5 +121,4 @@ public class ExchangeController {
 		
 		return jsonString;
 	}
-	
 }

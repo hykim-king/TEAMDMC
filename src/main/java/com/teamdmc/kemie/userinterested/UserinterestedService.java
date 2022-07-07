@@ -17,6 +17,7 @@
 package com.teamdmc.kemie.userinterested;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import com.teamdmc.kemie.userinterested.domain.UserInterestedVO;
 
@@ -25,6 +26,12 @@ import com.teamdmc.kemie.userinterested.domain.UserInterestedVO;
  *
  */
 public interface UserinterestedService {
+	
+	/**
+	 * 회원 다건 조회
+	 * @return
+	 */
+	public List<UserInterestedVO> getAll(UserInterestedVO inVO);
 	
 	/**
 	 * 게시물 삭제
