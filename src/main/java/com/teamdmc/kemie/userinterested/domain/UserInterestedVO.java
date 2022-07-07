@@ -20,6 +20,7 @@ public class UserInterestedVO extends DTO{
 		this.uicToFixed = uicToFixed;
 		this.uicPrice24h = uicPrice24h;
 		this.uId = uId;
+		// dasdas
 	}
 
 	public int getUicIndex() {
