@@ -12,10 +12,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- jQuery cdn -->
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<!-- 합쳐지고 최소화된 최신 CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<!-- 부가적인 테마 -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
 <script src="${CP_RES}/js/eUtil.js"></script>
 <script src="${CP_RES}/js/eclass.js"></script>
 <!-- jquery bootstrap paging -->
 <script type="text/javascript" src="${CP_RES}/js/jquery.bootpag.js"></script>
+
 
 <!--자바스크립트 코드-->
 <script type="text/javascript">
@@ -159,7 +167,6 @@
     ;
 </style>
 
-<link rel="stylesheet" type="text/css" href="${CP_RES}/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="${CP_RES}/css/header.css">
 <link rel="stylesheet" type="text/css" href="${CP_RES}/css/footer.css">
 <!--스타일시트 -->
