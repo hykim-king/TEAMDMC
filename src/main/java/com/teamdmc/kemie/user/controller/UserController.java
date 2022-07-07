@@ -38,9 +38,6 @@ public class UserController {
 	
 	
 	
-	
-	
-	
 	@RequestMapping(value = "/doInsert.do",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String doInsert(UserVO inVO) throws SQLException{
@@ -85,9 +82,9 @@ public class UserController {
 		String resultMsg = "";
 		int flag = Uservice.doDelete(inVO);
 		if(1==flag) {
-			resultMsg = inVO.getuId()+"삭제 성공 했습니다.";
+			resultMsg = inVO.getuId()+"계정 삭제를 성공 했습니다.";
 		}else {
-			resultMsg = inVO.getuId()+"삭제 실패 했습니다.";
+			resultMsg = inVO.getuId()+"계정 삭제를 실패 했습니다.";
 		}
 		
 		MessageVO message=new MessageVO(String.valueOf(flag), resultMsg);	

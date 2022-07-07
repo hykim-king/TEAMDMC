@@ -26,6 +26,7 @@
             <exclude-mapping path="/login/**"/>
             <exclude-mapping path="/resources/**"/>
             <exclude-mapping path="/mainPage.do"/>
+            <exclude-mapping path="/signin.do"/>
             <beans:ref bean="loginInterceptor"/>
 	   </interceptor>
 	</interceptors>
