@@ -43,7 +43,7 @@ public interface UserDao {
 	/**
 	 * nickname 중복 check
 	 * @param inVO
-	 * @return
+	 * @return 1(성공)/ 0(실패)
 	 * @throws SQLException
 	 */
 	public int nickCheck(UserVO inVO) throws SQLException;
@@ -51,7 +51,7 @@ public interface UserDao {
 	/**
 	 * id중복 check
 	 * @param inVO
-	 * @return
+	 * @return 1(성공)/ 0(실패)
 	 * @throws SQLException
 	 */
 	public int idCheck(UserVO inVO) throws SQLException;

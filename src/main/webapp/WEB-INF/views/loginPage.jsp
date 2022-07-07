@@ -131,26 +131,26 @@
 
 <title>KEMIE-로그인</title>
             
-        <script type="text/javascript">
+    <script type="text/javascript">
       $(document).ready(function(){
         console.log("document.ready");  
         
         
-        //숫자만 입력
-        //속성
-        // $("input:text[numberOnly]").on("keyup",function(e){
-        //      console.log("$(this).val():"+$(this).val());  
-        //});
+        //비번찾기 팝업
+        
+        
+        	
+        
         
         //검색어 Enter
-/*         $("#passwd").on("keypress",function(e){
+        $("#passwd").on("keypress",function(e){
             console.log("passwd"+e.which);  
             if(13==e.which){
                 e.preventDefault();
               //trigger통한 호출: 로그인 호출
                 $( "#doLogin" ).trigger( "click" );
             }
-        }); */
+        });
         
         
         $("#doLogin").on("click",function(){
@@ -188,25 +188,16 @@
                     $("#passwd").focus();
                 }else if("30" == data.msgId){//id/비번 통과
                     alert(data.msgContents);
-                    //특정페이지로 이동: main
+                    //특정페이지로 이동: main.jsp
                     
-                    window.location.href ="${CP}/main/mainView.do";
+                    window.location.href ="${CP}/mainPage.do";
                     
                 }else{
                     alert(data.msgContents);
                     $("#uId").focus();
                 } 
-                
             });
-            
-        });//doLogin========================================
-        
-/*         
-        $("#forgetPw").on("click", function() {
-            console.log("forgetPass");
         });
-        
-         */  
       });
     </script>
     
@@ -218,28 +209,24 @@
     <div id="wrap">
         <form action="${CP}/login/doLogin.do" class="LoginFrm" method="post">
             <h1>로그인</h1>
-            <!-- 아이디, 비밀번호 미 입력시 validation -->
             <div class="loginbox">
                 <div class="idbox">
                     <label for="uId">아이디</label> 
                     <input id="uId" type="text" placeholder="아이디를 입력하세요">
-                    <p class="msgErr1">아이디를 입력하세요.</p>
+                    <p class="msgErr1"></p>
                 </div>
                 <div class="pwbox">
                     <label for="passwd">비밀번호</label>
-                    <input id="passwd" type="password" placeholder="비밀번호를 입력하세요">
-                    <p class="msgErr2">아이디 또는 비밀번호를 잘못 입력했습니다.</p>
+                    <input id="passwd" type="password" placeholder="비밀번호를 입력하세요" autocomplete="off" >
+                    <p class="msgErr2"></p>
                 </div>
             </div>
             <div class="bt">
-                <input type="button" value="비밀번호 찾기" name="forgetPw" id="forgetPw" >
-                <input type="button" value="로그인" name="doLogin" id="doLogin" onclick="doLogin();" >
-<!--                 <button id="forgetPw">비밀번호찾기</button>
-                <button id="doLogin">로그인</button> -->
+                <input type="button" value="비밀번호 찾기" name="findPass" id="findPass" onclick="findPassPop()" >
+                <input type="button" value="로그인" name="doLogin" id="doLogin" onclick="doLogin" >
             </div>
         </form>
     </div>
     <%@include file="footer.jsp" %>
-    
 </body>
 </html>

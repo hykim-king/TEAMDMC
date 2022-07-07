@@ -44,7 +44,7 @@ public class LoginController {
 			session.removeAttribute("user");
 			session.invalidate();
 		}
-		return "main/main";
+		return "mainPage";
 	}
 	
 	
@@ -82,7 +82,14 @@ public class LoginController {
 		return jsonString;
 	}
 	
-	
+	@RequestMapping(value="/loginAlert.do", method=RequestMethod.GET)
+	public String loginAlert()throws SQLException{
+		LOG.debug("===========================");
+		LOG.debug("=loginAlert()=");
+		LOG.debug("===========================");
+		
+		return "alertPage";
+	}
 	
 	@RequestMapping(value="/loginView.do", method=RequestMethod.GET)
 	public String loginView()throws SQLException{
@@ -90,7 +97,6 @@ public class LoginController {
 		LOG.debug("=loginView()=");
 		LOG.debug("===========================");
 		
-		// /WEB-INF/views/login/login.jsp
-		return "login/login";
+		return "loginPage";
 	}
 }

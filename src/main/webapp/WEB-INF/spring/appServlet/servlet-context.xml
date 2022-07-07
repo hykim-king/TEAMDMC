@@ -14,7 +14,22 @@
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
-
+	
+	
+	<!-- Interceptor -->
+	<beans:bean id="loginInterceptor" class="com.teamdmc.kemie.intercepter.LoginInterceptor"></beans:bean>
+	
+    <!-- Interceptor main config -->
+ 	<interceptors>
+	   <interceptor>
+	       <mapping path="/**"/>
+            <exclude-mapping path="/login/**"/>
+            <exclude-mapping path="/resources/**"/>
+            <exclude-mapping path="/mainPage.do"/>
+            <beans:ref bean="loginInterceptor"/>
+	   </interceptor>
+	</interceptors>
+	
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />

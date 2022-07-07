@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -27,6 +28,8 @@ public class UserController {
 	@Autowired
 	userService Uservice;
 	
+	public UserController() {}
+	
 	@RequestMapping("/myPage.do")  
 	public String myPage() {
 		System.out.println("userController테스트입니다.!");
@@ -34,22 +37,25 @@ public class UserController {
 	}
 	
 	
+	
+	
+	
+	
 	@RequestMapping(value = "/doInsert.do",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
-	@ResponseBody//스프링에서 비동기 처리를 하는 경우,HTTP 요청의 분문 body 부분이 그대로 전달된다.
+	@ResponseBody
 	public String doInsert(UserVO inVO) throws SQLException{
 		String jsonString = "";
 		LOG.debug("==============================");
 		LOG.debug("=inVO="+inVO);
 		LOG.debug("==============================");
-		String resultMsg = "";
 		
 		int flag = Uservice.doInsert(inVO);
 		String resultMessage = "";
 		
-		if(1==flag) {//등록 성공
-			resultMessage = inVO.getuId()+"가 등록 되었습니다.";
+		if(1==flag) {//가입 성공
+			resultMessage = inVO.getuId()+"님의 가입을 환영합니다.";
 		}else {
-			resultMessage = inVO.getuId()+"등록 실패.";
+			resultMessage = inVO.getuId()+"가입에 실패 했습니다.";
 		}
 		
 		MessageVO message=new MessageVO(String.valueOf(flag), resultMessage);
@@ -79,9 +85,9 @@ public class UserController {
 		String resultMsg = "";
 		int flag = Uservice.doDelete(inVO);
 		if(1==flag) {
-			resultMsg = inVO.getuId()+"가 삭제 되었습니다.";
+			resultMsg = inVO.getuId()+"삭제 성공 했습니다.";
 		}else {
-			resultMsg = inVO.getuId()+"가 삭제 실패!";
+			resultMsg = inVO.getuId()+"삭제 실패 했습니다.";
 		}
 		
 		MessageVO message=new MessageVO(String.valueOf(flag), resultMsg);	
@@ -104,13 +110,13 @@ public class UserController {
 		String jsonString = "";
 		
 		LOG.debug("==========================");
-		LOG.debug("=doNickUpdate()=");
+		LOG.debug("=doPassUpdate()=");
 		LOG.debug("==========================");
 		
 		int flag = Uservice.doPassUpdate(inVO);
 		
-		if(flag == 1) resultMsg = "당신의 비밀번호가 성공적으로 변경되었습니다.";
-		else resultMsg = "당신의 비밀번호는 변경되지 않았습니다.";
+		if(flag == 1) resultMsg = "비밀번호가 성공적으로 변경되었습니다.";
+		else resultMsg = "비밀번호가 변경되지 않았습니다.";
 				
 		jsonString = new Gson().toJson(new MessageVO(String.valueOf(flag), resultMsg));
 		
@@ -186,8 +192,8 @@ public class UserController {
 		
 		int flag = Uservice.nickCheck(inVO);
 		
-		if(flag == 1) resultMsg = inVO.getNick() + "가 중복되었습니다.";
-		else resultMsg = inVO.getNick() + "는 중복되지 않았습니다.";
+		if(flag == 1) resultMsg = inVO.getNick() + "이 존재 합니다.";
+		else resultMsg = inVO.getNick() + "는 사용할 수 있습니다.";
 				
 		jsonString = new Gson().toJson(new MessageVO(String.valueOf(flag), resultMsg));
 		

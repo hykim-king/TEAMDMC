@@ -105,7 +105,6 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public List<UserVO> doRetrieve(DTO dto) throws SQLException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

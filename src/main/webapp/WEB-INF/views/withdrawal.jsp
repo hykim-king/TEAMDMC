@@ -28,6 +28,11 @@
 	    padding: 0;
 	    font-family: 'Noto Sans KR', sans-serif;
 	}
+	
+	.txtbox {
+    width: 100%;
+    height: 80px;
+}
 
 </style>
 
@@ -35,18 +40,37 @@
 
 <script type="text/javascript">
 	
-/* 	$(document).ready(function(){
-	    
+ 	$(document).ready(function(){
+
+/*  		
+ 		  <delete id="doDelete" parameterType="UserVO">
+ 		    DELETE FROM user_info
+ 		    WHERE u_id = #{uId}           
+ 		  </delete>
+ */	    
           //삭제
+          //1(성공)/ 0(실패)
           $("#doDelete").on("click", function(){
                 console.log("doDelete");
                 
-                let url = "${CP}/user/doDelete.do";
+                let url = "${CP}/userinfo/doDelete.do";
                 
                 if(eUtil.ISEmpty($("#uId").val())){
                     alert("아이디를 입력하세요.");
                     $("#uId").focus();
                     return;
+                }
+                
+                if(eUtil.ISEmpty($("#passwd").val())){
+                    alert("비밀번호를 입력하세요.");
+                    $("#passwd").focus();
+                    return;                 
+                }           
+                
+                if(eUtil.ISEmpty($("#passCheck").val())){
+                    alert("비밀번호를 다시 입력하세요.");
+                    $("#passCheck").focus();
+                    return;                 
                 }
                 
                 let parameters = {
@@ -57,31 +81,27 @@
                 let method ="GET";
                 let async  = true;
                 
-                if(confirm("삭제 하시겠습니까?")==false)return;
+                if(confirm("계정을 삭제 하시겠습니까?")==false)return;
                 EClass.callAjax(url, parameters, method, async, function(data) {
                     console.log('data:'+data);  
                     
                     if("1"==data.msgId){
                         alert(data.msgContents);
-                        //1. 목록조회
-                        doRetrieve(1);
-                        //2. 관리초기화
-                        init();
                     }else{
                         alert(data.msgContents);
                     }
                 });
-          //--삭제      
           });
+          //--doDelete      
 	    	
-	    } */
-
+	    });
+ 	
 </script>
 
 </head>
 <body>
 
-    <form action="#" id="withdrawal" name="withdrawal" method="post">
+    <form action="${CP}/userinfo/doDelete.do" id="withdrawal" name="withdrawal" method="post">
         <div id="wrap">
             <div class="txtbox">
 				<div class="wdbox">
@@ -91,7 +111,7 @@
 					<input type="password" id="passwd" name="passwd" placeholder="비밀번호를 입력하세요.">
 				</div>
 				<div class="wdbox">
-					<input type="password" id="passwd2" name="passwd2" placeholder="비밀번호를 다시 입력하세요.">
+					<input type="password" id="passCheck" name="passCheck" placeholder="비밀번호를 다시 입력하세요.">
 				</div>
 				<div class="wdbtn">
 					<input type="button" id="doDelete" name="doDelete" value="회원 탈퇴">

@@ -125,7 +125,7 @@
          #{name},                  
          #{pNum},                  
          #{nick},                  
-         #{type},                  
+         0,                  
          SYSDATE             
      )      
   </insert>

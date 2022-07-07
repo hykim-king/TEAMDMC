@@ -24,84 +24,84 @@
 <!--스타일 시트 -->
 <style>
 @import
-	url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap')
-	;
+    url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap')
+    ;
 
 </style>
 
 <style type="text/css">
 * {
-	margin: 0;
-	padding: 0;
-	font-family: 'Noto Sans KR', sans-serif;
+    margin: 0;
+    padding: 0;
+    font-family: 'Noto Sans KR', sans-serif;
 }
 
 #wrap {
-	width: 100%;
-	height: calc(100vh - 80px);
-	position: relative;
+    width: 100%;
+    height: calc(100vh - 80px);
+    position: relative;
 }
 
 .txtbox {
-	width: 500px;
-	height: 630px;
-	font-size: 16px;
-	margin: 0 auto;
-	text-align: center;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
+    width: 500px;
+    height: 630px;
+    font-size: 16px;
+    margin: 0 auto;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .txtbox h1 {
-	margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 
 .box {
-	width: 100%;
-	height: 80px;
+    width: 100%;
+    height: 80px;
 }
 
 .box input {
-	width: 400px;
-	display: block;
-	box-sizing: border-box;
-	height: 30px;
-	border: 1px solid #dedede;
+    width: 400px;
+    display: block;
+    box-sizing: border-box;
+    height: 30px;
+    border: 1px solid #dedede;
 }
 
 .box label {
-	width: 100px;
-	height: 30px;
-	line-height: 30px;
-	display: block;
-	float: left;
-	text-align: left;
+    width: 100px;
+    height: 30px;
+    line-height: 30px;
+    display: block;
+    float: left;
+    text-align: left;
 }
 
 .msgErr1, .msgErr2, .msgErr3 {
-	color: #37385d;
-	margin-top: 0;
-	text-align: left;
-	margin-left: 100px;
-	font-size: 13px;
+    color: #37385d;
+    margin-top: 0;
+    text-align: left;
+    margin-left: 100px;
+    font-size: 13px;
 }
 
 .gaib {
-	width: 100%;
-	height: 50px;
-	text-align: center;
-	margin-top: 20px;
+    width: 100%;
+    height: 50px;
+    text-align: center;
+    margin-top: 20px;
 }
 
 .gaib input {
-	width: 90px;
-	height: 50px;
-	margin: 0 auto;
-	border: 1px solid #333;
-	background: white;
-	border-radius: 2px;
+    width: 90px;
+    height: 50px;
+    margin: 0 auto;
+    border: 1px solid #333;
+    background: white;
+    border-radius: 2px;
 }
 
  #idCheck{
@@ -126,23 +126,93 @@
     float: right;
  }
  
+ .necess{
+    font-size: 13px;
+    color: green;
+    margin: 0 auto;
+ }
+ 
 </style>
 <title>KEMIE-회원가입</title>
 
-    <script type="text/javascript">
+      <script type="text/javascript">
     
     $(document).ready(function(){
+        
 /*         function checkForm() {
             var empC = /\s/g;
-            var nameRegExp = /^[가-힣]{2,5}$/;
-            var idRegExp = /^[a-zA-z0-9]{4,20}$/;
+            var nameC = /^[가-힣]{2,5}$/;
+            var idpwC = /^[a-zA-z0-9]{4,20}$/;
             var nickC = /^[가-힣]{2,4}|[a-zA-Z]{2,10}\s[a-zA-Z]{2,10}$/;
-            var pwRegExp = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{5,}$/;
-            var phoneExp /^01([0|1|6|7|8|9]?)?([0-9]{3,4})?([0-9]{4})$/;
-            }
-        }//checkForm========================================= */
+            var pNumC /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
+                        숫자만  /^[0-9]+$/;        /^[0-9]*$/;     /^\d{3}-\d{3,4}-\d{4}$/;
+        }//checkForm=========================================  */
         
+/*         
+        
+        //아이디
+        $("#uId").on("keydown", function(e){
+            let idC = /^[a-zA-z0-9]+$/;
+            let str = $("#uId").val();
+            
+            if(!str.match(idC)&&||str.length<20){
+                $("#uId").val(str.slice(0, -1));                
+            }
+        });
+        
+        //ㅂㅣ번
+        $("#passwd").on("keydown", function(e){
+            let pwC = /^[a-zA-z0-9]+$/;
+            let str = $("#passwd").val();
+            
+            if(!str.match(pwC)){
+                $("#passwd").val(str.slice(0, -1));             
+            }
+        });
+        
+        //비번체크
+        $("#passCheck").on("keydown", function(e){
+            let pwC = /^[a-zA-z0-9]+$/;
+            let str = $("#passCheck").val();
+            
+            if(!str.match(pwC)){
+                $("#passCheck").val(str.slice(0, -1));              
+            }
+        });
+        
+        //이름
+        $("#name").on("keydown", function(e){
+            let nameC = /^[가-힣]+$/;
+            let str = $("#name").val();
+            
+            if(!str.match(nameC)){
+                $("#name").val(str.slice(0, -1));               
+            }
+        });
+        
+        //폰번호
+        $("#pNum").on("keydown", function(e){
+            let pNumC = /^\d{3}-\d{3,4}-\d{4}$/;
+            let str = $("#pNum").val();
+            
+            if(!str.match(pNumC)){
+                $("#pNum").val(str.slice(0, -1));               
+            }
+        });
+        
+        //닉네임
+        $("#nick").on("keydown", function(e){
+            let nickC = /^[a-zA-z0-9]+$/;
+            let str = $("#nick").val();
+            
+            if(!str.match(nickC)){
+                $("#nick").val(str.slice(0, -1));               
+            }
+        }); 
+        */
+
         //=======등록
+        //1(성공)/ 0(실패)
         $("#doInsert").on("click",function(){
             console.log("doInsert");  
             
@@ -183,7 +253,17 @@
                 return;                 
             }               
             
-            if(confirm("등록 하시겠습니까?")==false )return;      
+            if(confirm("등록 하시겠습니까?")==false)return;
+            else {
+            	if($("#idCheckYN").val() == "0"){
+            		alert("아이디를 확인해 주세요.");	
+            	}
+            	
+            	
+            	if($("#nickCheckYN").val() == "0"){
+                    alert("닉네임을 확인해 주세요."); 
+                }
+            }
             
             let url = "${CP}/userinfo/doInsert.do";
             let method = "POST";
@@ -193,8 +273,10 @@
                     "name": $("#name").val(),
                     "pNum": $("#pNum").val(),
                     "nick": $("#nick").val()
-/*                     "type": $("#type").val(),
+                    
+/*                      "type": $("#type").val(),
                     "regDt": $("#regDt").val() */
+                    
             };
             
             let async;
@@ -203,7 +285,6 @@
                 console.log("data.msgContents:"+data.msgContents);
                 if("1"==data.msgId){
                     alert(data.msgContents);
-                //    doRetrieve(1);
                 }else{
                     alert(data.msgContents);
                 }               
@@ -212,7 +293,7 @@
             
         });//회원가입 등록========================================
             
-         //id중복 Check : 등록된 경우만 동작!!!
+        //id중복 Check
         $("#idCheck").on("click",function(){
             console.log("idCheck");
             if(eUtil.ISEmpty($("#uId").val())){
@@ -231,7 +312,7 @@
             
             EClass.callAjax(url, parameters, method, async, function(data) {
                 console.log('data:'+data);
-                if("1" == data.msgId){//id중복
+                if("1" == data.msgId){
                     alert(data.msgContents); 
                     //사용할수 없음
                     $("#idCheckYN").val("0");
@@ -243,8 +324,43 @@
                 }
             });
         }); 
-        //idCheck============================================================= */
-        
+        //idCheck=============================================================
+            
+            
+        //중복 Check
+        $("#nickCheck").on("click",function(){
+            console.log("nick");
+            if(eUtil.ISEmpty($("#nick").val())){
+                alert("닉네임을 입력하세요.");
+                $("#nick").focus();
+                return;
+            }
+          
+            let url = "${CP}/userinfo/nickCheck.do";
+            let method ="GET";
+            let async  = true;
+            
+            let parameters = {
+                    "nick": $("#nick").val()  
+            };
+            
+            EClass.callAjax(url, parameters, method, async, function(data) {
+                console.log('data:'+data);
+                if("1" == data.msgId){
+                    alert(data.msgContents); 
+                    //사용할수 없음
+                    $("#nickCheckYN").val("0");
+                    
+                }else{//id사용 가능
+                    alert(data.msgContents); 
+                    //사용할수 있음
+                    $("#nickCheckYN").val("1");                   
+                }
+            });
+        }); 
+        //nickCheck=============================================================
+  
+        	
     });
     //----------------------------------------------$(document).ready
     </script>
@@ -259,67 +375,78 @@
 
         <div class="txtbox">
             <h1>회원가입</h1>
-            <!-- id : 중복 확인 검사, 유효성 검사 필요 -->
+            <p class="necess">*는 필수 입력 항목입니다.</p>
+            <!-- id : 중복 확인 검사, 유효성 검사 필요 idRegExp = /^[a-zA-z0-9]{4,20}$/; -->
             <div class="box">
-                <input type="hidden" name="idCheckYN" id="idCheckYN">
-                <label for="uId">아이디</label> 
-                <input id="uId" type="text" placeholder="아이디를 입력하세요." required="required" maxlength="20" />
-                <input type="button" value="중복확인"  id="idCheck" name="idCheck" onclick="idCheck();" />
-                <p class="msgErr1">아이디 베리데이션 노출 영역.</p>
+                <input type="hidden" name="idCheckYN" id="idCheckYN" value="0">
+                <label for="uId">*아이디</label> 
+                <input id="uId" type="text" placeholder="아이디를 입력하세요." required="required" />
+                <input type="button" value="중복확인"  id="idCheck" name="idCheck" onclick="idCheck" />
+                <p class="msgErr1"></p>
             </div>
-            <!-- id ------------------------------------------------------->
+            <!-- id idRegExp = /^[a-zA-z0-9]{4,20}$/; ------------------------------------------------------->
             
-            <!-- passwd -->
+            <!-- passwd /^[a-zA-z0-9]{4,20}$/; -->
             <div class="box">
-                <label for="passwd">비밀번호</label> 
-                <input name="pass" id="passwd" type="password" placeholder="비밀번호를 입력하세요." required="required" maxlength="20" />
-                <p class="msgErr2">비밀번호 베리데이션 노출 영역.</p>
+                <label for="passwd">*비밀번호</label> 
+                <input name="pass" id="passwd" type="password" placeholder="비밀번호를 입력하세요." required="required" autocomplete="off" />
+                <div class="msgErr2" id="pw1"></div>
             </div>
-            <!-- passwd --------------------------------------------------->
+            <!-- passwd var  --------------------------------------------------->
             
             <!-- passCheck-->
             <div class="box">
-                <label for="pwcheck">비밀번호 확인</label> 
-                <input id="passCheck" type="password" placeholder="비밀번호를 다시 입력하세요." required="required" maxlength="20" />
-                <p class="msgErr3">비밀번호 베리데이션 노출 영역.</p>
+                <label for="pwcheck">*비밀번호확인</label> 
+                <input id="passCheck" type="password" placeholder="비밀번호를 다시 입력하세요." required="required" autocomplete="off" />
+                <div class="msgErr3" id="pw2"></div>
             </div>
             <!-- passCheck ---------------------------------------------->
             
-            <!-- name -->
+            <!-- name /^[가-힣]{2,5}$/; -->
             <div class="box">
-                <label for="name">이름</label> 
-                <input id="name" type="text" placeholder="이름을 입력하세요." required="required" maxlength="5" />
+                <label for="name">*이름</label> 
+                <input id="name" type="text" placeholder="이름을 입력하세요." required="required" />
             </div>
             <!-- name ----------------------------------------------------->
             
-            <!-- pNum : 휴대폰 : ^01(?:0|1|[6-9])-(?:\d{3}|\d{4})-\d{4}$ / 000-0000-0000 -->
+            <!-- pNum  -->
             <div class="box">
-                <label for="pNum">휴대폰번호</label> 
+                <label for="pNum">*휴대폰번호</label> 
                 <input id="pNum" type="text" placeholder="ex) 010-xxxx-xxxx" required="required" />
             </div>
             <!-- pNum ----------------------------------------------------->
             
-            <!-- nick : 영어 & 숫자만 : ^[a-zA-Z0-9]*$/20BYTE /로그인 시 아이디가 아닌 닉네임으로 보여줌-->
+            <!-- nick : ^[a-zA-Z0-9]*$/ 20BYTE /로그인 시 아이디가 아닌 닉네임으로 보여줌-->
             <div class="box">
-                <label for="nick">닉네임</label> 
-                <input id="nick" type="text" placeholder="닉네임을 입력하세요." required="required" maxlength="10" />
-                <input type="button" value="중복확인" id="nickCheck" name="nickCheck" onclick="nickCheck();" />
+                <label for="nick">*닉네임</label> 
+                <input type="hidden" name="nickCheckYN" id="nickCheckYN" value="0">
+                <input id="nick" type="text" placeholder="닉네임을 입력하세요." required="required" />
+                <input type="button" value="중복확인" id="nickCheck" name="nickCheck" onclick="nickCheck" />
             </div>
             <!-- nick ------------------------------------------------->
             
             <!-- button -->
-                <form action="/doInsert.do" method="post" id="signFrm" >
+                    <form action="${CP}/userinfo/doInsert.do" method="post" id="signFrm" >
                 <div class="gaib">
                     <input type="button" value="회원가입" id="doInsert" name="doInsert" >
                 </div>
-                </form>
+                      </form>
             <!-- button --------------------------------------------------->
-        </div>
- 
+
+				<!-- button -->
+<%-- 				<form action="${CP}/userinfo/doDelete.do" method="post" id="signFrm" >
+				<div class="test">
+					<input type="button" value="회원 탈퇴" id="doDelete" name="doDelete" onclick="withPop">
+				</div>
+				</form> --%>
+				<!-- button --------------------------------------------------->
+
+			</div>
+   
     </div>
 
     <%@include file="footer.jsp" %>
     <!-- 내용 ----------------------------------------------------------->
-
+    
 </body>
 </html>
