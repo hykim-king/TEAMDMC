@@ -10,6 +10,38 @@ import com.teamdmc.kemie.user.domain.UserVO;
 public interface userService {
 	
 	/**
+	 * 아이디 찾기
+	 * @param inVO
+	 * @return 1(성공)/ 0(실패)
+	 * @throws SQLException
+	 */
+	public MessageVO doFindID(UserVO inVO) throws SQLException;
+	
+	/**
+	 * 전화번호check
+	 * @param inVO
+	 * @return 1(성공)/ 0(실패)
+	 * @throws SQLException
+	 */
+	public int pNumCheck(UserVO inVO) throws SQLException;
+	
+	/**
+	 * 이름 check
+	 * @param inVO
+	 * @return 1(성공)/ 0(실패)
+	 * @throws SQLException
+	 */
+	public int nameCheck(UserVO inVO) throws SQLException;
+	
+	/**
+	 * 비밀번호 찾기
+	 * @param inVO
+	 * @return 1(성공)/ 0(실패)
+	 * @throws SQLException
+	 */
+	public MessageVO doUpdatePW(UserVO inVO) throws SQLException;
+	
+	/**
 	 * 이전 비밀번호와 같은지 비밀번호 체크
 	 * @param inVO
 	 * @return 1(성공)/ 0(실패)

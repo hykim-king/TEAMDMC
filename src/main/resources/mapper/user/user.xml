@@ -39,6 +39,35 @@
     WHERE u_id = #{uId}
   </update>
   
+  <!-- 아이디 찾기 -->
+  <select id="doFindID" parameterType="UserVO" resultMap="userResultMap">
+    SELECT u_id
+    FROM user_info
+    WHERE u_name = #{name} 
+    AND u_pnum = #{pNum}
+  </select>
+  
+  <!-- 비밀번호 찾기 -->
+  <update id="doUpdatePW" parameterType="UserVO">
+    UPDATE user_info
+    SET u_pw = #{passwd}
+    WHERE u_id = #{uId}
+    AND u_name = #{name}
+    AND u_pnum = #{pNum}
+  </update>
+  
+  <select id="nameCheck" parameterType="UserVO" resultType="int">
+    SELECT COUNT(*) cnt
+    FROM user_info
+    WHERE u_name = #{name}
+  </select>
+  
+  <select id="pNumCheck" parameterType="UserVO" resultType="int">
+    SELECT COUNT(*) cnt
+    FROM user_info
+    WHERE u_pnum = #{pNum}
+  </select>
+  
   <!-- ID중복 check -->
   <select id="loginCheck" parameterType="UserVO" resultType="int">
     SELECT COUNT(*) cnt

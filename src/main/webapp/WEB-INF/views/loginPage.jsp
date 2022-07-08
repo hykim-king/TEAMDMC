@@ -127,6 +127,53 @@
 	width: 100px;
 	height: 30px;
 }
+
+#modal {
+  position: absolute;
+  top:0;
+  left:0;
+  
+  width: 100%;
+  height: 100%;
+  
+  display: none;
+  
+  margin: 0 auto;
+  background: rgba(0,0,0,0.8);
+}
+
+#modal2 {
+  position: absolute;
+  top:0;
+  left:0;
+  
+  width: 100%;
+  height: 100%;
+  
+  display: none;
+  
+  margin: 0 auto;
+  background: rgba(0,0,0,0.8);
+}
+
+.modalContent {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  
+  height: 100%;
+  width: 60%;
+  
+  text-align: center;
+  
+  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
+  box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+  
+  transform: translateX(-50%) translateY(-50%);
+  
+  margin: 0 auto;
+}
 </style>
 
 <title>KEMIE-로그인</title>
@@ -135,12 +182,137 @@
       $(document).ready(function(){
         console.log("document.ready");  
         
+        $("#exitID").click(function(){
+        	$('#modal2').css('display', 'none');
+        });
+        
+        $("#findId").click(function(){
+        	$('#modal2').css('display', 'block');
+        });
+        
+        $("#exitPW").click(function(){
+            console.log("modalContent clicked!");
+            $('#modal').css('display', 'none');
+          });
+          
+          $("#findPass").click(function(){
+            console.log("findPass clicked!");
+            $('#modal').css('display', 'block');
+          });
         
         //비번찾기 팝업
-        
-        
+        $("#selectID").click(function(){
+            if(eUtil.ISEmpty($("#modal2Name").val())){
+                alert("이름을 입력 하세요.")
+                $("#modalName").focus();
+                return;
+            }   
+            
+            if(eUtil.ISEmpty($("#modal2PNum").val())){
+                alert("전화번호를 입력 하세요.")
+                $("#modalPNum").focus();
+                return;
+            }   
+          
+            let url = "${CP}/login/doFindID.do";
+              let method = "POST";
+              let async  = true;
+              let parameters = {
+                      "name": $("#modal2Name").val(),
+                      "pNum": $("#modal2PNum").val()
+              };
+              
+              EClass.callAjax(url, parameters, method, async, function(data) {
+                  console.log(data);
+            	    if("10" == data.msgId){// 이름 확인
+                	    console.log("data.msg는 10번!")
+                      alert(data.msgContents);
+                      $("#modal2UId").focus();
+                  }else if("20" == data.msgId){// 전화 번호
+                	    console.log("data.msg는 10번!")
+                      alert(data.msgContents);
+                      $("#modal2Name").focus();
+                  }else{
+                	  console.log("else문을 탓씁니다.")
+                    alert(data.msgContents);
+                    $('#modal2').css('display', 'none');
+                  }
+              });
+        });
+          
+        //비번찾기 팝업
+        $("#updatePW").click(function(){
+        	console.log("$('#modalPassword').val()"+$('#modalPassword').val());
+        	console.log("$('#modalPasswordCheck').val()"+$('#modalPasswordCheck').val());
         	
-        
+        	if(eUtil.ISEmpty($("#modalUId").val())){
+                alert("아이디를 입력 하세요.")
+                $("#modalUId").focus();
+                return;
+            }
+            
+            if(eUtil.ISEmpty($("#modalName").val())){
+                alert("이름을 입력 하세요.")
+                $("#modalName").focus();
+                return;
+            }   
+            
+            if(eUtil.ISEmpty($("#modalPNum").val())){
+                alert("전화번호를 입력 하세요.")
+                $("#modalPNum").focus();
+                return;
+            }   
+        	
+            if(eUtil.ISEmpty($("#modalPassword").val())){
+                alert("비밀번호를 입력 하세요.")
+                $("#modalPassword").focus();
+                return;
+            }  
+            
+            if(eUtil.ISEmpty($("#modalPasswordCheck").val())){
+                alert("비밀번호 확인을 입력 하세요.")
+                $("#modalPasswordCheck").focus();
+                return;
+            }  
+            
+		       	if($("#modalPassword").val() != $("#modalPasswordCheck").val()){
+		       		alert("비밀번호가 일치하지 않습니다!");
+		       		$('#modalPassword').focus();
+		       		$('#modalPassword').val("");
+		       		$('#modalPasswordCheck').val("");
+		       		return;
+		       	}
+        	
+	        	let url = "${CP}/login/doUpdatePW.do";
+	            let method = "POST";
+	            let async  = true;
+	            let parameters = {
+	                    "uId": $("#modalUId").val(),
+	                    "name": $("#modalName").val(),
+	                    "pNum": $("#modalPNum").val(),
+	                    "passwd":$("#modalPassword").val()
+	            };
+	            
+	            EClass.callAjax(url, parameters, method, async, function(data) {
+	                if("10" == data.msgId){// ID 확인
+	                    alert(data.msgContents);
+	                    $("#modalUId").focus();
+	                }else if("20" == data.msgId){// 이름 확인
+	                    alert(data.msgContents);
+	                    $("#modalName").focus();
+	                }else if("30" == data.msgId){// 전화번호 확인
+	                    alert(data.msgContents);
+	                    $("#modalPNum").focus();
+	                    //특정페이지로 이동: main.jsp
+	                }else if("40" == data.msgId){// 이전 비밀번호와 동일한 비밀번호
+	                    alert(data.msgContents);
+	                    $("#passwd").focus();
+	                }else{
+	                	alert(data.msgContents);
+	                	$('#modal').css('display', 'none');
+	                }
+	            });
+        });
         
         //검색어 Enter
         $("#passwd").on("keypress",function(e){
@@ -151,7 +323,6 @@
                 $( "#doLogin" ).trigger( "click" );
             }
         });
-        
         
         $("#doLogin").on("click",function(){
             console.log("doLogin");
@@ -200,7 +371,6 @@
         });
       });
     </script>
-    
 </head>
 
 <body>
@@ -222,10 +392,30 @@
                 </div>
             </div>
             <div class="bt">
-                <input type="button" value="비밀번호 찾기" name="findPass" id="findPass" onclick="findPassPop()" >
+                <input type="button" value="아이디 찾기" name="findId" id="findId" >
+                <input type="button" value="비밀번호 찾기" name="findPass" id="findPass" >
                 <input type="button" value="로그인" name="doLogin" id="doLogin" onclick="doLogin" >
             </div>
         </form>
+        <div id="modal">
+          <div class="modalContent" title="클릭하면 창이 닫힙니다.">
+            <h2>비밀번호 찾기</h2>
+            <label for="modalUId">아이디</label><input id="modalUId" type="text" placeholder="아이디를 입력하세요"><br/>
+            <label for="modalName">이름</label><input id="modalName" type="text" placeholder="이름을 입력하세요" autocomplete="off" ><br/>
+            <label for="modalPNum">전화번호</label><input id="modalPNum" type="text" placeholder="전화번호를 입력하세요(형식. 010-1234-1234)" autocomplete="off"><br/>
+            <label for="modalPassword">변경할 비밀번호</label><input id="modalPassword" type="password" placeholder="변경할 비밀번호 입력" autocomplete="off"><br/>
+            <label for="modalPasswordCheck">변경할 비밀번호 확인</label><input id="modalPasswordCheck" type="password" placeholder="비밀번호 확인" autocomplete="off"><br/>
+            <input type="button" value="비밀번호 변경" id="updatePW" /><input type="button" value="닫기" id="exitPW" /> 
+          </div>
+        </div>
+        <div id="modal2">
+          <div class="modalContent" title="클릭하면 창이 닫힙니다.">
+            <h2>비밀번호 찾기</h2>
+            <label for="modal2Name">이름</label><input id="modal2Name" type="text" placeholder="이름을 입력하세요" autocomplete="off" ><br/>
+            <label for="modal2PNum">전화번호</label><input id="modal2PNum" type="text" placeholder="전화번호를 입력하세요(형식. 010-1234-1234)" autocomplete="off"><br/>
+            <input type="button" value="아이디 찾기" id="selectID" /><input type="button" value="닫기" id="exitID" /> 
+          </div>
+        </div>
     </div>
     <%@include file="footer.jsp" %>
 </body>

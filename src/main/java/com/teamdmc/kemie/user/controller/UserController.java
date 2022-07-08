@@ -36,8 +36,6 @@ public class UserController {
 		return "myPage";
 	}
 	
-	
-	
 	@RequestMapping(value = "/doInsert.do",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String doInsert(UserVO inVO) throws SQLException{
@@ -64,7 +62,6 @@ public class UserController {
 		
 		return jsonString;
 	}
-	
 	
 	@RequestMapping(value="/doDelete.do",method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	@ResponseBody
@@ -98,7 +95,6 @@ public class UserController {
 		return jsonString;
 	}
 	
-	
 	// testURL : http://localhost:8080/kemie/doNickUpdate.do?nick=테스트01
 	@RequestMapping(value="/doPassUpdate.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
@@ -124,7 +120,6 @@ public class UserController {
 		return jsonString;
 	}
 	
-	
 	@RequestMapping(value="/idCheck.do",method = RequestMethod.GET,produces = "application/json;charset=UTF-8")	
 	@ResponseBody
 	public String idCheck(UserVO inVO) throws SQLException{
@@ -148,8 +143,6 @@ public class UserController {
 		LOG.debug("==============================");
 		return jsonString;
 	}
-	
-	
 	
 	// testURL : http://localhost:8080/kemie/getPass.do?u_id=id01
 		@RequestMapping(value="/passCheck.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")

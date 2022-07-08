@@ -23,6 +23,63 @@ public class UserDaoImpl implements UserDao {
 	public UserDaoImpl() {}
 
 	@Override
+	public UserVO doFindID(UserVO inVO) throws SQLException {
+		UserVO outVO = null;
+		
+		String statement = NAMESPACE+".doFindID";
+		LOG.debug("==============================");
+		LOG.debug("다오 임플 되는지 궁금");
+		LOG.debug("param:" + inVO.toString());
+		LOG.debug("statement:" +statement);
+		LOG.debug("==============================");
+		
+		outVO = this.sqlSessionTemplate.selectOne(statement, inVO);		
+		LOG.debug("==============================");
+		LOG.debug("**outVO=" + outVO.toString());
+		LOG.debug("==============================");
+		
+		return outVO;
+	}
+
+	@Override
+	public int nameCheck(UserVO inVO) throws SQLException {
+		String statement = NAMESPACE+".nameCheck";
+		LOG.debug("==============================");
+		LOG.debug("param:" + inVO.toString());
+		LOG.debug("statement:" +statement);
+		LOG.debug("==============================");
+		
+		int flag = sqlSessionTemplate.selectOne(statement, inVO);
+		LOG.debug("flag: "+ flag);
+		return flag;
+	}
+	
+	@Override
+	public int pNumCheck(UserVO inVO) throws SQLException {
+		String statement = NAMESPACE+".pNumCheck";
+		LOG.debug("==============================");
+		LOG.debug("param:" + inVO.toString());
+		LOG.debug("statement:" +statement);
+		LOG.debug("==============================");
+		
+		int flag = sqlSessionTemplate.selectOne(statement, inVO);
+		LOG.debug("flag: "+ flag);
+		return flag;
+	}
+	
+	@Override
+	public int doUpdatePW(UserVO inVO) throws SQLException {
+		String statement = NAMESPACE + ".doUpdatePW";
+		LOG.debug("==============================");
+		LOG.debug("param:" + inVO.toString());
+		LOG.debug("statement:" +statement);
+		LOG.debug("==============================");
+		
+		int flag = sqlSessionTemplate.update(statement, inVO);
+		return flag;
+	}
+
+	@Override
 	public int passCheck(UserVO inVO) throws SQLException {
 		String statement = NAMESPACE+".passCheck";
 		LOG.debug("==============================");

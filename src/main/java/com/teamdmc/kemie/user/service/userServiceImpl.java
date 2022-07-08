@@ -24,6 +24,102 @@ public class userServiceImpl implements userService {
 	public userServiceImpl() {}
 
 	@Override
+	public MessageVO doFindID(UserVO inVO) throws SQLException {
+		//msgId;//메시지 ID
+		//1. ID확인 : 10
+		//2. 비번확인: 20
+		//3. id/비번 통과: 30
+		MessageVO  message=new MessageVO();
+ 
+		LOG.debug("doFindID serveiceimpl");
+		
+		int flag = userDao.nameCheck(inVO);
+		if(1 != flag) {
+			LOG.debug("일치 이름 x");
+			message.setMsgId("10");
+			message.setMsgContents("일치하는 이름이 없습니다.\n사용자 입력 값: "+inVO.getName());
+			
+			return message;
+		}		
+		
+		flag = userDao.pNumCheck(inVO);
+		if(1 != flag) {
+			LOG.debug("일치 전화번호 x");
+			message.setMsgId("20");
+			message.setMsgContents("일치하는 전화번호가  없습니다.\n사용자 입력 값: "+inVO.getpNum());
+			
+			return message;
+		}	
+		
+		inVO = userDao.doFindID(inVO);
+		LOG.debug("===============================");
+		LOG.debug("userServiceImpl()");
+		LOG.debug("=inVO="+inVO);
+		LOG.debug("===============================");
+		message.setMsgId("30");
+		message.setMsgContents("사용자의 아이디는 ["+inVO.getuId()+"] 입니다.");
+		
+		LOG.debug(message.getMsgId()+message.getMsgContents());
+		
+		return message;
+	}
+
+	@Override
+	public MessageVO doUpdatePW(UserVO inVO) throws SQLException {
+		//msgId;//메시지 ID
+		//1. ID확인 : 10
+		//2. 비번확인: 20
+		//3. id/비번 통과: 30
+		MessageVO  message=new MessageVO();
+		int flag = userDao.idCheck(inVO);
+		if(1 != flag) {
+			message.setMsgId("10");
+			message.setMsgContents("아이디를  확인 하세요.\n사용자 입력 값: "+inVO.getuId());
+			return message;
+		}
+		
+		flag = userDao.nameCheck(inVO);
+		if(1 != flag) {
+			message.setMsgId("20");
+			message.setMsgContents("이름을  확인 하세요.\n사용자 입력 값: "+inVO.getName());
+			
+			return message;
+		}		
+		
+		flag = userDao.pNumCheck(inVO);
+		if(1 != flag) {
+			message.setMsgId("30");
+			message.setMsgContents("전화번호를  확인 하세요.\n사용자 입력 값: "+inVO.getpNum());
+			
+			return message;
+		}	
+		
+		flag = userDao.passCheck(inVO);
+		if(1 == flag) {
+			message.setMsgId("40");
+			message.setMsgContents("이전과 동일한 비밀번호입니다. 다른 비밀번호를 입력해주세요.");
+			
+			return message;
+		}
+		
+		userDao.doUpdatePW(inVO);
+		message.setMsgId("50");
+		message.setMsgContents("비밀번호가 성공적으로 변경되었습니다.");
+		
+		return message;
+	}
+
+	@Override
+	public int pNumCheck(UserVO inVO) throws SQLException {
+		return this.userDao.pNumCheck(inVO);
+	}
+
+	@Override
+	public int nameCheck(UserVO inVO) throws SQLException {
+		return this.userDao.nameCheck(inVO);
+	}
+
+	@Override
 	public int passCheck(UserVO inVO) throws SQLException {
 		return this.userDao.passCheck(inVO);
 	}
@@ -95,7 +191,6 @@ public class userServiceImpl implements userService {
 
 	@Override
 	public MessageVO idPassCheck(UserVO inVO) throws SQLException {
-		
 		 //msgId;//메시지 ID
 		//1. ID확인 : 10
 		//2. 비번확인: 20
@@ -121,5 +216,4 @@ public class userServiceImpl implements userService {
 		
 		return message;
 	}
-
 }

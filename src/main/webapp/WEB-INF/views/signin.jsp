@@ -381,7 +381,7 @@
                 <input type="hidden" name="idCheckYN" id="idCheckYN" value="0">
                 <label for="uId">*아이디</label> 
                 <input id="uId" type="text" placeholder="아이디를 입력하세요." required="required" />
-                <input type="button" value="중복확인"  id="idCheck" name="idCheck" onclick="idCheck" />
+                <input type="button" value="중복확인"  id="idCheck" name="idCheck" />
                 <p class="msgErr1"></p>
             </div>
             <!-- id idRegExp = /^[a-zA-z0-9]{4,20}$/; ------------------------------------------------------->
