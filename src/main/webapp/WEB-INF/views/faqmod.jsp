@@ -220,12 +220,7 @@
                 <textarea name="contents" id="contents">${vo.fContents}</textarea>
             </div>
             <!-- contents ----------------------------------------------->
-            <!-- fileAdd -->
-            <div class="filebox">
-                <input type="text" id="fileadd" placeholder="첨부하실 파일을 선택하세요">
-                <input type="button" id="addbt" value="첨부">
-            </div>
-            <!-- fileAdd ------------------------------------------------>
+           
         </div>
     </div>
     <!-- 내용 ----------------------------------------------------------->
