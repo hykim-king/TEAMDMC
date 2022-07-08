@@ -101,6 +101,38 @@ public class LoginController {
 		return "mainPage";
 	}
 	
+	@RequestMapping(value="/doGetLogin.do" ,method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	public String doGetLogin(UserVO inVO, HttpSession session)throws SQLException{
+	String jsonString = "";
+	LOG.debug("===========================");
+	LOG.debug("=inVO="+inVO);
+	LOG.debug("===========================");
+	
+	
+	MessageVO message = Uservice.idPassCheck(inVO);
+	//msgId
+	//1. ID확인 : 10
+	//2. 비번확인: 20      
+	//3. id/비번 통과: 30		
+	
+	if(null !=message && "30".equals(message.getMsgId())){
+		UserVO loginUser = Uservice.doSelectOne(inVO);
+		if(null !=loginUser) {
+			session.setAttribute("user", loginUser);
+			
+			message.setMsgContents("반갑습니다"+loginUser.getName()+"님.");
+		}
+	}
+	
+	jsonString = new Gson().toJson(message);
+	
+	LOG.debug("===========================");
+	LOG.debug("=jsonString="+jsonString);
+	LOG.debug("===========================");	
+	
+	return "mainPage";
+	}
+
 	
 	@RequestMapping(value="/doLogin.do"
 					,method = RequestMethod.POST 

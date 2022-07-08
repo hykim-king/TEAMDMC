@@ -316,9 +316,16 @@
         <form action="#" method="post">
             <!-- 버튼으로 목록 수정 삭제 만들기 -->
             <div class="buttonDiv">
+                <c:choose>
+                <c:when test="${vo.uId != sessionScope.user.uId}">
                 <button type="button" class="btn btn-sm btn-primary" id="btnList">목록</button>
-                <button type="button" class="btn btn-sm btn-primary" id="btnUpdate">수정</button>
+                </c:when>
+                <c:otherwise>
                 <button type="button" class="btn btn-sm btn-primary" id="btnDelete">삭제</button>
+                <button type="button" class="btn btn-sm btn-primary" id="btnUpdate">수정</button>
+                <button type="button" class="btn btn-sm btn-primary" id="btnList">목록</button>
+                </c:otherwise>
+                </c:choose>
             </div>
             <!-- 버튼으로 목록 수정 삭제 종료 -->
            
@@ -344,7 +351,7 @@
                     <span><c:out value='${vo.bReadCnt}'/></span>
                 </div>
                 <!-- 멀티 끝 -->
-                <input type="hidden" id="uId" value='${vo.uId}'>
+                <input type="hidden" id="uId" value='${sessionScope.user.uId}'>
                 <input type="hidden" id="bSeq" value='${vo.bSeq}'>
                 <!-- 내용 -->
                 <div class="boardContent">
@@ -363,13 +370,26 @@
             <c:when test="${comList.size()>0 }">
             <c:forEach items="${comList}" var="comList" varStatus="status">
             <tr class="commentOne">
-                <td class="nic">${comList.uNick }</td>
-                <td class="reply">${comList.bcContents }</td>
-                <td class="commentsDate">${comList.regDt }</td>
-                <td id="bcSeq${status.index}" style="display: none;">${comList.bcSeq }</td>
-                <td id="bcUid${status.index}" style="display: none;">${comList.uId }</td>
-                <td id="bcBSeq${status.index}" style="display: none;">${comList.bSeq }</td>
-                <td class="removebt" align="center"><button type="button" id="replyRemove${status.index}" value="삭제" >삭제</button></td>
+                <c:choose>
+                <c:when test="${comList.uId !=sessionScope.user.uId}">
+                    <td class="nic">${comList.uNick }</td>
+                    <td class="reply">${comList.bcContents }</td>
+                    <td class="commentsDate">${comList.regDt }</td>
+                    <td id="bcSeq${status.index}" style="display: none;">${comList.bcSeq }</td>
+                    <td id="bcUid${status.index}" style="display: none;">${comList.uId }</td>
+                    <td id="bcBSeq${status.index}" style="display: none;">${comList.bSeq }</td>
+                    <td class="removebt" align="center"></td>
+                </c:when>
+                <c:otherwise>
+                    <td class="nic">${comList.uNick }</td>
+                    <td class="reply">${comList.bcContents }</td>
+                    <td class="commentsDate">${comList.regDt }</td>
+                    <td id="bcSeq${status.index}" style="display: none;">${comList.bcSeq }</td>
+                    <td id="bcUid${status.index}" style="display: none;">${comList.uId }</td>
+                    <td id="bcBSeq${status.index}" style="display: none;">${comList.bSeq }</td>
+                    <td class="removebt" align="center"><button type="button" id="replyRemove${status.index}" value="삭제" >삭제</button></td>
+                </c:otherwise>
+                </c:choose>
             </tr>
             </c:forEach>
             </c:when>

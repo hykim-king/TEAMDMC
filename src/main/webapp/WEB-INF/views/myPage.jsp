@@ -11,79 +11,9 @@
 <meta charset="UTF-8">
     <!-- jQuery cdn -->
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    
-    <script type="text/javascript">
-    
-    $(document).ready(function(){
     	
-    	function doRetrieve(page) {
-            console.log("function doRetrieve");
-            console.log("page : " + page);
-
-            let url = "${CP}/board/myBoard.do";
-            let method = "GET";
-            let async = true;
-            let parameters = {
-                searchDiv: $("#searchDiv").val(),
-                searchWord: $("#searchWord").val(),
-                pageSize: $("#pageSize").val(),
-                pageNum: page
-            };
-
-            EClass.callAjax(url, parameters, method, async, function(data) {
-                console.log("EClass.callAjax data :" + data);
-                 
-                 let parsedData = data;
-
-                 
-                 $(".board>tbody").empty();
-                 console.log("parsedData : " + parsedData.length);
-                 
-                 let htmlData = ""; // 동적으로 tbody 아래에 데이터를 생성하기위한 변수
-
-                 let totalCnt = 0; // 총글수
-                 let pageTotal = 1; // 페이지수
-
-                 if (null != parsedData && parsedData.length > 0) {
-
-                 // each: 제이쿼리에서 쓰는 뺑뺑이! (like for문)
-                 // parsedData
-                 $.each(parsedData, function(i, boardVO) {
-                     htmlData += "<tr>";
-                     htmlData += "<td>" + <c:out value = 'boardVO.num'/>+"</td>";
-                     htmlData += "<td>" + <c:out value = 'boardVO.bTitle'/>+"</td>";
-                     htmlData += "<td>" + <c:out value = 'boardVO.uNick'/>+"</td>";
-                     htmlData += "<td>" + <c:out value = 'boardVO.regDt'/>+"</td>";
-                     htmlData += "<td>" + <c:out value = 'boardVO.bReadCnt'/>+"</td>";
-                     htmlData += "<td style='display: none;'>"+<c:out value = 'boardVO.bSeq'/>+"</td>";
-                     htmlData += "</tr>";
-                 });
-
-                 } else { // 데이터가 없는 경우
-                     htmlData += "<tr><td colspan='99' class='text-center'>No data found!</td></tr>";
-                 }
-                 
-                 // board_table > tbody에 htmlData를 넣어라!
-                 $(".board>tbody").append(htmlData);
-
-                 // paging
-                 // 기존 페이징 지우기
-                 $("#page-selection").empty();
-
-                 // paging 호출
-                 renderingPage(pageTotal, page);
-                 
-            });
-    	}
     	
-    	$(".btn myPost").on("click", function(){
-    		console.log("내글");
-    		doRetrieve(1);
-    	});
-        
-        });
-    	
-/*     	let settings = {
+/*     <!--	let settings = {
     			  "async": true,
     			  "crossDomain": true,
     			  "url": "https://api.upbit.com/v1/trades/ticks?market=%20KRW-BTC&count=1",
@@ -107,9 +37,8 @@
                   $("#myCoin").append(htmlData);
                   
               }); */
+              -->
     		
-    		
-	</script>
 <style>
 @import
 	url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap')
@@ -219,6 +148,17 @@ h3 {
 			$(document).ready(function(){
 				console.log('PCWK *** document');
 				
+		        function myBoard() {
+		            let searchWord = $("#searchWord").val();
+		            let searchDiv = $("#searchDiv").val();
+		            window.location.href = "${CP}/board/boardView.do?searchDiv="+searchDiv+"&searchWord"+searchWord;
+		        }
+		        
+		        $("#myPost").on("click", function(){
+		        	myBoard();
+		        });
+		     
+				
 				function getByteLength(s, b, i, c){
 					for(b=i=0;c=s.charCodeAt(i++);b+=c>>11?3:c>>7?2:1);
 				    return b;
@@ -304,7 +244,7 @@ h3 {
 				<!-- userInfoDiv -------------------------------------------------------->
 				<div id="userInfoDiv">
 					<h3>개인 정보 관리</h3>
-					<p class="userInfo_Name">{사용자 이름} 님</p>
+					<p class="userInfo_Name">${sessionScope.user.nick} 님</p>
 
 					<!-- Button ----------------------------------------------------------->
 					<form action="#">
@@ -312,9 +252,11 @@ h3 {
 						<br />
 						<button id="pwChange" class="btn pwChange">비밀번호 변경</button>
 						<br />
-						<button class="btn myPost">내 글 보기</button>
-						<input type="text" id="searchDiv" value="50">
-						<input type="text" id="searchWord" value="admin">
+					</form>
+					<form action="${CP}/board/boardView.do">
+						<button class="btn myPost" id="myPost">내 글 보기</button>
+						<input type="hidden" id="searchDiv" name="searchDiv" value="50">
+						<input type="hidden" id="searchWord" value="${sessionScope.user.uId}" name="searchWord">
 						<br />
 					</form>
 					<!--// Button end ----------------------------------------------------->
