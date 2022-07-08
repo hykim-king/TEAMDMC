@@ -3,63 +3,54 @@ package com.teamdmc.kemie.faq.service;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.teamdmc.kemie.cmn.DTO;
+import com.teamdmc.kemie.dao.FaqDao;
 import com.teamdmc.kemie.faq.domain.FaqVO;
 
+@Service("faqService")
 public class FaqServiceImpl implements FaqService {
 
-	@Override
-	public int updateReadCnt(FaqVO inVO) throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	final Logger LOG = LogManager.getLogger(getClass());
+	
+	@Autowired
+	private FaqDao faqDao;
 
 	@Override
 	public List<FaqVO> doRetrieve(DTO dto) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		return faqDao.doRetrieve(dto);
 	}
 
 	@Override
 	public int doDelete(FaqVO inVO) throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		return faqDao.doDelete(inVO);
 	}
 
 	@Override
 	public int doUpdate(FaqVO inVO) throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
+	
+		return faqDao.doUpdate(inVO);
 	}
 
 	@Override
 	public int doInsert(FaqVO inVO) throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void deleteAll() throws SQLException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public int getCount(FaqVO inVO) throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public List<FaqVO> getAll(FaqVO inVO) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return faqDao.doInsert(inVO);
 	}
 
 	@Override
 	public FaqVO doSelectOne(FaqVO inVO) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		FaqVO outVO = faqDao.doSelectOne(inVO);
+		
+		if(null != outVO) {
+			faqDao.updateReadCnt(outVO);
+		}
+		return outVO;
 	}
 
 }

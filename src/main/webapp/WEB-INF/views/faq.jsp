@@ -37,17 +37,17 @@
         $(".board>tbody").on("click","tr", function(e) {
           console.log("tr click~");
           let tdArray = $(this).children();
-          let boardSeq = tdArray.eq(5).text();
-          console.log("boardSeq : " +boardSeq);
+          let faqSeq = tdArray.eq(5).text();
+          console.log("faqSeq : " + faqSeq);
 
-          window.location.href = "${CP}/board/doSelectOne.do?bSeq=" +boardSeq;
+          window.location.href = "${CP}/faq/doSelectOne.do?fSeq=" +faqSeq;
 
        });
         
         // 등록화면으로 이동
         $("#moveToReg").on("click", function(e) {
            console.log("moveToReg");
-           window.location.href = "${CP}/board/moveToReg.do"; // 특정 url로 이동! 아이디 div안의 값(val)을 가져와라~
+           window.location.href = "${CP}/faq/moveToReg.do"; // 특정 url로 이동! 아이디 div안의 값(val)을 가져와라~
        });
 
         // paging
@@ -94,7 +94,7 @@
             console.log("function doRetrieve");
             console.log("page : " + page);
 
-            let url = "${CP}/board/doRetrieve.do";
+            let url = "${CP}/faq/doRetrieve.do";
             let method = "GET";
             let async = true;
             let parameters = {
@@ -124,12 +124,11 @@
                  // parsedData
                  $.each(parsedData, function(i, boardVO) {
                      htmlData += "<tr>";
-                     htmlData += "<td>" + <c:out value = 'boardVO.num'/>+"</td>";
-                     htmlData += "<td>" + <c:out value = 'boardVO.bTitle'/>+"</td>";
-                     htmlData += "<td>" + <c:out value = 'boardVO.uNick'/>+"</td>";
-                     htmlData += "<td>" + <c:out value = 'boardVO.regDt'/>+"</td>";
-                     htmlData += "<td>" + <c:out value = 'boardVO.bReadCnt'/>+"</td>";
-                     htmlData += "<td style='display: none;'>"+<c:out value = 'boardVO.bSeq'/>+"</td>";
+                     htmlData += "<td>" + <c:out value = 'faqVO.num'/>+"</td>";
+                     htmlData += "<td>" + <c:out value = 'faqVO.fTitle'/>+"</td>";
+                     htmlData += "<td>" + <c:out value = 'faqVO.regDt'/>+"</td>";
+                     htmlData += "<td>" + <c:out value = 'faqVO.fReadCnt'/>+"</td>";
+                     htmlData += "<td style='display: none;'>"+<c:out value = 'faqVO.fSeq'/>+"</td>";
                      htmlData += "</tr>";
                  });
 
@@ -289,7 +288,6 @@ tr {
                     <option value="10">제목</option>
                     <option value="20">내용</option>
                     <option value="30">제목 + 내용</option>
-                    <option value="40">닉네임</option>
                 </select> 
                 <input type="text" class="textbox" id="searchWord" name="searchWord" placeholder="  검색어를 입력해주세요.">
                 <input type="submit" class="bt2" id="bt2" name="bt2" value="검색">
@@ -304,10 +302,9 @@ tr {
                 <tr>
                     <th>No.</th>
                     <th>제목</th>
-                    <th>작성자</th>
                     <th>작성일</th>
                     <th>조회수</th>
-                    <th style="display: none;">bSeq</th>
+                    <th style="display: none;">fSeq</th>
                 </tr>
             </thead>
             <tbody>

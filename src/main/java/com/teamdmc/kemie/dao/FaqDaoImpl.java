@@ -29,8 +29,19 @@ public class FaqDaoImpl implements FaqDao {
 	
 	@Override
 	public int updateReadCnt(FaqVO inVO) throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
+		int flag = 0;
+		
+		String statement = NAMESPACE+".updateReadCnt";
+		
+		LOG.debug("==============================");
+		LOG.debug("param:" + inVO.toString());
+		LOG.debug("statement: " + statement);
+		LOG.debug("==============================");
+		
+		flag = this.sqlSessionTemplate.update(statement, inVO);
+
+		LOG.debug("flag:" + flag);
+		return flag;
 	}
 
 	@Override
