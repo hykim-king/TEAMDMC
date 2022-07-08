@@ -36,7 +36,64 @@ public class BoardController {
 
 	public BoardController() {
 	}
+	
+	@RequestMapping(value = "/myBoard.do", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String myBoard(SearchVO inVO, Model model) throws SQLException {
 
+		LOG.debug("inVO : " + inVO);
+		LOG.debug("--------------------");
+		LOG.debug("---boardView---");
+		LOG.debug("--------------------");
+
+		// 페이지 사이즈 null 처리
+		if (0 == inVO.getPageSize()) {
+			inVO.setPageSize(20);
+		}
+
+		// 페이지 넘버 null 처리
+		if (0 == inVO.getPageNum()) {
+			inVO.setPageNum(1);
+		}
+
+		// 검색 구분 null 처리
+		if (null == inVO.getSearchDiv()) {
+			inVO.setSearchDiv(StringUtil.nvl(inVO.getSearchDiv(), ""));
+		}
+
+		// 검색어 null 처리
+		if (null == inVO.getSearchWord()) {
+			inVO.setSearchWord(StringUtil.nvl(inVO.getSearchWord(), ""));
+		}
+
+		LOG.debug("---------------------------");
+		LOG.debug("-inVO- : " + inVO);
+		LOG.debug("---------------------------");
+
+		List<BoardVO> list = boardService.doRetrieve(inVO);
+
+		int totalCnt = 0; // 총글수
+		double pageTotal = 0; // 총 페이지 (총글수/pageSize ?+1: 총글수/pageSize;)
+
+		if (null != list && list.size() > 0) {
+			totalCnt = list.get(0).getTotalCnt();
+			pageTotal = Math.ceil(totalCnt / (inVO.getPageSize() * 1.0));
+
+			LOG.debug("---------------------------");
+			LOG.debug("-pageTotal- : " + pageTotal);
+			LOG.debug("---------------------------");
+
+		}
+
+		model.addAttribute("totalCnt", totalCnt);
+		model.addAttribute("pageTotal", pageTotal);
+		model.addAttribute("list", list);
+		model.addAttribute("vo", inVO);
+		
+		return "board";
+
+	}
+	
 	@RequestMapping(value = "/commentDelete.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String commentDelete(BoardCommentVO inVO) throws SQLException {

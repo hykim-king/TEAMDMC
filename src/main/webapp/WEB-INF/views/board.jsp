@@ -116,7 +116,7 @@
                  let htmlData = ""; // 동적으로 tbody 아래에 데이터를 생성하기위한 변수
 
                  let totalCnt = 0; // 총글수
-                 let pageTotal = ${pageTotal}; // 페이지수
+                 let pageTotal = 1; // 페이지수
 
                  if (null != parsedData && parsedData.length > 0) {
 

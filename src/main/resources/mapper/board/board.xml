@@ -29,9 +29,29 @@
                 <when test=" '40' == searchDiv and '' != searchWord ">
                     u_nick LIKE '%' || #{searchWord} || '%'
                 </when>
+                <when test=" '50' == searchDiv and '' != searchWord ">
+                    u_id LIKE #{searchWord}
+                </when>
             </choose>
         </where>
     </sql>
+    
+    <!-- 내 글 찾기 -->
+    <select id="myBoard" parameterType="SearchVO" resultMap="boardResultMap">
+		SELECT
+		    b_seq,
+		    b_title,
+		    b_contents,
+		    b_readcnt,
+		    u_nick,
+		    reg_dt,
+		    u_id,
+		    mod_dt
+		FROM
+		    board
+		WHERE
+		    u_id = #{u_id}
+    </select>
     
     <!-- 조회 -->
     <select id="doRetrieve" parameterType="SearchVO" resultMap="boardResultMap">

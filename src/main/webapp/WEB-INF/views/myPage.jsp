@@ -16,7 +16,74 @@
     
     $(document).ready(function(){
     	
-    	let settings = {
+    	function doRetrieve(page) {
+            console.log("function doRetrieve");
+            console.log("page : " + page);
+
+            let url = "${CP}/board/myBoard.do";
+            let method = "GET";
+            let async = true;
+            let parameters = {
+                searchDiv: $("#searchDiv").val(),
+                searchWord: $("#searchWord").val(),
+                pageSize: $("#pageSize").val(),
+                pageNum: page
+            };
+
+            EClass.callAjax(url, parameters, method, async, function(data) {
+                console.log("EClass.callAjax data :" + data);
+                 
+                 let parsedData = data;
+
+                 
+                 $(".board>tbody").empty();
+                 console.log("parsedData : " + parsedData.length);
+                 
+                 let htmlData = ""; // 동적으로 tbody 아래에 데이터를 생성하기위한 변수
+
+                 let totalCnt = 0; // 총글수
+                 let pageTotal = 1; // 페이지수
+
+                 if (null != parsedData && parsedData.length > 0) {
+
+                 // each: 제이쿼리에서 쓰는 뺑뺑이! (like for문)
+                 // parsedData
+                 $.each(parsedData, function(i, boardVO) {
+                     htmlData += "<tr>";
+                     htmlData += "<td>" + <c:out value = 'boardVO.num'/>+"</td>";
+                     htmlData += "<td>" + <c:out value = 'boardVO.bTitle'/>+"</td>";
+                     htmlData += "<td>" + <c:out value = 'boardVO.uNick'/>+"</td>";
+                     htmlData += "<td>" + <c:out value = 'boardVO.regDt'/>+"</td>";
+                     htmlData += "<td>" + <c:out value = 'boardVO.bReadCnt'/>+"</td>";
+                     htmlData += "<td style='display: none;'>"+<c:out value = 'boardVO.bSeq'/>+"</td>";
+                     htmlData += "</tr>";
+                 });
+
+                 } else { // 데이터가 없는 경우
+                     htmlData += "<tr><td colspan='99' class='text-center'>No data found!</td></tr>";
+                 }
+                 
+                 // board_table > tbody에 htmlData를 넣어라!
+                 $(".board>tbody").append(htmlData);
+
+                 // paging
+                 // 기존 페이징 지우기
+                 $("#page-selection").empty();
+
+                 // paging 호출
+                 renderingPage(pageTotal, page);
+                 
+            });
+    	}
+    	
+    	$(".btn myPost").on("click", function(){
+    		console.log("내글");
+    		doRetrieve(1);
+    	});
+        
+        });
+    	
+/*     	let settings = {
     			  "async": true,
     			  "crossDomain": true,
     			  "url": "https://api.upbit.com/v1/trades/ticks?market=%20KRW-BTC&count=1",
@@ -39,9 +106,7 @@
                   
                   $("#myCoin").append(htmlData);
                   
-              });
-    		  
-    		});
+              }); */
     		
     		
 	</script>
@@ -248,6 +313,8 @@ h3 {
 						<button id="pwChange" class="btn pwChange">비밀번호 변경</button>
 						<br />
 						<button class="btn myPost">내 글 보기</button>
+						<input type="text" id="searchDiv" value="50">
+						<input type="text" id="searchWord" value="admin">
 						<br />
 					</form>
 					<!--// Button end ----------------------------------------------------->
