@@ -13,7 +13,7 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     	
     	
-/*     <!--	let settings = {
+     <!--	let settings = {
     			  "async": true,
     			  "crossDomain": true,
     			  "url": "https://api.upbit.com/v1/trades/ticks?market=%20KRW-BTC&count=1",
@@ -194,35 +194,20 @@ h3 {
 				            	}
 				            });
 					    }
-					    	
-						/* alert('당신이 변경할 닉네임은 '+input+'입니다.'); */
 					} else if(btnId.includes('pw')){
-						let uId = 'id01';
-						
-						let input = prompt('변경할 비밀번호를 입력하세요.');
-						
-						let url = "${CP}/passCheck.do";
-                        let parameters = {"uId" : uId, "passwd": input};
-                        let method = "POST";
-                        let async;
-						
-                        EClass.callAjax(url, parameters, method, async, function(data) {
-                        	if(data.msgId == 0){
-                        		if(confirm(data.msgContents+"변경하시겠습니까?")==true){
-                        			url = "${CP}/doPassUpdate.do";
-                                    parameters = {"uId": uId, "passwd": input};
-                                    
-                                    EClass.callAjax(url, parameters, method, async, function(upData) {
-                                        alert(upData.msgContents);
-                                    });
-                                }
-                        	}else{
-                        		alert(data.msgContents);
-                        	}
-                        });
-					} 
-				});
+							let input = prompt('변경할 비밀번호를 입력하세요.');
+							
+							let url = "${CP}/userinfo/doPassUpdate.do";
+	            let parameters = {"passwd": input, "uId" : "${sessionScope.user.uId}" };
+	            let method = "POST";
+	            let async;
+							
+	            EClass.callAjax(url, parameters, method, async, function(data) {
+	            	alert(data.msgContents);
+	            });
+				}
 			});
+	  });
 		</script>
 </head>
 <body>
