@@ -288,7 +288,7 @@
                 }else{
                     alert(data.msgContents);
                 }               
-                
+                window.location.href = "${CP}/login/doGetLogin.do?uId="+$("#uId").val()+"&passwd="+$("#passwd").val();
             });
             
         });//회원가입 등록========================================
