@@ -372,8 +372,22 @@ th {
                                   parameters = {
                                           "uId": $("#admin").val()
                                   };
-                                  EClass.callAjax(url,parameters,method,async,function(data){
-                                      console.log("data: "+data);
+                                  EClass.callAjax(url,parameters,method,async,function(uicdata){
+                                      console.log("uicdata: "+uicdata);
+                                      
+                                      $("#table1").empty();
+                                      
+                                      let htmData = "";
+                                      
+                                      for(let kk=0; kk<uicdata.length; kk++){
+                                          htmData += "<tr>                                                        ";
+                                          htmData += "     <td >"+ uicdata[kk].uicMarket +"</td>                                   ";
+                                          htmData += "     <td >"+ uicdata[kk].uicNowPrice +"</td>                            ";
+                                          htmData += "     <td >"+ uicdata[kk].uicToFixed+" </td>   ";
+                                          htmData += "     <td >"+ uicdata[kk].uicPrice24h +"</td>                                           ";
+                                          htmData += "</tr>                                  ";
+                                      }
+                                      $("#table1").append(htmData);
                                   });
                           });
                       });
@@ -497,19 +511,6 @@ th {
                                   }
                                   //그래프끝
                                   
-                                buildTable(myArray) 
-								function buildTable(marketCoin) { 
-								    var table = document.getElementById('table1') 
-								    for (var i=0; i < data.length; i++) { 
-								        var row = `<tr>
-								                    <td>${marketCoin[i]}</td> 
-								                    <td>${marketCoin[i]}</td> 
-								                    <td>${marketCoin[i]}</td> 
-                                                    <td>${marketCoin[i]}</td> 
-								                  </tr>` 
-								        table.innerHTML += row 
-								    }
-                                  };    
                               });
                               //마켓클릭이벤트
                           
