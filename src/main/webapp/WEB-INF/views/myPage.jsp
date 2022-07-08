@@ -244,7 +244,7 @@ h3 {
 				<!-- userInfoDiv -------------------------------------------------------->
 				<div id="userInfoDiv">
 					<h3>개인 정보 관리</h3>
-					<p class="userInfo_Name">{사용자 이름} 님</p>
+					<p class="userInfo_Name">${sessionScope.user.nick} 님</p>
 
 					<!-- Button ----------------------------------------------------------->
 					<form action="#">
