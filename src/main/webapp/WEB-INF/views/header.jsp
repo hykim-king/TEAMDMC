@@ -18,11 +18,11 @@
 		            <c:when test="${null !=sessionScope.user}">
 		            <%-- sessionScope.user가 null이 아니면 => user에 값이 있으면 => 로그인이 됐다. --%>
 			            <li><a href="${CP}/userinfo/myPage.do"><span>${sessionScope.user.nick}님</span></a></li>  
-			            <li><a href="${CP}/login/doLogout.do"><span class="glyphicon glyphicon-log-out">로그아웃</span></a></li>
+			            <li><a href="${CP}/login/doLogout.do"><span>로그아웃</span></a></li>
 		            </c:when>
 		            <c:otherwise>
 		            <%-- 위의 if문 조건이 false => user에 값이 없는 경우  --%>
-		              <li><a href="${CP}/login/loginView.do"><span class="glyphicon glyphicon-log-in">로그인</span></a></li>
+		              <li><a href="${CP}/login/loginView.do"><span>로그인</span></a></li>
 		              <li><a href="${CP}/signin.do">회원가입</a></li>
 		            </c:otherwise>
                 </c:choose>

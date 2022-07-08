@@ -38,7 +38,7 @@
 
 #wrap {
     width: 100%;
-    height: calc(100vh - 80px);
+    height: 800px;
     position: relative;
 }
 
@@ -97,7 +97,7 @@
 
 .gaib input {
     width: 90px;
-    height: 50px;
+    height: 30px;
     margin: 0 auto;
     border: 1px solid #333;
     background: white;
@@ -132,6 +132,7 @@
     margin: 0 auto;
  }
  
+ #doInsert {}
 </style>
 <title>KEMIE-회원가입</title>
 

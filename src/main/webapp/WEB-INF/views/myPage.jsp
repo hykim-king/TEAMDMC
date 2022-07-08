@@ -13,7 +13,7 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     	
     	
-/*     <!--	let settings = {
+     <!--	let settings = {
     			  "async": true,
     			  "crossDomain": true,
     			  "url": "https://api.upbit.com/v1/trades/ticks?market=%20KRW-BTC&count=1",
@@ -84,10 +84,11 @@
 .page-header h1 {
 	font-size: 45px;
 	font-weight: border;
+	border-bottom: 1px solid lightgray;
+	padding-bottom: 20px;
 }
 
 #wrap {
-	display: flex;
 	margin: 0 auto;
 	width: 100%;
 	height: auto;
@@ -96,31 +97,46 @@
 
 /* 개인 정보 관리 div */
 #userInfoDiv {
-	width: 35%;
-	height: 400px;
-	border: 1px solid #333; box-sizing : border-box;
-	padding: 15px 0 0 15px;
+	width: 100%;
+	height: 180px;
+	padding: 15px 0 0 30px;
 	box-sizing: border-box;
+	border-bottom: 1px solid lightgray;
 }
 
 /* 내 소식 div */
 #userNewsDiv {
-	width: 63%;
-	height: 400px;
-	border: 1px solid #333; box-sizing : border-box;
-	padding: 15px 15px 0px 15px;
+	width: 100%;
+	height: 150px;
+    margin-top: 20px;
+	border-bottom: 1px solid lightgray;
+	box-sizing : border-box;
+	padding: 15px 15px 0px 30px;
 	box-sizing: border-box;
 }
 
+
+#userInfoDiv .btbox {
+    display: flex;
+    width: 600px;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
 #userInfoDiv .btn {
-	border: 1px solid #333;
+    color: #fffafa;
 	border-radius: 2px;
-	width: 100px;
-	height: 30px;
+	width: 130px;
+	height: 40px;
 	line-height: 30px;
-	background: white;
+	background: #37385d;
 	margin-top: 15px;
 }
+
+.userNewsTime {float: right;}
+
+.nickChange {margin-right: 24px;}
+
+.pwChange {margin-right: 24px;}
 
 h3 {
 	margin-bottom: 20px;
@@ -194,35 +210,20 @@ h3 {
 				            	}
 				            });
 					    }
-					    	
-						/* alert('당신이 변경할 닉네임은 '+input+'입니다.'); */
 					} else if(btnId.includes('pw')){
-						let uId = 'id01';
-						
-						let input = prompt('변경할 비밀번호를 입력하세요.');
-						
-						let url = "${CP}/passCheck.do";
-                        let parameters = {"uId" : uId, "passwd": input};
-                        let method = "POST";
-                        let async;
-						
-                        EClass.callAjax(url, parameters, method, async, function(data) {
-                        	if(data.msgId == 0){
-                        		if(confirm(data.msgContents+"변경하시겠습니까?")==true){
-                        			url = "${CP}/doPassUpdate.do";
-                                    parameters = {"uId": uId, "passwd": input};
-                                    
-                                    EClass.callAjax(url, parameters, method, async, function(upData) {
-                                        alert(upData.msgContents);
-                                    });
-                                }
-                        	}else{
-                        		alert(data.msgContents);
-                        	}
-                        });
-					} 
-				});
+							let input = prompt('변경할 비밀번호를 입력하세요.');
+							
+							let url = "${CP}/userinfo/doPassUpdate.do";
+	            let parameters = {"passwd": input, "uId" : "${sessionScope.user.uId}" };
+	            let method = "POST";
+	            let async;
+							
+	            EClass.callAjax(url, parameters, method, async, function(data) {
+	            	alert(data.msgContents);
+	            });
+				}
 			});
+	  });
 		</script>
 </head>
 <body>
@@ -245,22 +246,21 @@ h3 {
 				<div id="userInfoDiv">
 					<h3>개인 정보 관리</h3>
 					<p class="userInfo_Name">${sessionScope.user.nick} 님</p>
-
+    
+                    <div class="btbox">
 					<!-- Button ----------------------------------------------------------->
 					<form action="#">
 						<button id="nickChange" class="btn nickChange">닉네임 변경</button>
-						<br />
 						<button id="pwChange" class="btn pwChange">비밀번호 변경</button>
-						<br />
+						<button id="userChange" class="btn userChange">회원 탈퇴</button>
 					</form>
 					<form action="${CP}/board/boardView.do">
 						<button class="btn myPost" id="myPost">내 글 보기</button>
 						<input type="hidden" id="searchDiv" name="searchDiv" value="50">
 						<input type="hidden" id="searchWord" value="${sessionScope.user.uId}" name="searchWord">
-						<br />
 					</form>
 					<!--// Button end ----------------------------------------------------->
-
+                    </div>
 				</div>
 				<!--// userInfoDiv end -------------------------------------------------->
 
@@ -272,13 +272,10 @@ h3 {
 			               
 			               2. 알림의 종류가 정확히 뭔지 모르겠음... 거래 체결 알림만 있는 건지,,, 그 외 알림도 있는 건지..?
 			    -->
-					<label id="myCoin" class="userNewsContext">{거래 상태} 알림 - {거래 대상 암호 화폐명}
-						{거래 결과}가 체결되었습니다. ({거래 체결가})</label>
-					<label class="userNewsTime">{알림시간 형식: YYYY-MM-DD HH:mm}</label><br /> 
-					<label class="userNewsContext">거래체결 알림 - 비트코인 매수가 체결되었습니다. (1234.1234)</label> 
-					<label class="userNewsTime">2022-06-0600:00</label><br /> 
-					<label class="userNewsContext">거래 체결 알림 - 비트코인매도가 체결되었습니다. (1234.1234)</label> 
-					<label class="userNewsTime">2022-06-0600:00</label><br />
+					<label class="userNewsContext">거래 체결 알림 - 비트코인 매수가 체결되었습니다.</label> 
+					<label class="userNewsTime">2022.07.12 12:30</label><br /> 
+					<label class="userNewsContext">거래 체결 알림 - 스텔라루멘 매도가 체결되었습니다.</label> 
+					<label class="userNewsTime">2022.07.12 12:26</label><br />
 				</div>
 				<!--// userNewsDiv end -------------------------------------------------->
 			</div>

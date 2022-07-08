@@ -38,13 +38,17 @@
 
 #wrap {
 	width: 100%;
-	height: calc(100vh - 80px);
+	height: 600px;
 	position: relative;
+	
 }
+
+#wrap h1 {margin-bottom: 20px;
+    }
 
 .LoginFrm {
 	width: 90%;
-	height: 400px;
+	height: 300px;
 	text-align: center;
 	position: absolute;
 	top: 50%;
@@ -56,6 +60,8 @@
 	width: 60%;
 	height: auto;
 	margin: 0 auto;
+	border-top: 1px solid lightgray;
+	padding-top: 20px;
 }
 
 .idbox {
@@ -113,11 +119,12 @@
 }
 
 .bt {
-	width: 300px;
+	width: 100%;
 	display: flex;
-	justify-content: space-around;
+	justify-content: center;
 	margin: 0 auto;
 	padding-top: 20px;
+	margin-top: 20px;
 }
 
 .bt input {
@@ -128,7 +135,12 @@
 	height: 30px;
 }
 
+#findId {margin-right: 15px;}
+
+#findPass {margin-right: 15px;}
+
 #modal {
+
   position: absolute;
   top:0;
   left:0;
@@ -139,7 +151,7 @@
   display: none;
   
   margin: 0 auto;
-  background: rgba(0,0,0,0.8);
+  background: rgba(0,0,0,0.3);
 }
 
 #modal2 {
@@ -153,27 +165,64 @@
   display: none;
   
   margin: 0 auto;
-  background: rgba(0,0,0,0.8);
+  background: rgba(0,0,0,0.3);
 }
 
 .modalContent {
+background: white;
   position: absolute;
   top: 50%;
   left: 50%;
   
-  height: 100%;
-  width: 60%;
+  height: 250px;
+  width: 400px;
   
   text-align: center;
   
-  background-color: rgb(255, 255, 255);
   border-radius: 10px;
-  box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+  box-shadow: 1rem 1rem 1rem 0 rgb(68 68 68 / 20%);
   
-  transform: translateX(-50%) translateY(-50%);
+  transform: translate(-50%,-50%);
   
   margin: 0 auto;
 }
+
+.modalContent h2 {margin-top: 15px; margin-bottom: 15px; border-bottom: 1px solid lightgray;
+    display: block; width: 200px; padding-bottom: 10px; margin: 0 auto; padding-top: 10px;}
+
+.modalInbox {background: white; width: 380px; margin: 0 auto;
+    margin-top: 20px;}
+.modalInbox label {text-align: left;
+    width: 120px;
+    height: 30px;
+    line-height: 30px;
+    display: block;
+    float: left;
+    font-size: 15px;}
+    
+.modalInbox input { width: 260px;
+    display: block;
+    box-sizing: border-box;
+    height: 30px;
+    border: 1px solid #dedede;}
+
+.modalbt {
+    width: 180px;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+.modalbt input {
+    background: white;
+    border: 1px solid #333;
+    border-radius: 2px;
+    width: 80px;
+    height: 30px;
+}
+
+#modal .modalContent {height: 400px;}
+   
 </style>
 
 <title>KEMIE-로그인</title>
@@ -400,20 +449,28 @@
         <div id="modal">
           <div class="modalContent" title="클릭하면 창이 닫힙니다.">
             <h2>비밀번호 찾기</h2>
-            <label for="modalUId">아이디</label><input id="modalUId" type="text" placeholder="아이디를 입력하세요"><br/>
-            <label for="modalName">이름</label><input id="modalName" type="text" placeholder="이름을 입력하세요" autocomplete="off" ><br/>
-            <label for="modalPNum">전화번호</label><input id="modalPNum" type="text" placeholder="전화번호를 입력하세요(형식. 010-1234-1234)" autocomplete="off"><br/>
-            <label for="modalPassword">변경할 비밀번호</label><input id="modalPassword" type="password" placeholder="변경할 비밀번호 입력" autocomplete="off"><br/>
-            <label for="modalPasswordCheck">변경할 비밀번호 확인</label><input id="modalPasswordCheck" type="password" placeholder="비밀번호 확인" autocomplete="off"><br/>
+            <div class="modalInbox">
+            <label for="modalUId">아이디</label><input id="modalUId" type="text" placeholder=" 아이디를 입력하세요"><br/>
+            <label for="modalName">이름</label><input id="modalName" type="text" placeholder=" 이름을 입력하세요" autocomplete="off" ><br/>
+            <label for="modalPNum">전화번호</label><input id="modalPNum" type="text" placeholder=" 전화번호를 입력하세요(예. 010-1234-1234)" autocomplete="off"><br/>
+            <label for="modalPassword">변경할 비밀번호</label><input id="modalPassword" type="password" placeholder=" 변경할 비밀번호 입력" autocomplete="off"><br/>
+            <label for="modalPasswordCheck">비밀번호 확인</label><input id="modalPasswordCheck" type="password" placeholder=" 비밀번호 확인" autocomplete="off"><br/>
+            </div>
+            <div class="modalbt">
             <input type="button" value="비밀번호 변경" id="updatePW" /><input type="button" value="닫기" id="exitPW" /> 
+            </div>
           </div>
         </div>
         <div id="modal2">
           <div class="modalContent" title="클릭하면 창이 닫힙니다.">
-            <h2>비밀번호 찾기</h2>
-            <label for="modal2Name">이름</label><input id="modal2Name" type="text" placeholder="이름을 입력하세요" autocomplete="off" ><br/>
-            <label for="modal2PNum">전화번호</label><input id="modal2PNum" type="text" placeholder="전화번호를 입력하세요(형식. 010-1234-1234)" autocomplete="off"><br/>
+            <h2>아이디 찾기</h2>
+            <div class="modalInbox">
+            <label for="modal2Name">이름</label><input id="modal2Name" type="text" placeholder=" 이름을 입력하세요" autocomplete="off" ><br/>
+            <label for="modal2PNum">전화번호</label><input id="modal2PNum" type="text" placeholder=" 전화번호를 입력하세요(예. 010-1234-1234)" autocomplete="off"><br/>
+            </div>
+            <div class="modalbt">
             <input type="button" value="아이디 찾기" id="selectID" /><input type="button" value="닫기" id="exitID" /> 
+            </div>
           </div>
         </div>
     </div>
