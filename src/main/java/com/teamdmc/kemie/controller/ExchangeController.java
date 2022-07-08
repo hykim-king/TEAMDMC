@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
+import com.teamdmc.kemie.boardComment.domain.BoardCommentVO;
 import com.teamdmc.kemie.cmn.MessageVO;
 import com.teamdmc.kemie.userinterested.UserinterestedService;
 import com.teamdmc.kemie.userinterested.domain.UserInterestedVO;
@@ -73,6 +74,28 @@ public class ExchangeController {
 		
         return "exchange";
 	}	
+	
+	@RequestMapping(value = "/delete.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String commentDelete(UserInterestedVO inVO) throws SQLException {
+
+		LOG.debug("========================");
+		LOG.debug("=inVO=" + inVO);
+
+		int flag = userinterestedService.doDelete(inVO);
+		String resultMsg = "";
+		if (1 == flag) {
+			resultMsg = "삭제되었습니다.";
+		} else {
+			resultMsg = "삭제 실패";
+		}
+
+		MessageVO message = new MessageVO(String.valueOf(flag), resultMsg);
+		String jsonString = new Gson().toJson(message);
+		LOG.debug("=jsonString=" + jsonString);
+		LOG.debug("========================");
+		return jsonString;
+	}
 
 	//GET방식으로 : http://localhost:8081/ehr/user/doSelectOne.do?uId=p31
 		@RequestMapping(value = "/getAll.do",method = RequestMethod.GET

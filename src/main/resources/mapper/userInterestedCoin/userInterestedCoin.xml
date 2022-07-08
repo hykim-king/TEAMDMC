@@ -15,7 +15,7 @@
   <delete id="doDelete" parameterType="UserInterestedVO">
     DELETE FROM user_interested_coin
     WHERE u_id = #{uId}
-    AND uic_name_kor = #{uicNameKor}
+    AND uic_market = #{uicMarket}
   </delete>
 
   <select id="getAll" parameterType="UserInterestedVO" resultMap="userInterestedCoinResultMap">

@@ -333,16 +333,74 @@ th {
                           htmlData += "     <td class='text-left   col-sm-2 col-md-2 col-lg-2' id='uicNowPrice"+i+"'>"+ data[i].trade_price +"</td>                            ";
                           htmlData += "     <td class='text-left   col-sm-2 col-md-2 col-lg-2' id='uicToFixed"+i+"'>"+ (data[i].signed_change_rate*100).toFixed(3)  +"%</td>   ";
                           htmlData += "     <td class='text-left   col-sm-2 col-md-2 col-lg-2' id='uicPrice24h"+i+"'>"+ no +"백만</td>                                           ";
-                          htmlData += "     <td class='text-left'> <input type='button' id='interCoin"+i+"' value='관심등록' /> </td>                                                    ";
+                          htmlData += "     <td class='text-left'> <input type='button' id='interCoin"+i+"' value='관심등록' /> </td>                                             ";
+                          htmlData += "     <td class='text-left'> <input type='button' id='deleteCoin"+i+"' value='삭제' /> </td>                                             ";
                           htmlData += "<tr>                                                                                                                ";
                       }
                       $(".fullCoin").append(htmlData);
+                      
+                      $('[id*="deleteCoin"]').on('click', function(){
+                    	  alert("관심코인을 삭제하시겠습니까?");
+                    	  console.log("$(this): "+$(this));
+                          console.log("텍스트값"+$(this).parent().siblings('[id*="uicMarket"]').text());
+                          
+                          let deC = $(this).attr("id");
+                          let url = "${CP}/delete.do";
+                          let method ="POST";
+                          let async  = true;
+                          let parameters = {
+                                  "uId": $("#admin").val(),
+                                  "uicMarket"   : $(this).parent().siblings('[id*="uicMarket"]').text()
+                                  //"uId"         : $(this).parent().siblings('[id*="uId"]').text()
+                          };
+                          EClass.callAjax(url,parameters,method,async,function(data){
+                              
+                              
+                              console.log("data.msgId:"+data.msgId);
+                              console.log("data.msgContents:"+data.msgContents);
+                              if("1"==data.msgId){//수정 성공
+                                  console.log(data.msgId);
+                                  alert(data.msgContents);
+                                  //사용할수 없음
+                                  console.log(deC);
+                                 $('[id='+deC+']').val("삭제");
+                              }else{
+                                  alert(data.msgContents); 
+                                  //사용할수 있음
+                                  $("#interCoin").val("관심등록"); 
+                              }               
+                              url = "${CP}/getAll.do"
+                                  method = "GET";
+                                  parameters = {
+                                          "uId": $("#admin").val()
+                                  };
+                                  EClass.callAjax(url,parameters,method,async,function(uicdata){
+                                      console.log("uicdata: "+uicdata);
+                                      
+                                      $("#table1").empty();
+                                      
+                                      let htmData = "";
+                                      
+                                      for(let k=0; k<uicdata.length; k++){
+                                          htmData += "<tr>                                                        ";
+                                          htmData += "     <td >"+ uicdata[k].uicMarket +"</td>                                   ";
+                                          htmData += "     <td >"+ uicdata[k].uicNowPrice +"</td>                            ";
+                                          htmData += "     <td >"+ uicdata[k].uicToFixed+" </td>   ";
+                                          htmData += "     <td >"+ uicdata[k].uicPrice24h +"</td>                                           ";
+                                          htmData += "</tr>                                  ";
+                                      }
+                                      $("#table1").append(htmData);
+                                  });
+                              });
+                    	  
+                      });
                       
                       $('[id*="interCoin"]').on('click', function(){
                           alert("관심코인이 등록되었습니다.");
                           console.log("$(this): "+$(this));
                           console.log("텍스트값"+$(this).parent().siblings('[id*="uicMarket"]').text());
                           
+                          let inC = $(this).attr("id");
                           let url = "${CP}/insert.do";
                           let method ="GET";
                           let async  = true;
@@ -355,16 +413,20 @@ th {
                    				  //"uId"         : $(this).parent().siblings('[id*="uId"]').text()
                           };
                           EClass.callAjax(url,parameters,method,async,function(data){
+                        	  
+                        	  
                               console.log("data.msgId:"+data.msgId);
                               console.log("data.msgContents:"+data.msgContents);
                               if("1"==data.msgId){//수정 성공
-                            	  alert(data.msgContents); 
+                            	  console.log(data.msgId);
+                            	  alert(data.msgContents);
                                   //사용할수 없음
-                                  $("#interCoin").val("관심등록");
+                                  console.log(inC);
+                                 $('[id='+inC+']').val("관심등록");
                               }else{
                             	  alert(data.msgContents); 
                                   //사용할수 있음
-                                  $("#interCoin").val("2"); 
+                                  $("#interCoin").val("관심등록"); 
                               }               
                               
                               url = "${CP}/getAll.do"
@@ -389,8 +451,8 @@ th {
                                       }
                                       $("#table1").append(htmData);
                                   });
-                          });
-                      });
+	                          });
+	                      });
              
                       $('[id*="uicMarket"]').on('click', function(){
                           let marketCoin= $(this).text();
