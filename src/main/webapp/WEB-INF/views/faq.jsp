@@ -116,16 +116,17 @@
                  let htmlData = ""; // 동적으로 tbody 아래에 데이터를 생성하기위한 변수
 
                  let totalCnt = 0; // 총글수
-                 let pageTotal = ${pageTotal}; // 페이지수
+                 let pageTotal = 1; // 페이지수
 
                  if (null != parsedData && parsedData.length > 0) {
 
                  // each: 제이쿼리에서 쓰는 뺑뺑이! (like for문)
                  // parsedData
-                 $.each(parsedData, function(i, boardVO) {
+                 $.each(parsedData, function(i, faqVO) {
                      htmlData += "<tr>";
                      htmlData += "<td>" + <c:out value = 'faqVO.num'/>+"</td>";
                      htmlData += "<td>" + <c:out value = 'faqVO.fTitle'/>+"</td>";
+                     htmlData += "<td> 관리자 </td>";
                      htmlData += "<td>" + <c:out value = 'faqVO.regDt'/>+"</td>";
                      htmlData += "<td>" + <c:out value = 'faqVO.fReadCnt'/>+"</td>";
                      htmlData += "<td style='display: none;'>"+<c:out value = 'faqVO.fSeq'/>+"</td>";
@@ -302,6 +303,7 @@ tr {
                 <tr>
                     <th>No.</th>
                     <th>제목</th>
+                    <th>작성자</th>
                     <th>작성일</th>
                     <th>조회수</th>
                     <th style="display: none;">fSeq</th>

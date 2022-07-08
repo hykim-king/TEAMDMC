@@ -21,7 +21,7 @@
         console.log("document.ready");
         
         function moveToList() {
-            window.location.href="${CP}/board/boardView.do";
+            window.location.href="${CP}/faq/faqView.do";
         }
         
         $("#moveToList").on("click", function(){
@@ -46,14 +46,13 @@
         
         if(confirm("수정하시겠습니까?")==false)return;
         
-        let url = "${CP}/board/doUpdate.do";
+        let url = "${CP}/faq/doUpdate.do";
         let method = "POST";
         let parameters = {
-                "bSeq":$("#bSeq").val(),
+                "fSeq":$("#fSeq").val(),
                 "uId":$("#admin").val(),
-                "uNick":$("#admin1").val(),
-                "bTitle":$("#title").val(),
-                "bContents":$("#contents").val()
+                "fTitle":$("#title").val(),
+                "fContents":$("#contents").val()
         };
         
         let async = true;
@@ -210,16 +209,15 @@
             </div>
             <!-- button -------------------------------------------------->
                  <input type="hidden" id="admin" value='${vo.uId}'>
-                 <input type="hidden" id="admin1" value="${vo.uNick}">
-                 <input type="hidden" id="bSeq" value='${vo.bSeq}'>
+                 <input type="hidden" id="fSeq" value='${vo.fSeq}'>
             <div class="titlebox">
                 <!-- title -->
-                <input type="text" id="title" value='${vo.bTitle}'>
+                <input type="text" id="title" value='${vo.fTitle}'>
             </div>
             <!-- title -------------------------------------------------->
             <!-- contents -->
             <div class="writebox">
-                <textarea name="contents" id="contents">${vo.bContents}</textarea>
+                <textarea name="contents" id="contents">${vo.fContents}</textarea>
             </div>
             <!-- contents ----------------------------------------------->
             <!-- fileAdd -->

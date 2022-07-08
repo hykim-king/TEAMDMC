@@ -105,6 +105,8 @@ public class FaqController {
 		LOG.debug("--------------------");
 		LOG.debug("-outVO- : " + outVO);
 		LOG.debug("--------------------");
+		
+		model.addAttribute("vo", outVO);
 
 		return "faqdetails";
 	}
@@ -141,7 +143,7 @@ public class FaqController {
 	
 	@RequestMapping(value = "/moveToReg.do", method = RequestMethod.GET)
 	public String moveToReg(SearchVO inVO, Model model) throws SQLException {
-		String viewName = "write";
+		String viewName = "faqwrite";
 		LOG.debug("--------------------");
 		LOG.debug("---moveToReg---");
 		LOG.debug("-inVO- : " + inVO);

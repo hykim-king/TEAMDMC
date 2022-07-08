@@ -17,7 +17,6 @@
 <!--자바스크립트 코드 -->
 <script type="text/javascript">
     $(document).ready(function(){
-        console.log("${svImg}");
         console.log("document.ready");
         
         let fileTarget = $("#fileinput");
@@ -42,7 +41,7 @@
     
         
         function moveToList() {
-            window.location.href="${CP}/board/boardView.do";
+            window.location.href="${CP}/faq/faqView.do";
         }
         
         $("#moveToList").on("click", function(){
@@ -67,13 +66,12 @@
         
         if(confirm("등록하시겠습니까?")==false)return;
         
-        let url = "${CP}/board/doInsert.do";
+        let url = "${CP}/faq/doInsert.do";
         let method = "POST";
         let parameters = {
                 "uId":$("#admin1").val(),
-                "uNick":$("#admin").val(),
-                "bTitle":$("#title").val(),
-                "bContents":$("#contents").val()
+                "fTitle":$("#title").val(),
+                "fContents":$("#contents").val()
         };
         
         let async = true;
@@ -274,8 +272,7 @@
                 <input type="button" id="doInsert" value="등록"/>
             </div>
             <!-- button -------------------------------------------------->
-                 <input type="hidden" id="admin" value="admin">
-                 <input type="hidden" id="admin1" value="admin1">
+                 <input type="hidden" id="admin1" value="admin">
             <div class="titlebox">
                 <!-- title -->
                 <input type="text" id="title" placeholder="제목을 입력하세요">

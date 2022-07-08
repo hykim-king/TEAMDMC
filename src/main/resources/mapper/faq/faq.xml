@@ -11,18 +11,18 @@
       <result  property="regDt"       column="reg_dt"/>
     </resultMap>
  
-    <!-- 검색 조건 : 10 - bTitle / 20 - bContents / 30 - bTitle + bContents / 40 - uNick -->
+    <!-- 검색 조건 : 10 - fTitle / 20 - fContents / 30 - fTitle + fContents  -->
     <sql id="searchCondition">
         <where>  <!-- 조건을 타면 where절을 자동으로 붙이게~! -->
             <choose>
                 <when test=" '10' == searchDiv and '' != searchWord ">
-                    b_title LIKE '%' || #{searchWord} || '%'
+                    f_title LIKE '%' || #{searchWord} || '%'
                 </when>
                 <when test=" '20' == searchDiv and '' != searchWord ">
-                    b_contents LIKE '%' || #{searchWord} || '%'
+                    f_contents LIKE '%' || #{searchWord} || '%'
                 </when>
                 <when test=" '30' == searchDiv and '' != searchWord ">
-                    b_title LIKE '%' || #{searchWord} || '%' OR b_contents LIKE '%' || #{searchWord} || '%' 
+                    f_title LIKE '%' || #{searchWord} || '%' OR f_contents LIKE '%' || #{searchWord} || '%' 
                 </when> 
             </choose>
         </where>

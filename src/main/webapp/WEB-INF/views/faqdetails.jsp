@@ -21,12 +21,12 @@
     
     
     function moveToList() {
-        window.location.href="${CP}/board/boardView.do";
+        window.location.href="${CP}/faq/faqView.do";
     }
     
     function moveToDetails() {
-        let boardSeq = $("#bSeq").val();
-        window.location.href="${CP}/board/doSelectOne.do?bSeq="+boardSeq;
+        let faqSeq = $("#fSeq").val();
+        window.location.href="${CP}/faq/doSelectOne.do?fSeq="+faqSeq;
     }
     
     $("#btnList").on("click", function(){
@@ -34,25 +34,25 @@
     });
     
     $("#btnUpdate").on("click", function(){
-        let boardSeq = $("#bSeq").val();
-        window.location.href="${CP}/board/doMod.do?bSeq="+boardSeq;
+        let faqSeq = $("#fSeq").val();
+        window.location.href="${CP}/faq/doMod.do?fSeq="+faqSeq;
     });
   
     $("#btnDelete").on("click",function(e){
         console.log("doDelete");
         let boardId = $("#uId").val();
-        let boardSeq = $("#bSeq").val();
+        let faqSeq = $("#fSeq").val();
         console.log("boardId:"+boardId);
-        console.log("boardSeq:"+boardSeq);
+        console.log("faqSeq:"+faqSeq);
         
         if(confirm("게시물을 삭제 하시겠습니까?")==false)return;
         
-        let url = "${CP}/board/doDelete.do";
+        let url = "${CP}/faq/doDelete.do";
         let method = "POST";
         let async  = true;
         let parameters = {
                 "uId":boardId,
-                "bSeq":boardSeq
+                "fSeq":faqSeq
         };
         
         EClass.callAjax(url, parameters, method, async, function(data) {
@@ -68,71 +68,6 @@
                             
         });       
           
-    });
-    
-    $("#btnReply").on("click", function() {
-        console.log("댓글 등록");
-        let boardSeq = $("#bSeq").val();
-         
-         if(eUtil.ISEmpty($("#bcContents").val())){
-             alert("내용을 입력하세요."); 
-             $("#bcContents").focus();
-             return;
-         }
-         
-         if(confirm("등록하시겠습니까?")==false)return;
-         
-         let url = "${CP}/board/commentInsert.do";
-         let method = "POST";
-         let parameters = {
-                 "bSeq":boardSeq,
-                 "uNick":$("#cuNick").val(),
-                 "uId":$("#cuId").val(),
-                 "bcContents":$("#bcContents").val()
-         };
-         
-         let async = true;
-         
-         EClass.callAjax(url,parameters,method,async,function(data) {
-             console.log("data.msgId : " + data.msgId);
-             console.log("data.msgContents : " + data.msgContents);
-             if("1"==data.msgId){
-                 alert(data.msgContents);
-                 moveToDetails();
-             }else{
-                 alert(data.msgContents);
-             }
-         });
-        
-    });
-    
-    $("[id*='replyRemove']").on("click", function() {
-    
-        console.log($(this).parent().siblings("[id*='bcUid']").text());
-        console.log($(this).parent().siblings("[id*='bcSeq']").text());
-        
-        if(confirm("댓글을 삭제 하시겠습니까?")==false)return;
-        
-        let url = "${CP}/board/commentDelete.do";
-        let method = "POST";
-        let async  = true;
-        let parameters = {
-                "uId":$(this).parent().siblings("[id*='bcUid']").text(),
-                "bcSeq":$(this).parent().siblings("[id*='bcSeq']").text(),
-                "bSeq":$(this).parent().siblings("[id*='bcBSeq']").text()
-        };
-        
-        EClass.callAjax(url, parameters, method, async, function(data) {
-            console.log("data.msgId:"+data.msgId);
-            console.log("data.msgContents:"+data.msgContents);     
-            if("1" == data.msgId){
-                alert(data.msgContents);
-                moveToDetails();
-            }else{    
-                alert(data.msgContents);
-            }              
-        }); 
-        
     });
     
  });
@@ -224,82 +159,6 @@
     padding-top: 20px;
 }
 
-.commentsList {
-    width: 90%;
-    margin: 0 auto;
-    border: 1px solid #333;
-    margin-top: 20px;
-    height: auto;
-}
-
-.commentOne {
-    height: 40px;
-    margin: 0 auto;
-    border-bottom: 3px solid #dedede;
-    
-}
-
-.commentsList .nic {
-    width: 10%;
-    font-size: 15px;
-    text-align: center;
-}
-
-.commentsList .reply {
-    width: 60%;
-    font-size: 15px;
-}
-
-.commentsList .commentsDate {
-    width: 20%;
-    font-size: 15px;
-    text-align: center;
-}
-
-#replyRemove {
-    display: inline;
-    margin: 0 auto;
-    width: 40px;
-    height: 20px;
-    border: 1px solid #333;
-    border-radius: 2px;
-    background: white;
-    font-size: 12px;
-    line-height: 20px;
-}
-
-.commentsMain {
-    width: 90%;
-    border: 1px solid #333;
-    box-sizing: content-box;
-    margin: 0 auto;
-    height: 200px;
-    margin-top: 20px;
-}
-
-.comments {
-    width: 90%;
-    margin: 0 auto;
-    height: 50px;
-    line-height: 50px;
-}
-
-.commentsbox {
-    width: 90%;
-    height: 130px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-}
-
-#bcContents {
-    width: 87%;
-}
-
-#btnReply {
-    width: 10%;
-}
-
 #all a {text-decoration: none;}
 </style>
 
@@ -328,7 +187,7 @@
                 <div class="boardTitle">
                     <table class="boardView">
                         <tr>
-                            <td><c:out value='${vo.bTitle}'/></td>
+                            <td><c:out value='${vo.fTitle}'/></td>
                         </tr>
                     </table>
                 </div>
@@ -339,65 +198,22 @@
                     <p>등록일</p>
                     <span><c:out value='${vo.regDt}'/></span>
                     <p>작성자</p>
-                    <span><c:out value='${vo.uNick}'/></span>
+                    <span>관리자</span>
                     <p>조회수</p>
-                    <span><c:out value='${vo.bReadCnt}'/></span>
+                    <span><c:out value='${vo.fReadCnt}'/></span>
                 </div>
                 <!-- 멀티 끝 -->
                 <input type="hidden" id="uId" value='${vo.uId}'>
-                <input type="hidden" id="bSeq" value='${vo.bSeq}'>
+                <input type="hidden" id="fSeq" value='${vo.fSeq}'>
                 <!-- 내용 -->
                 <div class="boardContent">
-                    <p><c:out value='${vo.bContents}'/></p>
+                    <p><c:out value='${vo.fContents}'/></p>
                 </div>
                 <!-- 내용 끝 -->
             </div>
             <!-- main div끝 -->
         </form>
         <!-- 폼 끝 -->
-
-        <form action="#" method="post">
-        <!-- 댓글 목록 -->
-        <table class="commentsList">
-            <c:choose>
-            <c:when test="${comList.size()>0 }">
-            <c:forEach items="${comList}" var="comList" varStatus="status">
-            <tr class="commentOne">
-                <td class="nic">${comList.uNick }</td>
-                <td class="reply">${comList.bcContents }</td>
-                <td class="commentsDate">${comList.regDt }</td>
-                <td id="bcSeq${status.index}" style="display: none;">${comList.bcSeq }</td>
-                <td id="bcUid${status.index}" style="display: none;">${comList.uId }</td>
-                <td id="bcBSeq${status.index}" style="display: none;">${comList.bSeq }</td>
-                <td class="removebt" align="center"><button type="button" id="replyRemove${status.index}" value="삭제" >삭제</button></td>
-            </tr>
-            </c:forEach>
-            </c:when>
-            <c:otherwise>
-                <tr class="commentOne">
-                 <td class="reply">아직 댓글이 없습니다.</td>
-                </tr>
-            </c:otherwise>
-            </c:choose>
-
-        </table>
-        </form>
-        <!-- 댓글 목록 끝 -->
-        <!-- 댓글 작성 -->
-        <form class="commentsMain" name="commentsMain" method="post">
-           <input type="hidden" id="bSeq" value='${vo.bSeq}'>
-           <input type="hidden" id="cuNick" name="cuNick" value="admin"> 
-           <input type="hidden" id="cuId" name="cuId" value="admin"> 
-            
-            <div class="comments">
-                <strong>댓글 작성</strong>
-            </div>
-            <div class="commentsbox">
-                <textarea id="bcContents" name="bcContents" placeholder="댓글내용을 입력하세요"></textarea>
-                <button type="button" id="btnReply">등록</button>
-            </div>
-        </form>
-        <!-- 댓글 작성 끝 -->
     </div>
     <!-- main div 닫음 -->
     <%@include file="footer.jsp" %>
