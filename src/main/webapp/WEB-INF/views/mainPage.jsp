@@ -8,12 +8,6 @@
 <html>
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta charset="UTF-8">
-   <!-- 합쳐지고 최소화된 최신 CSS -->
-   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-   <!-- 부가적인 테마 -->
-   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-   <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
-   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
     <!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->
     <script src="${CP_RES }/js/jquery-1.12.4.js"></script>
     <!-- 모든 컴파일된 플러그인을 포함합니다 (아래), 원하지 않는다면 필요한 각각의 파일을 포함하세요 -->
@@ -126,99 +120,6 @@
 		        });
         	}
         	
-/*             //paging
-        	renderingPage('${pageTotal}',1);
-        	
-            function renderingPage(pageTotal, page){
-                console.log("pageTotal : "+ pageTotal);//소숫점
-                console.log("page : "+ page);
-                
-                pageTotal = parseInt(pageTotal);
-                console.log("pageTotal : "+ pageTotal);//정수
-                
-                //이전 연결된 EventHandler 제거
-                $('#page-selection').unbind('page');
-                
-                $('#page-selection').bootpag({
-                    total: pageTotal,
-                    page: page,
-                    maxVisible: 10,
-                    leaps: true,
-                    firstLastUse: true,
-                    first: '←',
-                    last: '→',
-                    wrapClass: 'pagination',
-                    activeClass: 'active',
-                    disabledClass: 'disabled',
-                    nextClass: 'next',
-                    prevClass: 'prev',
-                    lastClass: 'last',
-                    firstClass: 'first'
-                }).on("page", function(event, num){
-                    console.log("num : "+ num);
-                    doRetrieve(num);
-                });            
-            }
-            
-            function doRetrieve(page){
-                console.log("function doRetrieve");
-                console.log("page : "+ page);
-                
-                let url = "${CP}/newsDetail.do";
-                let method = "GET";
-                let async = true;
-                let parameters = {
-                        pageSize: 5,
-                        pageNum: page
-                };
-                
-                EClass.callAjax(url, parameters, method, async, function(data) {
-                	console.log("아무거나");
-                	
-                	$("#coin > tbody").empty();
-                	
-                	let parseData = data;
-                	
-                    console.log("EClass.callAjax.data"+ data);
-                    
-                    //1. 기존 table데이터 삭제
-                    //동적으로 table 데이터 표시
-                    
-                    let parsedData = data;
-                    
-                    $("#board_table > tbody").empty();
-                    
-                    console.log("parsedData.length : "+ parsedData.length);
-                    
-                    let htmlData = "";//동적으로 tbody아래 데이터 생성
-                    let totalCnt = 0;//총글수
-                    let pageTotal = 1;//페이지 수
-                    
-                    //조회 데이터가 있는 경우
-                    if(null != parsedData && parsedData.length > 0){
-                        
-                        $.each(parsedData, function(i, boardVO) {
-                            htmlData += " <tr>                                                                        ";
-                            htmlData += " <td class='text-center col-sm-1 col-md-1 col-lg-1'>"+<c:out value='boardVO.num'/>+"</td>     ";
-                            htmlData += " <td class='text-left col-sm-6 col-md-6 col-lg-8'>  "+<c:out value='boardVO.title'/>+"</td>   ";
-                            htmlData += " <td class='text-center col-sm-2 col-md-2 col-lg-1'>"+<c:out value='boardVO.modId'/>+"</td>   ";
-                            htmlData += " <td class='text-center col-sm-2 col-md-2 col-lg-1'>"+<c:out value='boardVO.modDt'/>+"</td>   ";
-                            htmlData += " <td class='text-right col-sm-1 col-md-1 col-lg-1'> "+<c:out value='boardVO.readCnt'/>+"</td> ";
-                            htmlData += " <td style='display: none;'>"+<c:out value='boardVO.seq'/>+ "</td>                            ";
-                            htmlData += " </tr>                                                                       ";
-                          });
-                        
-                    }
-                     
-                });
-            }
-            
-            $("#doRetrieve").on("click", function (e) {
-                console.log("doRetrieve");
-                doRetrieve(1);
-                
-            }); */
-
         });
         
     </script>
@@ -243,20 +144,66 @@
 }
 #wrap {
     width: 100%;
-    height: calc(100vh - 80px);
+    height: 1250px;
     position: relative;
 }
 .box {
     width: 90%;
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    left :50%;
+    transform: translate(-50%);
+    top: 400px;
+}    
+.mainpageimg {
+    background-image: url("${CP_RES}/img/mainpageimg.jpg");
+    text-align: center;
+    background-size: cover;
+    width: 100%;
+    height: 400px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-attachment: local;
 }
+.imgbox {
+    width: 100%; height: 100%; background: white; opacity: 0.7;
+    position: absolute; top: 0; left: 0;
+       z-index: 1;}
+
+.imgtext {width: 100%;
+    position: absolute;
+    top: 140px;
+    z-index: 100;}
+    
+    
+.mainpageimg h3{
+    font-size: 35px;
+    z-index: -1;
+}
+.mainpageimg p{
+    margin-top: 30px;
+       z-index:-1;
+  
+}
+
+.mainpageimg h2{
+    margin-top: 10px;
+    font-size: 40px;
+       z-index: -1;
+}
+
 #coinGraph {
     width: 100%;
     height: 500px;
     margin: 0 auto;
+    text-align: center;
+    margin-top: 50px;
+}
+
+#coinGraph h2 {
+    font-size: 30px;
+    border-bottom: 1px solid lightgray;
+    padding-bottom: 15px;
 }
 .graphBox {
     margin-top: 20px;
@@ -268,18 +215,20 @@
     width: 60%;
     height: 200px;
 }
-.graph:hover {
-    background-color: blue; 
-}
+
 #coinNews {
     width: 100%;
     height: 200px;
     margin: 0 auto;
-    margin-top: 30px;
+    margin-top: 60px;
+    margin-bottom: 50px;
+    
 }
 #coinNews h2 {
     margin-top: 10px;
-    margin-left: 10px;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid lightgray;
 }
 .newsArea .newsone {
     display: flex;
@@ -287,15 +236,23 @@
     justify-content: space-between;
     margin: 0 auto;
     margin-top: 10px;
+    font-size: 15px;
 }
 #coin a{
     text-decoration: none; color: black;
+    font-size: 15px;
 }
 .date{
     text-align: right;
+    font-size: 15px;
+}
+.graph:hover {
+    transform: scale(1.1);
+    transition: transform .5s;
 }
 #coin{
     width: 100%;
+    margin-bottom: 50px;
 }
 </style>
 <title>Insert title here</title>
@@ -308,6 +265,14 @@
     <script type="text/javascript" src="${CP_RES}/js/header.js"></script>
     <!-- 전체 div======================================================================== -->
     <div id="wrap">
+        <div class="mainpageimg">
+           <div class="imgbox"></div>
+           <div class="imgtext">
+           <h3>한국 전자 화폐 투자 거래소</h3>
+           <p>Korea Electronic Money Investment Exchange</p> 
+           <h2>KEMIE</h2>
+           </div>
+         </div>
         <div class="box">
             <!-- 주요 코인 시세=========================== -->
             <div id="coinGraph">
