@@ -126,7 +126,7 @@
 		        });
         	}
         	
-            //paging
+/*             //paging
         	renderingPage('${pageTotal}',1);
         	
             function renderingPage(pageTotal, page){
@@ -179,7 +179,7 @@
                 	
                 	let parseData = data;
                 	
-   /*                  console.log("EClass.callAjax.data"+ data);
+                    console.log("EClass.callAjax.data"+ data);
                     
                     //1. 기존 table데이터 삭제
                     //동적으로 table 데이터 표시
@@ -209,7 +209,7 @@
                           });
                         
                     }
-                     */
+                     
                 });
             }
             
@@ -217,7 +217,7 @@
                 console.log("doRetrieve");
                 doRetrieve(1);
                 
-            });
+            }); */
 
         });
         

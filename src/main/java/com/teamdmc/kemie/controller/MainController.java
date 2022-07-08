@@ -40,49 +40,41 @@ public class MainController {
 		return "mainPage";
 	}
 	
-	@RequestMapping(value="/newsDetail.do", method=RequestMethod.GET, produces = "application/json;charset=UTF-8")
-	@ResponseBody
-	public String newsDetail(Item item, SearchVO searchVO, HttpServletRequest req)throws SQLException{
-		String jsonString = "";
-		
-		LOG.debug("==============");
-		LOG.debug("newsDetail");
-		LOG.debug("==============");
-		
-		//페이지 사이즈
-        if(0 == searchVO.getPageSize()) {
-    	    searchVO.setPageSize(10);
-        }
-      
-        //페이지 번호
-        if(0 == searchVO.getPageNum()) {
-    	    searchVO.setPageNum(1);
-        }
-        
-        List<Item> list = naverService.doRetrieve();
-        
-        jsonString = new Gson().toJson(list);
-		
-		int totalCnt = 5;
-		
-		//총글수 : paging사용
-		//pageTotal : 총 페이지 수
-		double pageTotal = 0;
-				
-		if(null != list && list.size() > 0) {
-			
-			pageTotal = Math.ceil(totalCnt/(searchVO.getPageSize()* 1.0));
-			
-			LOG.debug("==============================");
-			LOG.debug("pageTotal : "+ pageTotal);
-			LOG.debug("==============================");
-		}
-		
-		///WEB-INF/views/user/user_mng.jsp
-		
-		return jsonString;
-		
-	}
+	/*
+	 * @RequestMapping(value="/newsDetail.do", method=RequestMethod.GET, produces =
+	 * "application/json;charset=UTF-8")
+	 * 
+	 * @ResponseBody public String newsDetail(Item item, SearchVO searchVO,
+	 * HttpServletRequest req)throws SQLException{ String jsonString = "";
+	 * 
+	 * LOG.debug("=============="); LOG.debug("newsDetail");
+	 * LOG.debug("==============");
+	 * 
+	 * //페이지 사이즈 if(0 == searchVO.getPageSize()) { searchVO.setPageSize(10); }
+	 * 
+	 * //페이지 번호 if(0 == searchVO.getPageNum()) { searchVO.setPageNum(1); }
+	 * 
+	 * List<Item> list = naverService.doRetrieve();
+	 * 
+	 * jsonString = new Gson().toJson(list);
+	 * 
+	 * int totalCnt = 5;
+	 * 
+	 * //총글수 : paging사용 //pageTotal : 총 페이지 수 double pageTotal = 0;
+	 * 
+	 * if(null != list && list.size() > 0) {
+	 * 
+	 * pageTotal = Math.ceil(totalCnt/(searchVO.getPageSize()* 1.0));
+	 * 
+	 * LOG.debug("=============================="); LOG.debug("pageTotal : "+
+	 * pageTotal); LOG.debug("=============================="); }
+	 * 
+	 * ///WEB-INF/views/user/user_mng.jsp
+	 * 
+	 * return jsonString;
+	 * 
+	 * }
+	 */
 	
 	
 	
