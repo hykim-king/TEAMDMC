@@ -87,7 +87,7 @@ public class ExchangeController {
 		if (1 == flag) {
 			resultMsg = "삭제되었습니다.";
 		} else {
-			resultMsg = "삭제 실패";
+			resultMsg = "관심등록 코인이 아닙니다.";
 		}
 
 		MessageVO message = new MessageVO(String.valueOf(flag), resultMsg);
