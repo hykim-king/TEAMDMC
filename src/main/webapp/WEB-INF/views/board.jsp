@@ -28,9 +28,7 @@
 <!--자바스크립트 코드-->
 <script type="text/javascript">
     $(document).ready(function() {
-
-        doRetrieve(1);
-
+ 
         renderingPage('${pageTotal}', 1);
 
         // 데이터 클릭
@@ -120,6 +118,14 @@
 
                  if (null != parsedData && parsedData.length > 0) {
 
+                	 totalCnt = parsedData[0].totalCnt;
+                     console.log('totalCnt : ' + totalCnt);
+                     
+                     pageTotal = totalCnt/$("#pageSize").val();
+                     console.log('pageTotal' + pageTotal);
+                     pageTotal = Math.ceil(pageTotal);
+                     console.log('pageTotal' + pageTotal);
+                     
                  // each: 제이쿼리에서 쓰는 뺑뺑이! (like for문)
                  // parsedData
                  $.each(parsedData, function(i, boardVO) {
@@ -311,14 +317,23 @@ tr {
                 </tr>
             </thead>
             <tbody>
+                <c:choose>
+                <c:when test="${list.size()>0}">
+                <c:forEach var="vo" items="${list}">
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td style="display: none;"></td>
+                    <td>${vo.num}</td>
+                    <td>${vo.bTitle}</td>
+                    <td>${vo.uNick}</td>
+                    <td>${vo.regDt}</td>
+                    <td>${vo.bReadCnt}</td>
+                    <td style="display: none;">${vo.bSeq}</td>
                 </tr>
+                </c:forEach>
+                </c:when>                   
+                <c:otherwise>
+                    <tr><td colspan="99" class="text-center">No data found!</td></tr>
+                </c:otherwise>
+                </c:choose>
             </tbody>
         </table>
         <!-- 게시판 목록 끝 -->

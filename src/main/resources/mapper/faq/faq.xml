@@ -62,7 +62,7 @@
     <update id="updateReadCnt" parameterType="FaqVO">
         UPDATE faq
         SET f_readcnt = NVL(f_readcnt,0) + 1
-        WHERE u_id = #{uId}
+        WHERE f_seq = #{fSeq}
     </update>
     
     <!-- 전체 삭제 -->

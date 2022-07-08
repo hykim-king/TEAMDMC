@@ -274,8 +274,8 @@
                 <input type="button" id="doInsert" value="등록"/>
             </div>
             <!-- button -------------------------------------------------->
-                 <input type="hidden" id="admin" value="admin">
-                 <input type="hidden" id="admin1" value="admin1">
+                 <input type="hidden" id="admin" value="${sessionScope.user.nick}">
+                 <input type="hidden" id="admin1" value="${sessionScope.user.uId}">
             <div class="titlebox">
                 <!-- title -->
                 <input type="text" id="title" placeholder="제목을 입력하세요">

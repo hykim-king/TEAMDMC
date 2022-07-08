@@ -119,6 +119,14 @@
                  let pageTotal = 1; // 페이지수
 
                  if (null != parsedData && parsedData.length > 0) {
+                	 
+                	 totalCnt = parsedData[0].totalCnt;
+                     console.log('totalCnt : ' + totalCnt);
+                     
+                     pageTotal = totalCnt/$("#pageSize").val();
+                     console.log('pageTotal' + pageTotal);
+                     pageTotal = Math.ceil(pageTotal);
+                     console.log('pageTotal' + pageTotal);
 
                  // each: 제이쿼리에서 쓰는 뺑뺑이! (like for문)
                  // parsedData
@@ -268,6 +276,10 @@ tr {
     border-top: 1px solid lightgray;
     height: 30px;
 }
+.faqTitle {
+    font-size: 30px;
+    font-weight: bold;    
+}
 </style>
 
 <title>Insert title here</title>
@@ -282,7 +294,14 @@ tr {
     <div id="wrap">
         <!-- 글쓰기, 검색영역 -->
         <div class="top">
+            <c:choose>
+            <c:when test="${0 != sessionScope.user.type}">
             <button class="bt1" id="moveToReg">글쓰기</button>
+            </c:when>
+            <c:otherwise>
+            <div class="faqTitle">FAQ</div>
+            </c:otherwise>
+            </c:choose>
             <!-- 검색영역 div -->
             <div class="scbox">
                 <select class="search" id="searchDiv" name="searchDiv">

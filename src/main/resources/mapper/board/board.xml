@@ -89,7 +89,7 @@
     <update id="updateReadCnt" parameterType="BoardVO">
         UPDATE board
         SET b_readcnt = NVL(b_readcnt,0) + 1
-        WHERE u_id = #{uId}
+        WHERE b_seq = #{bSeq}
     </update>
     
     <!-- 전체 삭제 -->

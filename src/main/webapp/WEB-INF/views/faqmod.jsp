@@ -208,7 +208,7 @@
                 <input type="button" id="doUpdate" value="수정"/>
             </div>
             <!-- button -------------------------------------------------->
-                 <input type="hidden" id="admin" value='${vo.uId}'>
+                 <input type="hidden" id="admin" value='${sessionScope.user.uId}'>
                  <input type="hidden" id="fSeq" value='${vo.fSeq}'>
             <div class="titlebox">
                 <!-- title -->

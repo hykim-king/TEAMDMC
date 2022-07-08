@@ -175,9 +175,16 @@
         <form action="#" method="post">
             <!-- 버튼으로 목록 수정 삭제 만들기 -->
             <div class="buttonDiv">
+               <c:choose>
+                <c:when test="${vo.uId != sessionScope.user.uId}">
                 <button type="button" class="btn btn-sm btn-primary" id="btnList">목록</button>
-                <button type="button" class="btn btn-sm btn-primary" id="btnUpdate">수정</button>
+                </c:when>
+                <c:otherwise>
                 <button type="button" class="btn btn-sm btn-primary" id="btnDelete">삭제</button>
+                <button type="button" class="btn btn-sm btn-primary" id="btnUpdate">수정</button>
+                <button type="button" class="btn btn-sm btn-primary" id="btnList">목록</button>
+                </c:otherwise>
+                </c:choose>
             </div>
             <!-- 버튼으로 목록 수정 삭제 종료 -->
            
