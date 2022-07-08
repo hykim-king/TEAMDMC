@@ -282,7 +282,32 @@ th {
 <!--자바스크립트 코드 -->
 <script type="text/javascript">
     $(document).ready(function() { /* a태그의 id의 마지막 문자열을 추출하여 원하는 div on */
-        //업비트 오픈 소스 시작
+    	let async99;
+    	let url99 = "${CP}/getAll.do"
+        let method99 = "GET";
+        let parameters99 = {
+                    "uId": $("#admin").val()
+            };
+            EClass.callAjax(url99, parameters99, method99, async99, function(uicdata){
+                console.log("uicdata: "+uicdata);
+                
+                $("#table1").empty();
+                
+                let htmData = "";
+                
+                for(let kk=0; kk<uicdata.length; kk++){
+                    htmData += "<tr>                                                        ";
+                    htmData += "     <td >"+ uicdata[kk].uicMarket +"</td>                                   ";
+                    htmData += "     <td >"+ uicdata[kk].uicNowPrice +"</td>                            ";
+                    htmData += "     <td >"+ uicdata[kk].uicToFixed+" </td>   ";
+                    htmData += "     <td >"+ uicdata[kk].uicPrice24h +"</td>                                           ";
+                    htmData += "</tr>                                  ";
+                }
+                $("#table1").append(htmData);
+            });
+        });
+    	
+    	//업비트 오픈 소스 시작
               let full = {
                         "async": true,
                         "crossDomain": true,
@@ -396,7 +421,7 @@ th {
                       });
                       
                       $('[id*="interCoin"]').on('click', function(){
-                          alert("관심코인이 등록되었습니다.");
+                    	  let uicMN = $(this).parent().siblings('[id*="uicMarket"]').attr("id");
                           console.log("$(this): "+$(this));
                           console.log("텍스트값"+$(this).parent().siblings('[id*="uicMarket"]').text());
                           
@@ -424,9 +449,8 @@ th {
                                   console.log(inC);
                                  $('[id='+inC+']').val("관심등록");
                               }else{
-                            	  alert(data.msgContents); 
+                            	  alert("중복된 코인입니다."); 
                                   //사용할수 있음
-                                  $("#interCoin").val("관심등록"); 
                               }               
                               
                               url = "${CP}/getAll.do"
@@ -665,14 +689,13 @@ th {
                     return;
             }
         });
-    });
 </script>
 </head>
 <body>
     <%@include file="header.jsp"%>
     <script type="text/javascript" src="${CP_RES}/js/header.js"></script>
     <!-- 와렙 -->
-    <input type="text" id="admin" value="admin">
+    <input type="hidden" id="admin" value="${sessionScope.user.uId}">
     <div id="wrap">
         <!-- 메인 -->
         <div class="main">
