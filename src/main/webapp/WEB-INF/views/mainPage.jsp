@@ -142,10 +142,12 @@
     padding: 0;
     font-family: 'Noto Sans KR', sans-serif;
 }
+
 #wrap {
     width: 100%;
     height: 1250px;
     position: relative;
+    color: #333;
 }
 .box {
     width: 90%;
@@ -163,7 +165,6 @@
     position: absolute;
     top: 0;
     left: 0;
-    background-attachment: local;
 }
 .imgbox {
     width: 100%; height: 100%; background: white; opacity: 0.7;
@@ -173,23 +174,21 @@
 .imgtext {width: 100%;
     position: absolute;
     top: 140px;
-    z-index: 100;}
+    z-index: 99;}
     
     
 .mainpageimg h3{
     font-size: 35px;
-    z-index: -1;
+
 }
 .mainpageimg p{
     margin-top: 30px;
-       z-index:-1;
-  
+
 }
 
 .mainpageimg h2{
     margin-top: 10px;
     font-size: 40px;
-       z-index: -1;
 }
 
 #coinGraph {

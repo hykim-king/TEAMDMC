@@ -43,7 +43,7 @@
 }
 
 .txtbox {
-    width: 500px;
+    width: 600px;
     height: 630px;
     font-size: 16px;
     margin: 0 auto;
@@ -61,7 +61,13 @@
 .box {
     width: 100%;
     height: 80px;
+    display: flex;
 }
+
+
+#idCheckYN {display: none;}
+
+
 
 .box input {
     width: 400px;
@@ -76,16 +82,8 @@
     height: 30px;
     line-height: 30px;
     display: block;
-    float: left;
     text-align: left;
-}
-
-.msgErr1, .msgErr2, .msgErr3 {
-    color: #37385d;
-    margin-top: 0;
-    text-align: left;
-    margin-left: 100px;
-    font-size: 13px;
+    font-size: 15px;
 }
 
 .gaib {
@@ -107,29 +105,31 @@
  #idCheck{
     width: 80px;
     height: 30px;
-    border-radius: 15px;
+    border-radius: 10px;
     text-align: center;
     font-size: 13px;
     background: #38385d;
     color: white;
-    float: right;
+    margin-left: 15px;
  }
 
  #nickCheck{
     width: 80px;
     height: 30px;
-    border-radius: 15px;
+    border-radius: 10px;
     text-align: center;
     font-size: 13px;
     background: #38385d;
     color: white;
-    float: right;
+    margin-left: 15px;
  }
  
  .necess{
     font-size: 13px;
-    color: green;
-    margin: 0 auto;
+    color: tomato;
+    text-ailgn: right;
+    display: block;
+    margin-bottom: 20px;
  }
  
  #doInsert {}
@@ -379,7 +379,7 @@
             <p class="necess">*는 필수 입력 항목입니다.</p>
             <!-- id : 중복 확인 검사, 유효성 검사 필요 idRegExp = /^[a-zA-z0-9]{4,20}$/; -->
             <div class="box">
-                <input type="hidden" name="idCheckYN" id="idCheckYN" value="0">
+                <input type="text" name="idCheckYN" id="idCheckYN" value="0">
                 <label for="uId">*아이디</label> 
                 <input id="uId" type="text" placeholder="아이디를 입력하세요." required="required" />
                 <input type="button" value="중복확인"  id="idCheck" name="idCheck" />

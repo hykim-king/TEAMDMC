@@ -31,10 +31,10 @@
 <style type="text/css">
 
 .red{
- background:red;
+ background: #fbefef;
 }
 .blue{
-background:blue;
+background:#e3ebf6;
 }
 * {
     margin: 0;
@@ -59,8 +59,9 @@ input {
 
 #wrap {
     width: 100%;
-    height: 100vh;
+    height: 850px;
     position: relative;
+    color: #333;
 }
 
 #wrap a:hover {color: #333;}
@@ -95,27 +96,78 @@ input {
     width: 100%;
     display: flex;
     justify-content: space-between;
-    height: 320px;
+    height: 350px;
 }
 
 #coinGraph {
     width: 63%;
     border: 1px solid #333;
+    height: 350px;
 }
+
+#coinGraph h2 {margin-left: 15px; margin-top: 10px;}
 
 .graph {
     width: 100%;
     max-width: 1200px;
     height: 300px;
-    border: 1px solid #333;
     margin-bottom: 100px;
+    text-align: center;
+    line-height: 300px;
+    font-size: 20px;
 }
 
 .coinPrice {
     width: 32%;
     border: 1px solid #333;
-    overflow: scroll;
+    overflow-y: scroll;
+    font-size: 14px;
 }
+
+#coinPrice2 {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+
+#coinPrice2 th{
+    border-bottom: 1px solid lightgray;
+    height: 20px;}
+
+#coinPrice2 tr{height: 40px; border-bottom: 1px solid lightgray;}
+
+#coinPrice2 .big {
+    width: 20%;
+}
+#coinPrice2 .small {
+    width: 10%;
+}
+
+#uicTable{
+    width : 100%;
+    border-collapse: collapse;
+}
+
+#uicTable h2 {font-size: 16px;}
+
+#uicTable th{
+    border-bottom: 1px solid lightgray;
+    height: 20px;
+    text-align: center;
+    width: 25%;}
+    
+#uicTable tr{height: 40px; border-bottom: 1px solid lightgray;}
+
+#uicTable .text-right {text-align: right;  padding-right: 3px;}
+
+.coinPrice a {font-size: 15px; font-weight: bold}
+
+.coinPrice a:hover {font-size: 15px;}
+
+#coinPrice2 .text-left {text-align: left; padding-left: 3px;} 
+#coinPrice2 .text-right {text-align: right; padding-right: 3px;}
+#coinPrice2 .text-center {text-align: center;}
+
 
 .bottombox {
     width: 100%;
@@ -127,7 +179,7 @@ input {
 
 .realTransaction {
     width: 29%;
-    overflow: scroll;
+    overflow-y: scroll;
     border: 1px solid #333;
 }
 
@@ -147,13 +199,14 @@ input {
     flex: 1;
     text-align: center;
     line-height: 40px;
-    border: 1px solid #333;
+    border-bottom: 1px solid #333;
 }
 
 .interestCoin {
     width: 32%;
     border: 1px solid #333;
-    overflow: scroll;
+    overflow-y: scroll;
+    font-size: 14px;
 }
 
 label {
@@ -166,18 +219,10 @@ label {
     border-collapse: collapse;
 }
 
-th, td, tr {
-    border: 1px solid #333;
-}
-
 .aVote {
     border: 1px solid black;
     width: 100%;
     border-collapse: collapse;
-}
-
-th {
-    width: 25%;
 }
 
 .nothing {
@@ -272,9 +317,13 @@ th {
     box-sizing: border-box;
     color: #333;
 }
-#uicTable{
-    width : 100%;
-}
+
+#realBox {width: 100%; font-size: 14px; 
+border-collapse: collapse; color: #37385d;}
+#realBox tr {height: 25px;}
+#realBox td {padding-left: 5px;}
+#realBox .realsmall {width: 23%;}
+#realBox .realbig {width: 27%;}
 
 
 </style>
@@ -355,12 +404,12 @@ th {
                           
                           htmlData += "<tr>                                                                                                                                    ";
                           htmlData += "     <td class='text-left   col-sm-2 col-md-2 col-lg-2' id='uicMarket"+i+"'>"+ data[i].market +"</td>                                   ";
-                          htmlData += "     <td class='text-left   col-sm-2 col-md-2 col-lg-2' id='uicNowPrice"+i+"'>"+ data[i].trade_price +"</td>                            ";
-                          htmlData += "     <td class='text-left   col-sm-2 col-md-2 col-lg-2' id='uicToFixed"+i+"'>"+ (data[i].signed_change_rate*100).toFixed(3)  +"%</td>   ";
-                          htmlData += "     <td class='text-left   col-sm-2 col-md-2 col-lg-2' id='uicPrice24h"+i+"'>"+ no +"백만</td>                                           ";
-                          htmlData += "     <td class='text-left'> <input type='button' id='interCoin"+i+"' value='관심등록' /> </td>                                             ";
-                          htmlData += "     <td class='text-left'> <input type='button' id='deleteCoin"+i+"' value='삭제' /> </td>                                             ";
-                          htmlData += "<tr>                                                                                                                ";
+                          htmlData += "     <td class='text-right   col-sm-2 col-md-2 col-lg-2' id='uicNowPrice"+i+"'>"+ data[i].trade_price +"</td>                            ";
+                          htmlData += "     <td class='text-right   col-sm-2 col-md-2 col-lg-2' id='uicToFixed"+i+"'>"+ (data[i].signed_change_rate*100).toFixed(3)  +"%</td>   ";
+                          htmlData += "     <td class='text-right  col-sm-2 col-md-2 col-lg-2' id='uicPrice24h"+i+"'>"+ no +"백만</td>                                           ";
+                          htmlData += "     <td class='text-center'> <input type='button' id='interCoin"+i+"' value='관심등록' /> </td>                                             ";
+                          htmlData += "     <td class='text-center'> <input type='button' id='deleteCoin"+i+"' value='삭제' /> </td>                                             ";
+                          htmlData += "</tr>                                                                                                                ";
                       }
                       $(".fullCoin").append(htmlData);
                       
@@ -468,9 +517,9 @@ th {
                                       for(let kk=0; kk<uicdata.length; kk++){
                                           htmData += "<tr>                                                        ";
                                           htmData += "     <td >"+ uicdata[kk].uicMarket +"</td>                                   ";
-                                          htmData += "     <td >"+ uicdata[kk].uicNowPrice +"</td>                            ";
-                                          htmData += "     <td >"+ uicdata[kk].uicToFixed+" </td>   ";
-                                          htmData += "     <td >"+ uicdata[kk].uicPrice24h +"</td>                                           ";
+                                          htmData += "     <td class='text-right'>"+ uicdata[kk].uicNowPrice +"</td>                            ";
+                                          htmData += "     <td class='text-right'>"+ uicdata[kk].uicToFixed+" </td>   ";
+                                          htmData += "     <td class='text-right'>"+ uicdata[kk].uicPrice24h +"</td>                                           ";
                                           htmData += "</tr>                                  ";
                                       }
                                       $("#table1").append(htmData);
@@ -494,31 +543,39 @@ th {
                           $.ajax(really).done(function (real) {
                               let i = 0;
                               let htmlData = "";
-                              $(".realTransaction").empty();
+                              $("#realBox").empty();
                             
                             for(i=0; i<real.length; i++){
                                     htmlData += "<tr>                                                                            ";
-                                    htmlData += "<td class='text-left red'>"+ '매도총량'+"</td>             ";
-                                    htmlData += "<td class='text-left red'>"+ (real[i].total_ask_size).toFixed(3)+"</td>             ";
-                                    htmlData += "<tr>                                                                            ";
+                                    htmlData += "<td class='realsmall red'>"+ '매도총량'+"</td>             ";
+                                    htmlData += "<td class='realbig red'>"+ (real[i].total_ask_size).toFixed(3)+"</td>             ";
+                                    htmlData += "<td class='realbig red'></td>                                                                            ";
+                                    htmlData += "<td class='realsmall red'></td>                                                                            ";
+                                    htmlData += "</tr>                                                                            ";
                                 for(j=14; j>=0; j--){
                                     htmlData += "<tr>                                                                            ";   
                                     htmlData += "<td class='text-left red'>"+ real[i].orderbook_units[j].ask_price +"</td>           ";
                                     htmlData += "<td class='text-left red'>"+ real[i].orderbook_units[j].ask_size+"</td>             ";
-                                    htmlData += "<tr>                                                                            ";
+                                    htmlData += "<td class='text-left red'></td>                                                                            ";
+                                    htmlData += "<td class='text-left red'></td>                                                                            ";
+                                    htmlData += "</tr>                                                                            ";
                                 }
                                 for(j=0; j<15; j++){
-                                    htmlData += "<tr>                                                                            ";            
-                                    htmlData += "<td class='text-left blue'>"+ real[i].orderbook_units[j].bid_price +"</td>           ";
-                                    htmlData += "<td class='text-left blue'>"+ real[i].orderbook_units[j].bid_size+"</td>             ";
                                     htmlData += "<tr>                                                                            ";
+                                    htmlData += "<td class='text-left blue'></td>                                                                            ";
+                                    htmlData += "<td class='text-left blue'></td>                                                                            ";
+                                    htmlData += "<td class='text-left blue'>"+ real[i].orderbook_units[j].bid_size+"</td>             ";
+                                    htmlData += "<td class='text-left blue'>"+ real[i].orderbook_units[j].bid_price +"</td>           ";
+                                    htmlData += "</tr>                                                                            ";
                                 }  
                                     htmlData += "<tr>                                                                            ";
-                                    htmlData += "<td class='text-left blue'>"+ '매수총량' +"</td>             ";
+                                    htmlData += "<td class='text-left blue'></td>                                                                            ";
+                                    htmlData += "<td class='text-left blue'></td>                                                                            ";
                                     htmlData += "<td class='text-left blue'>"+ (real[i].total_bid_size).toFixed(3)+"</td>             ";
-                                    htmlData += "<tr>                                                                            ";
+                                    htmlData += "<td class='text-left blue'>"+ '매수총량' +"</td>             ";
+                                    htmlData += "</tr>                                                                            ";
                             }
-                            $(".realTransaction").append(htmlData);
+                            $("#realBox").append(htmlData);
                           });
                           //호가창 끝
                           
@@ -703,9 +760,11 @@ th {
             <div class="topbox">
                 <!-- 코인그래프 -->
                 <div id="coinGraph">
-                <h2>코인 그래프</h2>
+                <h2>실시간 코인 시세</h2>
                 <!-- 코인 그래프 박스 영역=========== -->
-                <div class="graph" id="coin1"></div>
+                <div class="graph" id="coin1">
+                                            코인을 선택해주세요
+                </div>
                 <!-- //코인 그래프 박스 영역=========== -->
             </div>
             <!-- //주요 코인 시세=========================== -->
@@ -715,10 +774,12 @@ th {
                     <table id="coinPrice2" class="tablesorter">
                         <thead class="priceIndex">
                            <tr>
-                             <th><a href="#">코인명</a></th>
-                             <th><a href="#">현재가<img src="${CP_RES}/img/exchange.icon2.png" alt=""></a></th>
-                             <th><a href="#">전일대비<img src="${CP_RES}/img/exchange.icon2.png" alt=""></a></th>
-                             <th><a href="#">거래대금<img src="${CP_RES}/img/exchange.icon2.png" alt=""></a></th>
+                             <th class="big"><a href="#">코인명</a></th>
+                             <th class="big"><a href="#">현재가</a></th>
+                             <th class="big"><a href="#">전일대비</a></th>
+                             <th class="big"><a href="#">거래대금</a></th>
+                             <th class="small">관심등록</th>
+                             <th class="small">삭제</th>
                            </tr>   
                         </thead>   
                         <tbody class="fullCoin">
@@ -732,6 +793,7 @@ th {
             <div class="bottombox">
                 <!-- 실시간 체결내역 -->
                 <div class="realTransaction">
+                    <table id="realBox"></table>
                 </div>
                 <!-- //실시간 체결내역 끝 -->
                 <!-- 매수 매도 거래내역 -->
@@ -953,12 +1015,14 @@ th {
                 <div class="interestCoin">
                     <h2>관심코인</h2>
                     <table id="uicTable">
+                        <thead>
                         <tr>
-                            <td>코인명</td>
-                            <td>현재가</td>
-                            <td>전일대비</td>
-                            <td>거래대금</td>
+                            <th>코인명</th>
+                            <th>현재가</th>
+                            <th>전일대비</th>
+                            <th>거래대금</th>
                         </tr>
+                        </thead>
                           <tbody id="table1">
                           </tbody>
                     </table>
