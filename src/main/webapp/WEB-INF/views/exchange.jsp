@@ -199,8 +199,14 @@ input {
     flex: 1;
     text-align: center;
     line-height: 40px;
-    border-bottom: 1px solid #333;
+    margin-top: 10px;
 }
+
+.mETbox li:nth-child(1) {
+    border-right: 1px solid #333;}
+    
+.mETbox li:nth-child(2) {
+    border-right: 1px solid #333;}
 
 .interestCoin {
     width: 32%;
@@ -208,6 +214,8 @@ input {
     overflow-y: scroll;
     font-size: 14px;
 }
+
+.interestCoin h2 {margin: 10px 0 0 10px;}
 
 label {
     margin-right: 8px;

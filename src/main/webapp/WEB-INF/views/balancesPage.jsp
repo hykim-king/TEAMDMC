@@ -28,23 +28,23 @@
 
 /* 전체 container div */
 .container a {
-  color: black;
+  color: #333;
 }
 
 .container {
   width: 100%;
-  height: calc(100vh - 80px);
+  height: 800px;
   /* padding top> right> bottom> left */
   position: relative;
+  color: #333;
 }
 
 .mainBox {
   width: 90%;
-  height: auto;
+  height: 730px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
-  /*background : yellow;*/
   position: absolute;
   left: 50%;
   top: 50%;
@@ -54,10 +54,10 @@
 /* 사용자 보유 자산 div */
 #userBalancesDiv {
   width: 30%;
-  height: 550px;
+  height: 620px;
   border: 1px solid #333;
   box-sizing: border-box;
-  overflow: scroll;
+  overflow-y: scroll;
 }
 
 .userTotalBalances {
@@ -85,24 +85,23 @@
   text-align: 30px;
 }
 
+.userBalancesTable thead td {text-align: center;}
+
+.userBalancesTable thead td:nth-child(1) {width: 35%;}
+.userBalancesTable thead td:nth-child(2) {width: 30%;}
+.userBalancesTable thead td:nth-child(3) {width: 45%;}
 .uBTBody>tr {
   cursor: pointer;
 }
+.uBTBody .right {text-align: right; padding-right: 5px;}
+.uBTBody .left {padding-left: 5px;}
 
 /* 메인 입출금 div */
 #mainBalancesDiv {
   width: 30%;
-  height: 550px;
+  height: 620px;
   border: 1px solid #333;
   box-sizing: border-box;
-}
-
-#mainBalancesDiv input {
-  margin-left: 10px;
-  height: 30px;
-  border: 1px solid #333;
-  border-radius: 2px;
-  background: white;
 }
 
 #mainBalancesDiv label {
@@ -110,11 +109,19 @@
 }
 
 .mainBalancesTab>ul>li {
-  border: 1px solid #333;
   box-sizing: border-box;
   cursor: pointer;
   text-align: center;
+  border-collapse: collapse;
 }
+
+.mainBalancesTab>ul>li:nth-child(1) {
+border-right: 1px solid #333;
+}
+.mainBalancesTab>ul>li:nth-child(2) {
+border-right: 1px solid #333;
+}
+
 /* 입금/ 출금/ 입출금 내역 컨텐츠 DIV */
 /* class=on을 이용하여 div display 변경하기 */
 div.on {
@@ -127,7 +134,6 @@ div.on {
   width: 95%;
   margin: 0 auto;
   display: block;
-  border: 1px solid #333;
   box-sizing: border-box;
 }
 
@@ -135,7 +141,6 @@ div.on {
   width: 95%;
   margin: 0 auto;
   display: none;
-  border: 1px solid #333;
   box-sizing: border-box;
 }
 
@@ -144,14 +149,35 @@ div.on {
   width: 95%;
   margin: 0 auto;
   margin-top: 10px;
+  font-size: 15px;
 }
+
+..mainBalancesTabContextDivAInputDiv input, .mainBalancesTabContextDivBInputDiv input,
+  .mainBalancesTabContextDivCInputDiv input {
+
+ margin-left: 10px;
+  height: 30px;
+  border: 1px solid #333;
+  border-radius: 2px;
+  }
+
+.mainBalancesTabContextDivAInputDiv label, .mainBalancesTabContextDivBInputDiv label,
+  .mainBalancesTabContextDivCInputDiv label {
+  width: 100px;
+  }
 
 .mainBalancesTabContextDivAWarnning, .mainBalancesTabContextDivBWarnning,
   .mainBalancesTabContextDivCWarnning {
   width: 90%;
   margin: 0 auto;
   margin-top: 20px;
+  font-size: 13px;
 }
+
+.mainBalancesTabContextDivAWarnning p, .mainBalancesTabContextDivBWarnning p,
+  .mainBalancesTabContextDivCWarnning p {
+  margin-top: 10px;
+  }
 
 .mainBalancesTab {
   width: 95%;
@@ -173,6 +199,7 @@ div.on {
 .mainBalancesTab>ul>li>a {
   width: 100%;
   text-align: center;
+  font-size: 15px;
 }
 
 .mainBalancesTitle {
@@ -188,20 +215,18 @@ div.on {
 }
 
 .mainBalacesTabButton {
-  width: 100%;
+  width: 100px;
+  padding-top: 20px;
   margin: 0 auto;
-  margin-top: 10px;
 }
 
-.mainBalacesTabButton>ul>li {
-  width: 100%;
-  list-style: none;
-  line-height: 40px;
-}
-
-.mainBalancesTabButton>ul>li>a {
-  width: 100%;
-  text-align: center;
+.amountBtn{
+  width: 100px;
+  background: #37385d;
+  color: white;
+  height: 30px;
+  border-radius: 2px;
+   margin: 0 auto;
 }
 
 .temp {
@@ -218,18 +243,25 @@ div.on {
   margin-top: 10px;
   margin-bottom: 20px;
 }
+.contextTopofTop label {width: 100px;}
+.contextTopofTop p {float: right;}
+
+.contextBottomofBottom label {width: 100px;}
+.contextBottomofBottom p {float: right;}
+
 /* 코인 시세 div */
 #coinCharDiv {
   width: 30%;
-  height: 550px;
+  height: 620px;
   border: 1px solid #333;
   box-sizing: border-box;
 }
 
 #cointableDiv {
   width: 100%;
-  height: 450px;
-  overflow: scroll;
+  height: 620px;
+  overflow-y: scroll;
+  font-size: 14px;
 }
 
 #cointableHeaderDiv {
@@ -241,13 +273,17 @@ div.on {
   margin-top: 20px;
   width: 100%;
 }
+
+#cointable {border-collapse: collapse;}
 
 #cointableHeader th{
   position: sticky;
   top: 0px;
-  background-color: gray !important;
+  background-color: lightgray;
+  height: 20px;
 }
-
+#cointableHeader a {font-weight: bold; font-size:15px;}
+#cointableHeader a:hover{font-size:15px;}
 td {
   height: 30px;
   border: 1px solid lightgray;
@@ -259,15 +295,26 @@ td:nth-child(1) {
 }
 
 td:nth-child(2) {
-  width: 25%;
+  width: 22%;
   text-align: right;
 }
 
 td:nth-child(3) {
-  width: 45%;
+  width: 22%;
+  text-align: right;
+}
+td:nth-child(4) {
+  width: 26%;
   text-align: right;
 }
 
+.contextTopofTop, .contextBottomofBottom {
+  width: 95%;
+  margin: 0 auto;
+  height: 30px;
+}
+
+.contextBottomofBottom {margin-top: 10px;}
 .contextTop, .contextBottom {
   width: 95%;
   margin: 0 auto;
@@ -278,11 +325,22 @@ td:nth-child(3) {
 }
 
 .contextBottom input {
-  width: 300px; height : 30px;
+  width: 250px; height : 30px;
   border: 1px solid #333;
   border-radius: 2px;
   box-sizing: border-box;
   height: 30px;
+}
+
+.pbtbox {padding-top: 10px; display: flex; justify-content: space-between;
+width: 95%; margin: 0 auto;}
+
+.pbtbox .pricebt {
+    width: 70px; height: 30px; 
+    border: 1px solid #333;
+    border-radius: 2px;
+    box-sizing: border-box;
+    height: 30px;
 }
 </style>
 
@@ -312,7 +370,10 @@ td:nth-child(3) {
           if(13==e.which){
             
             if($(this).parents().attr("class", "mainBalancesTabContextDivA")) {
-              if($(this).val() < 5000) alert("최소 입금 금액은 5000원입니다.");
+              if($(this).val() < 5000) {
+            	  alert("최소 입금 금액은 5000원입니다.");
+            	  return;
+              }
               else {
                 if(confirm("원화 입금 금액은 "+$(this).val()+"입니다. 정말 입금하시겠습니까?")==false)return;
                 
@@ -336,8 +397,11 @@ td:nth-child(3) {
                   $('.mainBalancesTabContextDivC .contextBottom input[type="text"]').addClass('amount');
                   
                   alert("입금 요청 성공!"); 
-                  }else alert("입금 요청 실패!");         
-                });
+                  }else {
+                	  alert("입금 요청 실패!");
+                	  return;
+                  }
+                  });
               }
             }
             
@@ -522,8 +586,8 @@ td:nth-child(3) {
              <input type="hidden" value="${vo.locked}">
              <tr>
                <td>${vo.currency }</td>
-               <td>${vo.balance }</td>
-               <td>${Math.round(mListList.get(status.index).get(0).getTrade_price() * vo.balance)} ${vo.unit_currency}</td>
+               <td class="right">${vo.balance }</td>
+               <td class="right">${Math.round(mListList.get(status.index).get(0).getTrade_price() * vo.balance)} ${vo.unit_currency}</td>
              </tr>
            </c:forEach>
          </c:when>
@@ -582,7 +646,7 @@ td:nth-child(3) {
           <!-- mainBalancesTabContextDivAInputDiv ---------------------------------->
           <div class="mainBalancesTabContextDivAInputDiv">
             <div class="contextTop">
-              <label>연계계좌</label><label>10*******2332 코리아뱅크</label><label>방구홍길동</label>
+              <label>연계계좌</label><p>10*******2332 코리아뱅크</p><p>홍길동</p>
             </div>
             <div class="contextBottom">
               <!-- 아래 placeholder의 값은 선택한 코인에 따라 달라짐 -->
@@ -591,13 +655,14 @@ td:nth-child(3) {
           </div>
           <!--// mainBalancesTabContextDivAInputDiv end ---------------------------->
 
-          <div class="mainBalancesTabContextDivAWarnning">입금 주의 사항
-            영역입니다.입금 주의 사항 영역입니다.입금 주의 사항 영역입니다.입금 주의 사항 영역입니다.입금 주의 사항
-            영역입니다.입금 주의 사항 영역입니다.입금 주의 사항 영역입니다.입금 주의 사항 영역입니다.입금 주의 사항
-            영역입니다.입금 주의 사항 영역입니다.입금 주의 사항 영역입니다.입금 주의 사항 영역입니다.
+          <div class="mainBalancesTabContextDivAWarnning">
+           <p>KRW 입금 신청 시 연결된 실명 확인 계좌에서 신청 금액 만큼 출금이체 됩니다.</p>
+           <p>원화 입급 금액 만큼 24시간 동안 가상 자산 출금이 제한됩니다.</p>
+           <p>점검 시간에는 진행이 원활하지 않을 수 있습니다.</p>
+           <p>입금 가능 금액은 연결된실명확인 계좌의 출금 가능 금액과 동일하며, 연결 계좌의 이체 한도 범위등을 벗어나는 경우 입금이 정상적으로 진행되지 않을 수 있습니다.</p>
           </div>
           <div class="mainBalacesTabButton">
-            <ul><li><a href="#" class="amountBtn" name="amountBtn">신청 버튼</a></li></ul>
+            <input type="button" class="amountBtn" name="amountBtn" value="입금 신청"/>
           </div>
         </div>
         <!--// mainBalancesTabContextDivA end ---------------------------------------->
@@ -607,30 +672,36 @@ td:nth-child(3) {
           <!-- mainBalancesTabContextDivAInputDiv ---------------------------------->
           <div class="mainBalancesTabContextDivBInputDiv">
             <div class="contextTopofTop">
-              <label>출금가능</label><label>${list.get(0).balance} KRW</label>
+              <label>출금가능</label><p>${list.get(0).balance} KRW</p>
             </div>
             <div class="contextTop">
-              <label>출금계좌</label><label>10*******2332 코리아뱅크</label><label>홍길동</label>
+              <label>출금계좌</label><p>10*******2332 코리아뱅크</p><p>홍길동</p>
             </div>
             <div class="contextBottom">
               <!-- 아래 placeholder의 값은 선택한 코인에 따라 달라짐 -->
               <label>출금금액</label><input type="text" placeholder="최소 5,000KRW" />
-              <input type="button" value="25%" /><input type="button" value="50%" /><input type="button" value="최대" /><input type="button" value="10%" />
             </div>
+              <div class="pbtbox">
+              <input type="button" class="pricebt" value="25%" />
+              <input type="button" class="pricebt" value="50%" />
+              <input type="button" class="pricebt" value="최대" />
+              <input type="button" class="pricebt" value="10%" />
+              </div>
             <div class="contextBottomofBottom">
-              <p>출금수수료(부가세 포함)</p><p>1,000 KRW</p>
-              <p>총출금(수수료 포함)</p><p>1,000 KRW</p>
+              <div><label>출금수수료(부가세 포함)</label><p>1,000 KRW</p></div>
+              <div><label>총출금(수수료 포함)</label><p>1,000 KRW</p></div>
             </div>
           </div>
           <!--// mainBalancesTabContextDivAInputDiv end ---------------------------->
 
-          <div class="mainBalancesTabContextDivBWarnning">출금 주의 사항
-            영역입니다.출금 주의 사항 영역입니다.출금 주의 사항 영역입니다.출금 주의 사항 영역입니다.출금 주의 사항
-            영역입니다.출금 주의 사항 영역입니다.출금 주의 사항 영역입니다.출금 주의 사항 영역입니다.출금 주의 사항
-            영역입니다.출금 주의 사항 영역입니다.출금 주의 사항 영역입니다.출금 주의 사항 영역입니다.
+          <div class="mainBalancesTabContextDivBWarnning">
+           <p>고객 확인 미등록 계정은 원화 출금이 불가합니다.</p>  
+           <p>출금 신청 시 심사가 진행되며 심사 결과에 따라 본인확인 후 최대 72시간 지연될 수 있으며 부정 거래가 의심될 경우 출금이 제한될 수 있습니다.</p>
+           <p>출금 수수료 1,000원이 별도 부과됩니다.</p>
+           <p>출금 시스템 점검 시간 및 은행별 점검 시간에는 출금 요청을 하실 수 없으니 유의하시기 바랍니다.</p>    
           </div>
           <div class="mainBalacesTabButton">
-            <ul><li><a href="#" class="amountBtn" name="amountBtn">신청 버튼</a></li></ul>
+            <input type="button" class="amountBtn" name="amountBtn" value="출금 신청"/>
           </div>
         </div>
         <!--// mainBalancesTabContextDivB end ---------------------------------------->

@@ -268,6 +268,23 @@ td, th {
     text-align: center;
 }
 
+th:nth-child(1) {
+    width: 8%;
+}
+th:nth-child(2) {
+    width: 50%;
+}
+th:nth-child(3) {
+    width: 15%;
+}
+th:nth-child(4) {
+    width: 20%;
+}
+th:nth-child(5) {
+    width: 7%;
+}
+
+
 td:nth-child(2) {
     text-align: left;
 }
@@ -278,8 +295,35 @@ tr {
 }
 .faqTitle {
     font-size: 30px;
-    font-weight: bold;    
+    font-weight: bold;
+    padding-top: 10px;
 }
+
+#header a, #footer a {
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+    -webkit-font-smoothing: antialiased;
+    font-size: 17px;
+}
+
+#header a:hover {
+   color: #0062df;
+    font-size: 18px;
+    font-weight: 800;
+    text-decoration: none;
+}
+
+#footer a:hover {
+   color: #0062df;
+    font-size: 18px;
+    font-weight: 800;
+    text-decoration: none;
+}
+
+#footer {margin: 0; padding: 0;}
+
+#footer p{margin: 0; padding: 0;}
 </style>
 
 <title>Insert title here</title>
@@ -299,7 +343,7 @@ tr {
             <button class="bt1" id="moveToReg">글쓰기</button>
             </c:when>
             <c:otherwise>
-            <div class="faqTitle">FAQ</div>
+            <div class="faqTitle">고객센터</div>
             </c:otherwise>
             </c:choose>
             <!-- 검색영역 div -->

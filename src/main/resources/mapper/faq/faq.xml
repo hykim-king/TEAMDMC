@@ -38,7 +38,9 @@
                  TT1.f_contents,
                  TT1.f_readcnt,
                  TT1.u_id,
-                 TO_CHAR(TT1.reg_dt,'yyyy-mm-dd hh24:mi:ss') as "reg_dt"
+                 DECODE(TO_CHAR(SYSDATE, 'YYYYMMDD'), TO_CHAR(TT1.reg_dt,'YYYYMMDD'),
+                        TO_CHAR(TT1.reg_dt, 'HH24:MI'),
+                        TO_CHAR(TT1.reg_dt, 'YYYY-MM-DD')) as "reg_dt"
           FROM (
               SELECT ROWNUM AS RNUM, T1.*
               FROM (

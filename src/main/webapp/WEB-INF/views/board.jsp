@@ -185,7 +185,7 @@
 
 #wrap {
     width: 100%;
-    height: 800px;
+    height: 830px;
     margin-top: 20px;
 }
 
@@ -266,6 +266,22 @@ td, th {
     text-align: center;
 }
 
+th:nth-child(1) {
+    width: 8%;
+}
+th:nth-child(2) {
+    width: 50%;
+}
+th:nth-child(3) {
+    width: 15%;
+}
+th:nth-child(4) {
+    width: 20%;
+}
+th:nth-child(5) {
+    width: 7%;
+}
+
 td:nth-child(2) {
     text-align: left;
 }
@@ -274,6 +290,32 @@ tr {
     border-top: 1px solid lightgray;
     height: 30px;
 }
+
+#header a, #footer a {
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+    -webkit-font-smoothing: antialiased;
+    font-size: 17px;
+}
+
+#header a:hover {
+   color: #0062df;
+    font-size: 18px;
+    font-weight: 800;
+    text-decoration: none;
+}
+
+#footer a:hover {
+   color: #0062df;
+    font-size: 18px;
+    font-weight: 800;
+    text-decoration: none;
+}
+
+#footer {margin: 0; padding: 0;}
+
+#footer p{margin: 0; padding: 0;}
 </style>
 
 <title>Insert title here</title>

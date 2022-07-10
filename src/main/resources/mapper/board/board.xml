@@ -63,9 +63,13 @@
                  TT1.b_contents,
                  TT1.b_readcnt,
                  TT1.u_nick,
-                 TO_CHAR(TT1.reg_dt,'yyyy-mm-dd hh24:mi:ss') as "reg_dt",
+                 DECODE(TO_CHAR(SYSDATE, 'YYYYMMDD'), TO_CHAR(TT1.reg_dt,'YYYYMMDD'),
+                        TO_CHAR(TT1.reg_dt, 'HH24:MI'),
+                        TO_CHAR(TT1.reg_dt, 'YYYY-MM-DD')) as "reg_dt",
                  TT1.u_id,
-                 TO_CHAR(TT1.mod_dt,'yyyy-mm-dd hh24:mi:ss') as "mod_dt" 
+                 DECODE(TO_CHAR(SYSDATE, 'YYYYMMDD'), TO_CHAR(TT1.mod_dt, 'YYYYMMDD'),
+                    TO_CHAR(TT1.mod_dt, 'HH24:MI'),
+                    TO_CHAR(TT1.mod_dt, 'YYYY-MM-DD')) AS "mod_dt" 
           FROM (
               SELECT ROWNUM AS RNUM, T1.*
               FROM (
