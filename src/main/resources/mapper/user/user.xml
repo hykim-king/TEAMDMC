@@ -12,7 +12,6 @@
       <result  property="regDt"      column="reg_dt"/>
   </resultMap>
 
-
   <!-- 닉네임 체크 및 변경 부분 -->
   <select id="nickCheck" parameterType="UserVO" resultType="int">
     SELECT COUNT(*) cnt
@@ -136,7 +135,7 @@
   
   <delete id="doDelete" parameterType="UserVO">
     DELETE FROM user_info
-    WHERE u_id = #{uId}           
+    WHERE u_id = #{uId}
   </delete>
 
   <insert id="doInsert" parameterType="UserVO">

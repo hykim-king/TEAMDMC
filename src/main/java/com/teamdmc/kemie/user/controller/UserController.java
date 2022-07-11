@@ -63,36 +63,29 @@ public class UserController {
 		return jsonString;
 	}
 	
-	@RequestMapping(value="/doDelete.do",method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	@RequestMapping(value="/doDelete.do",method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public String doDelete(HttpServletRequest req, UserVO inVO) throws SQLException{
+	public String doDelete(UserVO inVO) throws SQLException{
 		String jsonString = "";
 		  
-		//HttpServletRequest param읽기
-		String uId = req.getParameter("uId");
 		LOG.debug("==============================");
-		LOG.debug("=uId="+uId);
-		//Command로 param읽기(from name값이 VO member변수와 이름이 일치(setter로 값이 설정됨)
+		LOG.debug("=doDelete()=");
 		LOG.debug("=inVO="+inVO);
 		LOG.debug("==============================");		
 		
-		String resultMsg = "";
-		int flag = Uservice.doDelete(inVO);
-		if(1==flag) {
-			resultMsg = inVO.getuId()+"계정 삭제를 성공 했습니다.";
-		}else {
-			resultMsg = inVO.getuId()+"계정 삭제를 실패 했습니다.";
-		}
+		MessageVO message = Uservice.doDelete(inVO);
+		// msgId
+		//     1. 비밀번호 확인 필요 : 10
+		//     2. 아이디 삭제: 20
 		
-		MessageVO message=new MessageVO(String.valueOf(flag), resultMsg);	
-		Gson gson=new Gson();
+		jsonString = new Gson().toJson(message);
 		
-		jsonString = gson.toJson(message);
 		LOG.debug("==============================");
 		LOG.debug("=jsonString="+jsonString);		
 		LOG.debug("==============================");
 		
 		return jsonString;
+//		return "login/doLogout.do";
 	}
 	
 	// testURL : http://localhost:8080/kemie/doNickUpdate.do?nick=테스트01

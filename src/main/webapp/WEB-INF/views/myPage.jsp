@@ -115,13 +115,13 @@
 	box-sizing: border-box;
 }
 
-
 #userInfoDiv .btbox {
     display: flex;
     width: 600px;
     justify-content: space-between;
     margin-bottom: 20px;
 }
+
 #userInfoDiv .btn {
     color: #fffafa;
 	border-radius: 2px;
@@ -167,7 +167,7 @@ h3 {
 		        function myBoard() {
 		            let searchWord = $("#searchWord").val();
 		            let searchDiv = $("#searchDiv").val();
-		            window.location.href = "${CP}/board/boardView.do?searchDiv="+searchDiv+"&searchWord"+searchWord;
+		            window.location.href = "${CP}/board/boardView.do?searchDiv="+searchDiv+"&searchWord="+searchWord;
 		        }
 		        
 		        $("#myPost").on("click", function(){
@@ -221,6 +221,20 @@ h3 {
 	            EClass.callAjax(url, parameters, method, async, function(data) {
 	            	alert(data.msgContents);
 	            });
+				}else if(btnId.includes('user')){
+					  if(confirm("정말 탈퇴하시겠습니까?")==false) return;
+					  let input = prompt('아이디를 삭제하기 위해 현재 비밀번호를 입력하세요.');
+					  
+					  let url = "${CP}/userinfo/doDelete.do";
+					  let parameters = {"uId": "${sessionScope.user.uId}", "passwd": input};
+					  let method= "POST";
+					  let async;
+					  
+					  EClass.callAjax( url, parameters, method, async, function(data) {
+						  alert(data.msgContents);
+						  
+						  window.location.href = "${CP}/login/doLogout.do";
+					  });
 				}
 			});
 	  });
@@ -247,20 +261,16 @@ h3 {
 					<h3>개인 정보 관리</h3>
 					<p class="userInfo_Name">${sessionScope.user.nick} 님</p>
     
-                    <div class="btbox">
-					<!-- Button ----------------------------------------------------------->
-					<form action="#">
-						<button id="nickChange" class="btn nickChange">닉네임 변경</button>
-						<button id="pwChange" class="btn pwChange">비밀번호 변경</button>
-						<button id="userChange" class="btn userChange">회원 탈퇴</button>
-					</form>
-					<form action="${CP}/board/boardView.do">
-						<button class="btn myPost" id="myPost">내 글 보기</button>
-						<input type="hidden" id="searchDiv" name="searchDiv" value="50">
-						<input type="hidden" id="searchWord" value="${sessionScope.user.uId}" name="searchWord">
-					</form>
-					<!--// Button end ----------------------------------------------------->
-                    </div>
+	          <div class="btbox">
+							<!-- Button ----------------------------------------------------------->
+							<button id="nickChange" class="btn nickChange">닉네임 변경</button>
+							<button id="pwChange" class="btn pwChange">비밀번호 변경</button>
+							<button id="userChange" class="btn userChange">회원 탈퇴</button>
+							<button id="myPost" class="btn myPost" >내 글 보기</button>
+							<input type="hidden" id="searchDiv" name="searchDiv" value="50">
+							<input type="hidden" id="searchWord" value="${sessionScope.user.uId}" name="searchWord">
+							<!--// Button end ----------------------------------------------------->
+            </div>
 				</div>
 				<!--// userInfoDiv end -------------------------------------------------->
 

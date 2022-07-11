@@ -23,6 +23,32 @@ public class userServiceImpl implements userService {
 	
 	public userServiceImpl() {}
 
+
+	@Override
+	public MessageVO doDelete(UserVO inVO) throws SQLException {
+		// msgId 상태 값
+		// 1. 비번 확인 필요: 10
+		// 2. 삭제: 20
+		MessageVO message = new MessageVO();
+		
+		LOG.debug("doDelete");
+		
+		int flag = userDao.passCheck(inVO);
+		
+		if(flag != 1) {
+			LOG.debug("비밀번호가 일치하지 않습니다.");
+			message.setMsgId("10");
+			message.setMsgContents("비밀번호가 일치하지 않습니다. 다시 확인해 주세요.");
+			
+			return message;
+		}
+		userDao.doDelete(inVO);
+		message.setMsgId("20");
+		message.setMsgContents("아이디가 정상적으로 삭제되었습니다.");
+		
+		return message;
+	}
+	
 	@Override
 	public MessageVO doFindID(UserVO inVO) throws SQLException {
 		//msgId;//메시지 ID
@@ -152,11 +178,6 @@ public class userServiceImpl implements userService {
 	@Override
 	public List<UserVO> doRetrieve(DTO dto) throws SQLException {
 		return userDao.doRetrieve(dto);
-	}
-
-	@Override
-	public int doDelete(UserVO inVO) throws SQLException {
-		return userDao.doDelete(inVO);
 	}
 
 	@Override

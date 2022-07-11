@@ -111,7 +111,7 @@ public interface userService {
 	 * @return 1(성공)/ 0(실패)
 	 * @throws SQLException
 	 */
-	public int doDelete(UserVO inVO) throws SQLException;
+	public MessageVO doDelete(UserVO inVO) throws SQLException;
 	
 	/**
 	 * 사용자 수정 가능
