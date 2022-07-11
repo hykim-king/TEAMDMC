@@ -409,10 +409,11 @@ border-collapse: collapse; color: #37385d;}
                           
                           var no = Math.ceil(data[i].acc_trade_price_24h/1000000);
                           no = String(no).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                          var no2 = String(data[i].trade_price).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                           
                           htmlData += "<tr>                                                                                                                                    ";
                           htmlData += "     <td class='text-left   col-sm-2 col-md-2 col-lg-2' id='uicMarket"+i+"'>"+ data[i].market +"</td>                                   ";
-                          htmlData += "     <td class='text-right   col-sm-2 col-md-2 col-lg-2' id='uicNowPrice"+i+"'>"+ data[i].trade_price +"</td>                            ";
+                          htmlData += "     <td class='text-right   col-sm-2 col-md-2 col-lg-2' id='uicNowPrice"+i+"'>"+ no2 +"</td>                            ";
                           htmlData += "     <td class='text-right   col-sm-2 col-md-2 col-lg-2' id='uicToFixed"+i+"'>"+ (data[i].signed_change_rate*100).toFixed(3)  +"%</td>   ";
                           htmlData += "     <td class='text-right  col-sm-2 col-md-2 col-lg-2' id='uicPrice24h"+i+"'>"+ no +"백만</td>                                           ";
                           htmlData += "     <td class='text-center'> <input type='button' id='interCoin"+i+"' value='관심등록' /> </td>                                             ";

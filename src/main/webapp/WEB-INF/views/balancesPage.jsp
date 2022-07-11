@@ -751,7 +751,7 @@ width: 95%; margin: 0 auto;}
              <c:forEach var="ticker" items="${tickerList}">
              <tr>
                <td>${ticker.market}</td>
-               <td>${ticker.trade_price}</td>
+               <td><fmt:formatNumber value="${ticker.trade_price}" pattern="###,###,###,###" /></td>
                <td><fmt:formatNumber value="${ticker.signed_change_rate*100}" pattern="0.000"/>%</td>
                <td><fmt:formatNumber value="${Math.ceil(ticker.acc_trade_price_24h/1000000)}" pattern="###,###,###,###" />백만</td>
              </tr>
