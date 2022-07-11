@@ -87,13 +87,10 @@
 }
 
 .userBalancesTable thead td {text-align: center;}
-
 .userBalancesTable thead td:nth-child(1) {width: 35%;}
 .userBalancesTable thead td:nth-child(2) {width: 30%;}
 .userBalancesTable thead td:nth-child(3) {width: 45%;}
-.uBTBody>tr {
-  cursor: pointer;
-}
+.uBTBody>tr { cursor: pointer; }
 .uBTBody .right {text-align: right; padding-right: 5px;}
 .uBTBody .left {padding-left: 5px;}
 
@@ -371,7 +368,89 @@ width: 95%; margin: 0 auto;}
 <!-- 자바스크립트 -->
 <script type="text/javascript">
       /* 자바스크립트 코드 */
+      function getDepo(){
+    	  $("#getDepoTableBody").empty();
+    	  
+          let url = "${CP}/getDeposit.do";
+          let method ="GET";
+          let async  = true;
+          let parameters = {
+              "currency": $('.mainBalancesTitle').text().substr(0, $('.mainBalancesTitle').text().lastIndexOf(" "))  
+          };
+          
+          EClass.callAjax(url, parameters, method, async, function(data) {
+            let parseData = data;
+            let htmlData="";
+            
+            if(!eUtil.ISEmpty(parseData)){
+                $.each(data, function(index, value){
+                  htmlData += "<tr>                                   ";
+                  htmlData += "  <td class='text-center'>"+value.amount+"&nbsp;"+value.currency+"</td>";
+                  
+                  if(value.transaction_type == "default") value.transaction_type = "일반입금";
+                  else value.transaction_type = "바로입금";
+                  
+                  htmlData += "  <td class='text-center'>"+value.transaction_type+"</td>";
+                  htmlData += "  <td class='text-center'>"+value.created_at+"</td>";
+                  
+                  if(eUtil.ISEmpty(value.done_at)==true || value.done_at == null ) value.done_at = "입금 실패";
+                  
+                  htmlData += "  <td class='text-center'>"+value.done_at+"</td>";
+                  htmlData += "</tr>                                  ";  
+                });
+            }else htmlData += " <tr><td colspan='99' class='text-center'>No data found</td></tr>" ;
+            
+            $("#getDepoTableBody").append(htmlData);
+          })
+        }
+        
+        function getWithdraws(){
+        	$("#getDepoTableBody").empty();
+        	
+              let url = "${CP}/getWithdraws.do";
+              let method ="GET";
+              let async  = true;
+              let parameters = {
+                  "currency": $('.mainBalancesTitle').text().substr(0, $('.mainBalancesTitle').text().lastIndexOf(" "))  
+              };
+              
+              EClass.callAjax(url, parameters, method, async, function(data) {
+                let parseData = data;
+                let htmlData="";
+                
+                if(!eUtil.ISEmpty(parseData)){
+                    $.each(data, function(index, value){
+                      console.log(index+", "+value.created_at);
+                      htmlData += "<tr>                                   ";
+                      htmlData += "  <td class='text-center'>"+value.amount+"&nbsp;"+value.currency+"</td>";
+                      
+                      if(value.transaction_type == "default") value.transaction_type = "일반출금";
+                      else value.transaction_type = "바로출금";
+                      
+                      htmlData += "  <td class='text-center'>"+value.transaction_type+"</td>";
+                      htmlData += "  <td class='text-center'>"+ value.created_at +"</td>";
+                      
+                      if(eUtil.ISEmpty(value.done_at)==true || value.done_at == null ) value.done_at = "출금 실패";
+                      
+                      htmlData += "  <td class='text-center'>"+value.done_at+"</td>";
+                      htmlData += "</tr>                                  ";  
+                    });
+                }else htmlData += " <tr><td colspan='99' class='text-center'>No data found</td></tr>" ;
+                
+                $("#getDepoTableBody").append(htmlData);
+              })
+            }
+      
       $(document).ready(function(){
+    	  
+    	  $("#depoSelectValue").on("change", function(){
+              // depoSelectValue
+              //     10: 입금 내역
+              //     20: 출금 내역
+              if( $('#depoSelectValue').val() == 10) getDepo();
+              if( $('#depoSelectValue').val() == 20) getWithdraws();
+    	  });
+    	  
         $(".amount").on("keypress", function(e){
           console.log(".amount: "+e.which);
           
@@ -435,9 +514,11 @@ width: 95%; margin: 0 auto;}
             $('.mainBalancesTabContextDivBInputDiv').css('display', 'none');
           }
           
+          if( $('#depoSelectValue').val() == 10) getDepo();
+          if( $('#depoSelectValue').val() == 20) getWithdraws();
+          
           $('.mainBalancesContextValueDivOwnValue').text($(this).children().eq(1).text()+" "+$(this).children().eq(0).text());
           $('.mainBalancesContextValueDivWaitValue').text($('.uBTBody').children().eq(0).val()+" "+$(this).children().eq(0).text());
-          
           
         });
         
@@ -471,38 +552,11 @@ width: 95%; margin: 0 auto;}
             
             console.log('mainBalancesTabContextDivA의 class에 on추가하기');
             
-            $("#getDepoTableBody").empty();
-            
-            let url = "${CP}/getDeposit.do";
-            let method ="GET";
-            let async  = true;
-            let parameters = {
-                "currency": $('.mainBalancesTitle').text().substr(0, $('.mainBalancesTitle').text().lastIndexOf(" "))  
-            };
-            
-            EClass.callAjax(url, parameters, method, async, function(data) {
-              /* console.log("data: "+data); */
-                //data.forEach(element => console.log("구분자입니다."+element))
-                console.log(data);
-              
-              let parseData = data;
-              let htmlData="";
-              
-              if(!eUtil.ISEmpty(parseData)){
-                  $.each(data, function(index, value){
-                    console.log(index+", "+value.created_at);
-                    htmlData += "<tr>                                   ";
-                htmlData += "  <td class='text-center'>"+value.type+"</td>";
-                htmlData += "  <td class='text-center'>"+value.amount+"&nbsp;"+value.currency+"</td>";
-                htmlData += "  <td class='text-center'>"+value.transaction_type+"</td>";
-                htmlData += "  <td class='text-center'>"+value.created_at+"</td>";
-                htmlData += "  <td class='text-center'>"+value.done_at+"</td>";
-                htmlData += "</tr>                                  ";  
-                  });
-              }else htmlData += " <tr><td colspan='99' class='text-center'>No data found</td></tr>" ;
-              
-              $("#getDepoTableBody").append(htmlData);
-            });
+            // depoSelectValue
+            //     10: 입금 내역
+            //     20: 출금 내역
+            if( $('#depoSelectValue').val() == 10) getDepo();
+            if( $('#depoSelectValue').val() == 20) getWithdraws();
             
             break;
             default:
@@ -511,11 +565,6 @@ width: 95%; margin: 0 auto;}
           }
         });
 
-        $("#userBalancesDiv").click(function(){  
-          console.log("clickeD166623!!");
-          /* console.log("response == "+${response.currency}); */
-        });
-       
         $(".amountBtn").click(function(){
           console.log(".amountBtn Clicked!!");
           console.log($('.amount').val());
@@ -717,10 +766,9 @@ width: 95%; margin: 0 auto;}
           <!-- mainBalancesTabContextDivAInputDiv ---------------------------------->
           <div class="mainBalancesTabContextDivCInputDiv">
             <div class="selectDiv" style="float:right;">
-              <select>
-	              <option value="10">전체</option>
-	              <option value="20">입금</option>
-	              <option value="30">출금</option>
+              <select id="depoSelectValue">
+	              <option value="10" selected="selected">입금</option>
+	              <option value="20">출금</option>
               </select>
               <hr/>
             </div>

@@ -33,14 +33,56 @@ import com.teamdmc.kemie.upbit.domain.AllMarketVO;
 import com.teamdmc.kemie.upbit.domain.DepositsVO;
 import com.teamdmc.kemie.upbit.domain.MinitesCandleVO;
 import com.teamdmc.kemie.upbit.domain.TickerVO;
+import com.teamdmc.kemie.upbit.domain.WithdrawsVO;
 
 @Controller("balancesController")
 public class BalancesController {
 	final Logger LOG = LogManager.getLogger(getClass());
+	
+	@RequestMapping(value = "/getWithdraws.do", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String getWithdraws(String currency)
+			throws NoSuchAlgorithmException, UnsupportedEncodingException {
+		JwtTokenMaker jwtTokenMaker = new JwtTokenMaker();
+		String jsonString = "";
 
+		String token = jwtTokenMaker.depositAndPostKRW("currency", currency);
+
+		LOG.debug("========================================");
+		LOG.debug("====getWithdraws()====");
+		LOG.debug("param: " + currency);
+		LOG.debug("token: " + token);
+
+		try {
+			HttpClient client = HttpClientBuilder.create().build();
+			HttpGet request = new HttpGet("https://api.upbit.com/v1/withdraws?currency=" + currency);
+			request.setHeader("Content-Type", "application/json");
+			request.addHeader("Authorization", token);
+
+			HttpResponse response = client.execute(request);
+			HttpEntity entity = response.getEntity();
+
+			String data = EntityUtils.toString(entity, "UTF-8");
+			LOG.debug("data: " + data);
+
+			List<WithdrawsVO> withList = Arrays.asList(new ObjectMapper().readValue(data, WithdrawsVO[].class));
+			for (WithdrawsVO vo : withList)
+				LOG.debug("vo: " + vo);
+
+			jsonString = new Gson().toJson(withList);
+			LOG.debug("jsonString: " + jsonString);
+
+			return jsonString;
+		} catch (IOException e) {
+			LOG.debug(e.toString());
+			System.out.println(e.getMessage());
+		}
+		return jsonString;
+	}
+	
 	@RequestMapping(value = "/getDeposit.do", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public String getDeposit(String currency, Model model)
+	public String getDeposit(String currency)
 			throws NoSuchAlgorithmException, UnsupportedEncodingException {
 		JwtTokenMaker jwtTokenMaker = new JwtTokenMaker();
 		String jsonString = "";
@@ -78,58 +120,6 @@ public class BalancesController {
 		}
 		return jsonString;
 	}
-
-	// 가장 최근의 따 한 개만 조회됨.
-//	@RequestMapping(value="/getDeposit.do", method = RequestMethod.GET)
-//	@ResponseBody
-//	public JSONObject getDeposit(String currency, Model model) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-//		JwtTokenMaker jwtTokenMaker = new JwtTokenMaker();
-//		int flag = 0;
-//
-//		String token = jwtTokenMaker.depositAndPostKRW("currency", currency);
-//		
-//		LOG.debug("========================================");
-//		LOG.debug("====getDeposit()====");
-//		LOG.debug("param: "+currency);
-//		LOG.debug("token: "+token);
-//		
-//		try {
-//			
-//			
-//			HttpClient client = HttpClientBuilder.create().build();
-//            HttpGet request = new HttpGet("https://api.upbit.com/v1/deposit?currency="+currency);
-//            request.setHeader("Content-Type", "application/json");
-//            request.addHeader("Authorization", token);
-//
-//            HttpResponse response = client.execute(request);
-//            HttpEntity entity = response.getEntity();
-//            
-//            String data = EntityUtils.toString(entity, "UTF-8");
-//            LOG.debug("data: "+data);
-//            
-//			try {
-//				JSONParser jsonParser = new JSONParser();
-//	            JSONObject object = (JSONObject) jsonParser.parse(data);
-//	            LOG.debug("object.toString: "+object.toString());
-//	            
-//	            return object;
-//			} catch (ParseException e) {
-//				System.out.println("error message: "+e.getMessage());
-//			}
-//            
-////            List<Object> depoList = new Gson().fromJson(data.toString(), getDepositType);
-////            LOG.debug("depoList: ", depoList);
-////            LOG.debug("========================================");
-////            model.addAttribute("getDeposit", depoList);
-//            
-//            
-//            return null;
-//        } catch (IOException e) {
-//        	LOG.debug(e.toString());
-//            System.out.println(e.getMessage());
-//        }
-//		return null;
-//	}
 
 	@RequestMapping(value = "/withDrawsKRW.do", method = RequestMethod.POST)
 	@ResponseBody
