@@ -36,7 +36,7 @@
 
 </style>
 
-<title>KEMIE-회원 탈퇴</title>
+<title><spring:message code="kemie.title" /></title>
 
 <script type="text/javascript">
 	

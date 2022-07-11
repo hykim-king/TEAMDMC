@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <c:set var="CP" value="${pageContext.request.contextPath }"></c:set>
 <c:set var="resources" value="/resources"></c:set>
 <c:set var="CP_RES" value="${CP}${resources}"></c:set>
@@ -326,7 +327,7 @@ tr {
 #footer p{margin: 0; padding: 0;}
 </style>
 
-<title>Insert title here</title>
+<title>KEMIE</title>
 
 
 </head>

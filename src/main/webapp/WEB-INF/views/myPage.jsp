@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <c:set var="CP" value="${pageContext.request.contextPath }"></c:set>
 <c:set var="resources" value="/resources"></c:set>
 <c:set var="CP_RES" value="${CP}${resources}"></c:set>    
@@ -143,7 +144,7 @@ h3 {
 }
 </style>
 
-<title>Insert title here</title>
+<title>KEMIE</title>
 <!-- reset.css를 직접참조하여 가져오기 
 			<link rel="stylesheet" type="text/css" href="/studyhtml5/asset/css/reset.css"> -->
 

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <c:set var="CP" value="${pageContext.request.contextPath }"></c:set>
 <c:set var="resources" value="/resources"></c:set>
 <c:set var="CP_RES" value="${CP}${resources}"></c:set>  
@@ -335,10 +336,15 @@ border-collapse: collapse; color: #37385d;}
 
 
 </style>
-<title>Insert title here</title>
+<title>KEMIE</title>
 <!--자바스크립트 코드 -->
 <script type="text/javascript">
     $(document).ready(function() { /* a태그의 id의 마지막 문자열을 추출하여 원하는 div on */
+/*     	function sleep(ms) {
+    	 const wakeUpTime = Date.now() + ms;
+    	 while (Date.now() < wakeUpTime) {}
+    } */
+    	
     	let async99;
     	let url99 = "${CP}/getAll.do"
         let method99 = "GET";
@@ -352,12 +358,22 @@ border-collapse: collapse; color: #37385d;}
                 
                 let htmData = "";
                 
+                console.log($('.fullCoin>tr>td:contains("KRW-BTC")').siblings('[id*="uicNowPrice"]').text());
+                
                 for(let kk=0; kk<uicdata.length; kk++){
+                	//console.log($('.fullCoin>tr>td:contains('+uicdata[kk].uicMarket+')').siblings('[id*="uicNowPrice"]').text());
+                	//	  if(eUtil.ISEmpty($('.fullCoin>tr>td:contains("KRW-BTC")').siblings('[id*="uicNowPrice"]').text())){
+                	//		  sleep(500);
+                	//	  }
+                	
                     htmData += "<tr>                                                        ";
                     htmData += "     <td >"+ uicdata[kk].uicMarket +"</td>                                   ";
-                    htmData += "     <td >"+ uicdata[kk].uicNowPrice +"</td>                            ";
-                    htmData += "     <td >"+ uicdata[kk].uicToFixed+" </td>   ";
-                    htmData += "     <td >"+ uicdata[kk].uicPrice24h +"</td>                                           ";
+                    htmData += "     <td class='text-right'>"+ uicdata[kk].uicNowPrice +"</td>                            ";
+                    htmData += "     <td class='text-right'>"+ uicdata[kk].uicToFixed +" </td>   ";
+                    htmData += "     <td class='text-right'>"+ uicdata[kk].uicPrice24h +"</td>                                           ";
+                    //htmData += "     <td >"+ $('.fullCoin>tr>td:contains('+uicdata[kk].uicMarket+')').siblings('[id*="uicNowPrice"]').text() +"</td>                            ";
+                    //htmData += "     <td >"+ $('.fullCoin>tr>td:contains('+uicdata[kk].uicMarket+')').siblings('[id*="uicToFixed"]').text() +" </td>   ";
+                    //htmData += "     <td >"+ $('.fullCoin>tr>td:contains('+uicdata[kk].uicMarket+')').siblings('[id*="uicPrice24h"]').text() +"</td>                                           ";
                     htmData += "</tr>                                  ";
                 }
                 $("#table1").append(htmData);
@@ -437,8 +453,6 @@ border-collapse: collapse; color: #37385d;}
                                   //"uId"         : $(this).parent().siblings('[id*="uId"]').text()
                           };
                           EClass.callAjax(url,parameters,method,async,function(data){
-                              
-                              
                               console.log("data.msgId:"+data.msgId);
                               console.log("data.msgContents:"+data.msgContents);
                               if("1"==data.msgId){//수정 성공
@@ -524,10 +538,15 @@ border-collapse: collapse; color: #37385d;}
                                       let htmData = "";
                                       
                                       for(let kk=0; kk<uicdata.length; kk++){
+                                    	  //console.log($('td:contains('+uicdata[kk].uicMarket+')').siblings('[id*="uicNowPrice"]').text());
+                                    	  
+                                    	  //var nowPrice = $('td:contains('+uicdata[kk].uicMarket+')').siblings('[id*="uicNowPrice"]').text();
+                                    	  //console.log(nowPrice);
+                                    	  
                                           htmData += "<tr>                                                        ";
                                           htmData += "     <td >"+ uicdata[kk].uicMarket +"</td>                                   ";
                                           htmData += "     <td class='text-right'>"+ uicdata[kk].uicNowPrice +"</td>                            ";
-                                          htmData += "     <td class='text-right'>"+ uicdata[kk].uicToFixed+" </td>   ";
+                                          htmData += "     <td class='text-right'>"+ uicdata[kk].uicToFixed +" </td>   ";
                                           htmData += "     <td class='text-right'>"+ uicdata[kk].uicPrice24h +"</td>                                           ";
                                           htmData += "</tr>                                  ";
                                       }

@@ -2,6 +2,7 @@
   pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <c:set var="CP" value="${pageContext.request.contextPath }"></c:set>
 <c:set var="resources" value="/resources"></c:set>
 <c:set var="CP_RES" value="${CP}${resources}"></c:set>
@@ -342,9 +343,16 @@ width: 95%; margin: 0 auto;}
     box-sizing: border-box;
     height: 30px;
 }
+
+.mainBalancesTabContextDivCWarnning {
+  width: 100%;
+  height: 350px;
+  overflow-y: scroll;
+}
+
 </style>
 
-<title>Insert 바구 here</title>
+<title>KEMIE</title>
 <!-- reset.css를 직접참조하여 가져오기 
     <link rel="stylesheet" type="text/css" href="/studyhtml5/asset/css/reset.css"> -->
 
@@ -465,13 +473,11 @@ width: 95%; margin: 0 auto;}
             
             $("#getDepoTableBody").empty();
             
-            console.log($(".uBTBody>tr>td").eq(0).text()); // currnecy
-            
             let url = "${CP}/getDeposit.do";
             let method ="GET";
             let async  = true;
             let parameters = {
-                "currency": $(".uBTBody>tr>td").eq(0).text()  
+                "currency": $('.mainBalancesTitle').text().substr(0, $('.mainBalancesTitle').text().lastIndexOf(" "))  
             };
             
             EClass.callAjax(url, parameters, method, async, function(data) {
@@ -712,9 +718,9 @@ width: 95%; margin: 0 auto;}
           <div class="mainBalancesTabContextDivCInputDiv">
             <div class="selectDiv" style="float:right;">
               <select>
-              <option value="10">전체</option>
-              <option value="20">입금</option>
-              <option value="30">출금</option>
+	              <option value="10">전체</option>
+	              <option value="20">입금</option>
+	              <option value="30">출금</option>
               </select>
               <hr/>
             </div>
