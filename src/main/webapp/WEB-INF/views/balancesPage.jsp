@@ -352,7 +352,7 @@ width: 95%; margin: 0 auto;}
   overflow-y: scroll;
 }
 
-.getDepoTable {border-collapse: collapse;}
+.getDepoTable {border-collapse: collapse; margin: 0 auto;}
 
 </style>
 

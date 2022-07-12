@@ -39,7 +39,7 @@
 
 #wrap {
 	width: 100%;
-	height: 600px;
+	height: 100vh;
 	position: relative;
 	
 }
@@ -222,8 +222,7 @@ background: white;
     height: 30px;
 }
 
-#modal .modalContent {height: 400px;}
-   
+#modal .modalContent {height: 400px;} 
 </style>
 
 <title>KEMIE</title>
