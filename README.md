@@ -39,7 +39,7 @@
   
   
 ## :key:PPT:key:
-[KEMIE_PROJECT_PPT](https://github.com/hykim-king/TEAMDMC/blob/main/doc/2%EC%A1%B0_TEAMDMC_KEMIE_PPT.pdf)   
+[KEMIE_PROJECT_PPT](https://github.com/hykim-king/TEAMDMC/blob/main/doc/2%EC%A1%B0_TEAMDMC_KEMIE_PPT.pdf)    
 
   
   
