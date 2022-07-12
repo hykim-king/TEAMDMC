@@ -38,8 +38,8 @@
 ***
   
   
-## :key:화면설계서:key:
-[KEMIE_화면설계서]    (url 첨부)   
+## :key:PPT:key:
+[KEMIE_PROJECT_PPT](https://github.com/hykim-king/TEAMDMC/blob/main/doc/2%EC%A1%B0_TEAMDMC_KEMIE_PPT.pdf)   
 
   
   
