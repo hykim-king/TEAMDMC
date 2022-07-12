@@ -75,7 +75,7 @@
   
 # :wrench:Tech Stack & Tools:wrench:
 
-![Tools](https://github.com/hykim-king/TEAMDMC/blob/main/img/tool.png)    
+![Tools](https://github.com/hykim-king/TEAMDMC/blob/main/img/2%EC%A1%B0_TEAMDMC_KEMIE_PPT.png)       
   
 
   
