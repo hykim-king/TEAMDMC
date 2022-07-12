@@ -94,15 +94,20 @@
 .uBTBody .right {text-align: right; padding-right: 5px;}
 .uBTBody .left {padding-left: 5px;}
 
-/* 메인 입출금 div */
-#mainBalancesDiv {
+.mainDivBox {
   width: 30%;
   height: 620px;
   border: 1px solid #333;
   box-sizing: border-box;
+    
 }
 
-#mainBalancesDiv label {
+/* 메인 입출금 div */
+#mainBalancesDiv {
+  width: 100%;
+}
+
+.mainDivBox label {
   margin-left: 10px;
 }
 
@@ -346,6 +351,8 @@ width: 95%; margin: 0 auto;}
   height: 350px;
   overflow-y: scroll;
 }
+
+.getDepoTable {border-collapse: collapse;}
 
 </style>
 
@@ -662,6 +669,7 @@ width: 95%; margin: 0 auto;}
       <!--// userBalancesDiv end ---------------------------------------------->
 
       <!-- mainBalancesDiv ---------------------------------------------------->
+      <div class="mainDivBox">
       <div id="mainBalancesDiv">
 
         <!-- mainBalancesTitleDiv --------------------------------------------->
@@ -776,7 +784,7 @@ width: 95%; margin: 0 auto;}
           <!--// mainBalancesTabContextDivAInputDiv end ---------------------------->
 
           <div class="mainBalancesTabContextDivCWarnning">
-            <table>
+            <table class="getDepoTable">
             <tbody id="getDepoTableBody">
             </tbody>
             </table>
@@ -786,7 +794,7 @@ width: 95%; margin: 0 auto;}
         
       </div>
       <!--// mainBalancesDiv end ----------------------------------------------------->
-
+      </div>
       <!-- coinChartDiv -------------------------------------------------------------->
       <div id="coinCharDiv">
         <div id="cointableDiv">
