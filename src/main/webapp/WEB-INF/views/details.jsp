@@ -87,8 +87,8 @@
          let method = "POST";
          let parameters = {
                  "bSeq":boardSeq,
-                 "uNick":$("#cuNick").val(),
-                 "uId":$("#cuId").val(),
+                 "uNick":"${sessionScope.user.nick}",
+                 "uId":"${sessionScope.user.uId}",
                  "bcContents":$("#bcContents").val()
          };
          
