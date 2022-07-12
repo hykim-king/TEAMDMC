@@ -160,6 +160,7 @@
     background-image: url("${CP_RES}/img/mainpageimg.jpg");
     text-align: center;
     background-size: cover;
+    background-attachment: fixed;
     width: 100%;
     height: 400px;
     position: absolute;

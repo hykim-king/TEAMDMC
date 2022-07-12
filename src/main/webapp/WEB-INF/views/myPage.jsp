@@ -216,6 +216,8 @@ h3 {
 				}else if(btnId.includes('user')){
 					  if(confirm("정말 탈퇴하시겠습니까?")==false) return;
 					  let input = prompt('아이디를 삭제하기 위해 현재 비밀번호를 입력하세요.');
+
+					  if(eUtil.ISEmpty(input)) return;
 					  
 					  let url = "${CP}/userinfo/doDelete.do";
 					  let parameters = {"uId": "${sessionScope.user.uId}", "passwd": input};

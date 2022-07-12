@@ -32,10 +32,10 @@
 <style type="text/css">
 
 .red{
- background: #fbefef;
+ background: #f5c5c5;
 }
 .blue{
-background:#e3ebf6;
+background:#cae0ff;
 }
 * {
     margin: 0;

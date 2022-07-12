@@ -277,7 +277,7 @@ div.on {
   width: 100%;
 }
 
-#cointable {border-collapse: collapse;}
+#cointable {border-collapse: collapse; width: 100%;}
 
 #cointableHeader th{
   position: sticky;
