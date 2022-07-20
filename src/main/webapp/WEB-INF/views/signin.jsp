@@ -270,15 +270,11 @@
             let url = "${CP}/userinfo/doInsert.do";
             let method = "POST";
             let parameters = {
-                    "uId": $("#uId").val(),
-                    "passwd": $("#passwd").val(),
-                    "name": $("#name").val(),
-                    "pNum": $("#pNum").val(),
-                    "nick": $("#nick").val()
-                    
-/*                      "type": $("#type").val(),
-                    "regDt": $("#regDt").val() */
-                    
+	            "uId": $("#uId").val(),
+	            "passwd": $("#passwd").val(),
+	            "name": $("#name").val(),
+	            "pNum": $("#pNum").val(),
+	            "nick": $("#nick").val()
             };
             
             let async;
@@ -361,12 +357,9 @@
             });
         }); 
         //nickCheck=============================================================
-  
-        	
     });
     //----------------------------------------------$(document).ready
     </script>
-
 </head>
 <body>
     <%@include file="header.jsp" %>
