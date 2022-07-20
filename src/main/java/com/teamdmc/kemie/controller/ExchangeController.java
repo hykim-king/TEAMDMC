@@ -15,9 +15,21 @@
 * </pre>
 */
 package com.teamdmc.kemie.controller;
+import java.io.IOException;
+import java.lang.reflect.Type;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -26,16 +38,21 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
-import com.teamdmc.kemie.boardComment.domain.BoardCommentVO;
+import com.google.gson.reflect.TypeToken;
 import com.teamdmc.kemie.cmn.MessageVO;
+import com.teamdmc.kemie.upbit.API.ApiDao;
+import com.teamdmc.kemie.upbit.domain.AllMarketVO;
+import com.teamdmc.kemie.upbit.domain.TickerVO;
+import com.teamdmc.kemie.user.domain.UserVO;
 import com.teamdmc.kemie.userinterested.UserinterestedService;
 import com.teamdmc.kemie.userinterested.domain.UserInterestedVO;
 
 /**
- * @author Choi Jong Hee
+ * @author Choi Jong Hee, Teus(Teawook Kim)
  *
  */
 @Controller("exchangeController")
@@ -49,54 +66,77 @@ public class ExchangeController {
 	SqlSessionTemplate sqlSessionTemplate;
 		
 	@Autowired
+	ApiDao apiDao;
+	
+	@Autowired
 	UserinterestedService userinterestedService;
 	
 	@RequestMapping("/exchange.do")  
-	public String exchange(Model model){
-   /*     try {
-        	HttpClient client = HttpClientBuilder.create().build();
-        	HttpGet request = new HttpGet("https://api.upbit.com/v1/candles/minutes/1?market=KRW-BTC&count=30");
-            request.setHeader("Content-Type", "application/json");
-            HttpResponse response = client.execute(request);
-            HttpEntity entity = response.getEntity();
-            
-			String json = EntityUtils.toString(entity, "UTF-8");
-			
-			Gson gson = new Gson();
-			
-			Type mCandleType = new TypeToken<ArrayList<MinitesCandleVO>>() {}.getType();
-			List<MinitesCandleVO> list = gson.fromJson(json, mCandleType);
-			
-            model.addAttribute("list", list);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
+	public String exchange(HttpSession session, HttpServletRequest request, @RequestParam(value="market", defaultValue = "비트코인") String market, Model model){
+		UserVO inVO = (UserVO) session.getAttribute("user"); // 로그인 세션 가져오기
+		LOG.debug("============================");
+		LOG.debug("=HttpSession="+session);
+		LOG.debug("=inVO="+inVO);
+		LOG.debug("=market="+market);
+		LOG.debug("============================");
+
+		if(inVO == null) { // 세션 정보가 없는 경우 메인 페이지로 보냄
+			LOG.debug("==세선 정보가 없습니다.==");
+			return "mainPage"; 
+		}
 		
+		String marketNames = ""; // 암호 화폐의 market 이름을 저장할 변수
+		UserInterestedVO voVO = new UserInterestedVO(0, "", inVO.getuId()); // 가져온 세션으로 uic VO 생성
+		
+		List<UserInterestedVO> uicList = userinterestedService.getAll(voVO); // 관심코인 조회 -> market이름만 가져옴
+		
+		for(UserInterestedVO vo : uicList) 
+			marketNames += vo.getUicMarket()+"%2C"; // market 값 뒤에 %2C를 붙여 url에 붙일 수 있도록 String값 조정
+		
+		marketNames = marketNames.substring(0, marketNames.length()-3); // 마지막 %2C 제거
+
+		List<TickerVO> uicTickerList = apiDao.getTicker(marketNames);
+		
+		model.addAttribute("uicTickerList", uicTickerList);
+//---------------------------------------------------------------- 관심 코인 시세 조회 끝
+		List<AllMarketVO> marketList = apiDao.getAllMarket("false");
+		LOG.debug("=marketList="+marketList);
+		
+		marketNames = ""; // marketNames 변수 초기화
+		
+		if(marketList.size() > 0) {
+			for(AllMarketVO vo : marketList) {
+				if(vo.getMarket().contains("KRW")) {
+					marketNames+= vo.getMarket()+"%2C";
+					if(vo.getKorean_name().equals(market)) model.addAttribute("market", vo.getMarket());
+				}
+			}
+			
+			marketNames = marketNames.substring(0, marketNames.length()-3);
+			LOG.debug("=마지막 %2C 제거 marketNames="+marketNames);
+			
+			List<TickerVO> tickerList = apiDao.getTicker(marketNames);
+			LOG.debug("=tickerList="+tickerList);
+			
+			model.addAttribute("tickerList", tickerList);
+		}
         return "exchange";
 	}	
-	
-	@RequestMapping(value = "/delete.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+
+	@RequestMapping(value = "/addOrDelete.do", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public String commentDelete(UserInterestedVO inVO) throws SQLException {
+	public String addOrDelete(UserInterestedVO inVO) throws SQLException {
 
 		LOG.debug("========================");
+		LOG.debug("=addOrDelete()=");
 		LOG.debug("=inVO=" + inVO);
-
-		int flag = userinterestedService.doDelete(inVO);
-		String resultMsg = "";
-		if (1 == flag) {
-			resultMsg = "삭제되었습니다.";
-		} else {
-			resultMsg = "관심등록 코인이 아닙니다.";
-		}
-
-		MessageVO message = new MessageVO(String.valueOf(flag), resultMsg);
-		String jsonString = new Gson().toJson(message);
-		LOG.debug("=jsonString=" + jsonString);
 		LOG.debug("========================");
-		return jsonString;
+		
+		MessageVO message = userinterestedService.addOrDelete(inVO);
+		
+		return new Gson().toJson(message);
 	}
-
+	
 	//GET방식으로 : http://localhost:8081/ehr/user/doSelectOne.do?uId=p31
 		@RequestMapping(value = "/getAll.do",method = RequestMethod.GET
 				,produces = "application/json;charset=UTF-8")
@@ -109,39 +149,7 @@ public class ExchangeController {
 			LOG.debug("==============================");
 			
 			List<UserInterestedVO> list = userinterestedService.getAll(inVO);
-			Gson gson=new Gson();
-			String jsonString = gson.toJson(list);
-			LOG.debug("==============================");
-			LOG.debug("=doSelectOne()=");
-			LOG.debug("=jsonString="+jsonString);
-			LOG.debug("==============================");	
-			
-			return jsonString;
+
+			return new Gson().toJson(list);
 		}
-	
-	@RequestMapping(value = "/insert.do",method = RequestMethod.GET,produces = "application/json;charset=UTF-8")
-	@ResponseBody//스프링에서 비동기 처리를 하는 경우,HTTP 요청의 분문 body 부분이 그대로 전달된다.
-	public String add(UserInterestedVO inVO) throws SQLException{
-		String jsonString = "";
-		LOG.debug("==============================");
-		LOG.debug("=inVO="+inVO);
-		LOG.debug("==============================");
-		
-		int flag = userinterestedService.doInsert(inVO);
-		String resultMessage = "";
-		if(1==flag) {//등록 성공	
-			resultMessage = inVO.getUicMarket()+"가 등록 되었습니다.";
-		}else {
-			resultMessage = inVO.getUicMarket()+"등록 실패.";
-		}
-		
-		MessageVO message=new MessageVO(String.valueOf(flag), resultMessage);
-		Gson gson=new Gson();
-		jsonString = gson.toJson(message);
-		LOG.debug("==============================");
-		LOG.debug("=jsonString="+jsonString);
-		LOG.debug("==============================");		
-		
-		return jsonString;
-	}
 }

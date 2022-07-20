@@ -23,6 +23,24 @@ public class UserInterestedCoinDaoImpl implements UserInterestedCoinDao {
 	public UserInterestedCoinDaoImpl() {}
 
 	@Override
+	public int uICCheck(UserInterestedVO inVO) throws SQLException {
+		String statement = this.NAMESPACE+".uICCheck";		
+		
+		LOG.debug("==============================");
+		LOG.debug("param:" + inVO.toString());
+		LOG.debug("statement:" +statement);
+		LOG.debug("==============================");	
+				
+		int count = this.sqlSessionTemplate.selectOne(statement, inVO);
+		
+		LOG.debug("==============================");
+		LOG.debug("count:" + count);
+		LOG.debug("==============================");
+		
+		return count;
+	}
+
+	@Override
 	public int doDelete(UserInterestedVO inVO) throws SQLException{
 		int flag = 0;
 		

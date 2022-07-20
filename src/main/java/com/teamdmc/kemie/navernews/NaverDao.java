@@ -5,14 +5,13 @@ import java.util.List;
 
 import com.teamdmc.kemie.cmn.SearchVO;
 
-public interface NaverService {
+public interface NaverDao {
 	
 	/**
 	 * 목록조회 
 	 * @param dto
-	 * @return List<BoardVO>
+	 * @return List<NaverVO>
 	 * @throws SQLException
 	 */
-	List<Item> doRetrieve() throws SQLException;
-
+	NaverSearchVO doRetrieve() throws SQLException;
 }

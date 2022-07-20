@@ -17,7 +17,7 @@
     <!-- 사용자 정의 function, callAjax -->
     <script src="${CP_RES }/js/eclass.js"></script>
     
-    <script src="${CP_RES }/js/bootstrap.min.js"></script>
+    <!--  <script src="${CP_RES }/js/bootstrap.min.js"></script> -->
     <script type="text/javascript" src="${CP_RES }/js/jquery.bootpag.js"></script>
     <!-- google chart  -->
     <!--Load the AJAX API-->
@@ -30,40 +30,8 @@
     google.charts.load('current', {'packages':['corechart']});
     google.charts.setOnLoadCallback(drawCharts);
     console.log(google.charts)
-    
-        //코인이름
-        let settings = {
-                "async": true,
-                "crossDomain": true,
-                "url": "https://api.upbit.com/v1/market/all?isDetails=false",
-                "method": "GET",
-                "headers": {
-                "Accept": "application/json"
-                }
-        };
-        
-        $.ajax(settings).done(function (response) {
-            let htmlData = "";
-            let array = [0, 1, 32, 47, 249, 232];
-            
-            for(let i = 0; i < array.length; i++){
-                $("#coin"+(i+1)).empty();
-                
-                let value = array[i];
-                
-                htmlData += "<tr>                                                                                       ";
-                htmlData += " <td class='text-center col-sm-1 col-md-1 col-lg-1'>"+ response[value].market +"</td>      ";
-                htmlData += "<tr>                                                                                       ";
-                htmlData += " <td class='text-left   col-sm-2 col-md-2 col-lg-2'>"+ response[value].korean_name +"</td> ";
-                htmlData += " <td class='text-left   col-sm-2 col-md-2 col-lg-2'>"+ response[value].english_name +"</td>";
-                htmlData += "<tr>                                                                                       ";
-                
-                $("#coin"+(i+1)).append(htmlData);
-                
-                htmlData = "";
-            }
-        });
-        
+
+  
         //주요코인 차트
         function drawCharts() {
             for(let a = 0; a < 6; a++){
@@ -107,21 +75,73 @@
 
                 chart.draw(visualizedData, options);
             });  
-                
-                
         }
     }
-        $(document).ready(function(){
-        	//차트 클릭시 거래소 이동
-        	for(let i = 0; i <= 6; i++){
-		        $("#coin"+(i+1)).on("click", function(){
-		        	console.log("거래소");
-		        	window.location.href = "${CP}/exchange.do";
-		        });
-        	}
-        	
-        });
-        
+	    $(document).ready(function(){
+	    	function refreshTimer(data){
+	    		let time = 61;
+	    		let timer = setInterval(function() {
+	    			$("#coinTitle>span").text("남은 갱신 가능 시간: "+time+"s");
+	    			time--;
+	    			
+	    			if(time < 0){
+ 	            clearInterval(timer);
+ 	            $("#coinTitle>span").text("최신 갱신 시간: "+data+" ");
+ 	            $("#coinTitle>span").append("<img id='refresh' src='${CP_RES}/img/refresh-noncircle.png' width='30px' height='30px'/>");
+ 	            return;
+ 	          }
+	    		}, 1000);
+	    	}
+	    	
+	    	$('#refresh').click(function(){
+	    	  console.log($(this));
+	    	  
+	    	  let settings = {
+	                  "async": true,
+	                  "url": "${CP}/main/doRefreshNN.do",
+	                  "method": "GET",
+	                  "headers": {
+	                  "Accept": "application/json"
+	                  }
+	          };
+	          
+	          $.ajax(settings).done(function (response) {
+	        	  let buildDate = Date.parse(response.lastBuildDate);
+	        	  buildDate = new Date(buildDate);
+	        	  
+	        	  let month = buildDate.getMonth()+1;
+	        	  let date = buildDate.getDate();
+	        	  let hours = buildDate.getHours();
+	        	  let minutes = buildDate.getMinutes();
+	        	  let seconds = buildDate.getSeconds();
+	        	  
+	        	  buildDate = buildDate.getFullYear() + "/" + (month >= 10 ? month : "0"+month) + "/" + (date >= 10 ? date : "0" + date) + " " + (hours >= 10 ? hours : "0" + hours) + ":" + (minutes >= 10 ? minutes : "0" + minutes) + ":" + (seconds >= 10 ? seconds : "0" + seconds);
+	        	  
+	        	  $("#coinTitle>span").text("최신 갱신 시간: "+buildDate);
+	        	  $("#coinTitle>span").append("<img id='refresh' src='${CP_RES}/img/refresh-noncircle.png' width='30px' height='30px'/>");
+	        	  $("#newsBody").empty();
+	        	  
+	        	  let htmlData = "";                      
+	        	  
+	       	    for(let i=0; i<response.items.length; i++){
+	             htmlData += "<tr>";
+	             htmlData += " <td><a href='"+ response.items[i].link +"'>"+ response.items[i].title +"</a></td>";
+	             htmlData += " <td class='date'>"+ response.items[i].pubDate +"</td>";
+	             htmlData += "</tr>";
+	        	  }
+	        	  $("#newsBody").append(htmlData);
+	        	  refreshTimer(buildDate);
+	          });
+	    	});
+	    	
+	    	//차트 클릭시 거래소 이동
+	    	for(let i = 0; i < 6; i++){
+	      $("#coin"+(i+1)).on("click", function(){
+	      	console.log("거래소");
+	      	window.location.href = "${CP}/exchange.do?market="+$(this).find('text:first').text();
+	      });
+	    	}
+	    });
     </script>
 <head>
 
@@ -224,11 +244,39 @@
     margin-bottom: 50px;
     
 }
-#coinNews h2 {
+
+#coinTitle {
     margin-top: 10px;
     margin-bottom: 15px;
     padding-bottom: 15px;
     border-bottom: 1px solid lightgray;
+}
+
+#coinTitle h2{display: inline;}
+#coinTitle span{ 
+  float: right;
+}
+
+#refresh{transform:translateY(25%); transition: all ease 1s;}
+#refresh:hover{
+  transform: translateY(25%) rotate(180deg);
+  transition: all ease 1s;
+}
+#refresh:active{
+  transform: translateY(25%) rotate(360deg);
+  transition: all ease 1s;
+}
+
+#cointable {
+  width: 100%;
+  margin-bottom: 50px;
+}
+
+#coin{width: 100%;}
+
+#coin a{
+    text-decoration: none; color: black;
+    font-size: 15px;
 }
 .newsArea .newsone {
     display: flex;
@@ -236,10 +284,6 @@
     justify-content: space-between;
     margin: 0 auto;
     margin-top: 10px;
-    font-size: 15px;
-}
-#coin a{
-    text-decoration: none; color: black;
     font-size: 15px;
 }
 .date{
@@ -250,10 +294,7 @@
     transform: scale(1.1);
     transition: transform .5s;
 }
-#coin{
-    width: 100%;
-    margin-bottom: 50px;
-}
+
 </style>
 <title>KEMIE</title>
 
@@ -294,14 +335,17 @@
 
             <!-- 코인 뉴스=========================== -->
             <div id="coinNews">
-                <h2>코인 뉴스</h2>
+              <div id="coinTitle">
+                <h2>코인 뉴스</h2><span>최신 갱신 시간: ${list.lastBuildDate} <img id="refresh" src="${CP_RES}/img/refresh-noncircle.png"  width="30px" height="30px"/></span>
+              </div>
+              <div id="cointable">
                 <table id="coin">
                     <thead>
                     </thead>
-                    <tbody>
+                    <tbody id="newsBody">
                         <c:choose>
-                            <c:when test="${list.size()>0}">
-                                <c:forEach var="vo" items="${list}">
+                            <c:when test="${list != null}">
+                                <c:forEach var="vo" items="${list.getItems()}">
                                     <tr>
                                         <td><a href="${vo.link}">${vo.title}</a></td>
                                         <td class="date">${vo.pubDate}</td>
@@ -311,6 +355,7 @@
                         </c:choose>
                     </tbody>
                 </table>
+              </div>
             </div>
             <!-- //코인 뉴스=========================== -->
         <!-- pagenation -->

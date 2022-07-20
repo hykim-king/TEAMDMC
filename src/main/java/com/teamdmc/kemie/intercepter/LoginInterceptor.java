@@ -21,7 +21,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		
 		//session 정보를 추출
 		Object obj = session.getAttribute("user");
-		LOG.debug("obj:"+obj);
+		LOG.debug("obj: "+obj);
 			if(null==obj) {
 				LOG.debug("request.getContextPath():"+request.getContextPath());
 				//로그인 화면으로 이동

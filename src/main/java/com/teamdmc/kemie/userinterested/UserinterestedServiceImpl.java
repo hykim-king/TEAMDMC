@@ -24,6 +24,8 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.gson.Gson;
+import com.teamdmc.kemie.cmn.MessageVO;
 import com.teamdmc.kemie.dao.UserInterestedCoinDao;
 import com.teamdmc.kemie.userinterested.domain.UserInterestedVO;
 
@@ -40,18 +42,39 @@ final Logger LOG = LogManager.getLogger(getClass());
 	private UserInterestedCoinDao userInterestedCoinDao;
 
 	@Override
+	public MessageVO addOrDelete(UserInterestedVO inVO) throws SQLException {
+		LOG.debug("============================");
+		LOG.debug("=addOrDelete()=");
+		LOG.debug("=inVO="+ inVO);
+		LOG.debug("============================");
+		// msgId 상태 값
+		//     1. 삭제 완료: 10
+		//     2. 삭제 실패: 20
+		//     3. 등록 성공: 30
+		//     4. 등록 실패: 40
+		int flag = userInterestedCoinDao.uICCheck(inVO);
+		LOG.debug("==================flag: "+flag);
+		if(flag == 1) {
+			flag = userInterestedCoinDao.doDelete(inVO);
+			
+			if(flag == 1) return new MessageVO("10", "관심 코인 "+inVO.getUicMarket()+ "이(가) 삭제 되었습니다.");
+			else return new MessageVO("20", "관심 코인 "+inVO.getUicMarket()+ "이(가) 삭제 실패 하였습니다.");
+		}
+		else {
+			flag = userInterestedCoinDao.doInsert(inVO);
+			
+			if(flag == 1) return new MessageVO("30", "관심 코인 "+inVO.getUicMarket()+ "이(가) 등록 되었습니다.");
+			else return new MessageVO("40", "관심 코인 "+inVO.getUicMarket()+ "이(가) 등록 실패 하였습니다.");
+		}
+//			return userInterestedCoinDao.doInsert(inVO);
+	}
+
+	@Override
 	public List<UserInterestedVO> getAll(UserInterestedVO inVO) {
+		LOG.debug("============================");
+		LOG.debug("=getAll()=");
+		LOG.debug("============================");
+		
 		return userInterestedCoinDao.getAll(inVO);
 	}
-
-	@Override
-	public int doDelete(UserInterestedVO inVO) throws SQLException {
-		return userInterestedCoinDao.doDelete(inVO);
-	}
-
-	@Override
-	public int doInsert(UserInterestedVO inVO) throws SQLException {
-		return userInterestedCoinDao.doInsert(inVO);
-	}
-
 }

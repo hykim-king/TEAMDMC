@@ -2,13 +2,13 @@ package com.teamdmc.kemie.navernews;
 
 import com.teamdmc.kemie.cmn.DTO;
 
-public class Item extends DTO {
+public class NaverSearchItemVO extends DTO {	
 	private String title      ;
 	private String link       ;
 	private String description;
 	private String pubDate   ;
 	
-	public Item() {}
+	public NaverSearchItemVO() {}
 	
 	public String getPubDate() {
 		return pubDate;

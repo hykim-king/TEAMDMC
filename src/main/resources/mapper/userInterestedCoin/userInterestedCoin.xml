@@ -5,9 +5,6 @@
   <resultMap type="UserInterestedVO" id="userInterestedCoinResultMap">
       <id      property="uicIndex"   column="uic_index"/>
       <result  property="uicMarket" column="uic_market"/>
-      <result  property="uicNowPrice" column="uic_nowprice"/>
-      <result  property="uicToFixed" column="uic_tofixed"/>
-      <result  property="uicPrice24h" column="uic_price24h"/>
       <result  property="uId"        column="u_id"/>
   </resultMap>
     
@@ -21,27 +18,24 @@
   <select id="getAll" parameterType="UserInterestedVO" resultMap="userInterestedCoinResultMap">
      SELECT uic_index,
             uic_market,
-            uic_nowprice,
-	        uic_tofixed,
-	        uic_price24h,
 	        u_id
 	 FROM user_interested_coin
 	 WHERE u_id = #{uId}
-	 ORDER BY uic_nowprice
+  </select>
+
+  <select id="uICCheck" parameterType="UserInterestedVO" resultType="int">
+     SELECT COUNT(*)
+   FROM user_interested_coin
+   WHERE u_id = #{uId}
+   AND uic_market = #{uicMarket}
   </select>
 
   <insert id="doInsert" parameterType="UserInterestedVO">
      INSERT INTO user_interested_coin ( 
         uic_market,
-	    uic_nowprice,
-	    uic_tofixed,
-	    uic_price24h,
         u_id
      ) VALUES (   
          #{uicMarket},                  
-         #{uicNowPrice},  
-         #{uicToFixed},                  
-         #{uicPrice24h},                 
          #{uId}              
      )      
   </insert>

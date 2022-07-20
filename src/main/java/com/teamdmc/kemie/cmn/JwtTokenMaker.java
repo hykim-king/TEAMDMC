@@ -26,8 +26,8 @@ import com.auth0.jwt.algorithms.Algorithm;
 public class JwtTokenMaker {
 	final Logger LOG = LogManager.getLogger(getClass());
 	
-	private String accessKey = "bGNQIxetLSJ2FUSxOBHWn4xC8TWcpgLCyClMkxMp";
-	private String secretKey = "INtXQDTnQzcV5vuw0WI1uOCC5V3YczDPFCTSImJC";
+	private String accessKey = "B4HUUTutJxxUHJQDOBEASi2MiZ6xqGQXzxmAVg9A";
+	private String secretKey = "Q4j8cxN4mawHKnxcuebmACbzTAxMS6LJrKbYsoxP";
 	
 	public String jwtTokenMaker() {
 		if(accessKey.length() == 40 && secretKey.length() == 40) {
@@ -102,11 +102,6 @@ public class JwtTokenMaker {
 					.sign(algorithm);
 			
 			String authenticationToken = "Bearer " + jwtToken;
-			
-			System.out.println("토큰 생성 됐어요!: "+authenticationToken);
-			System.out.println("토큰 생성 됐어요!: "+authenticationToken);
-			System.out.println("토큰 생성 됐어요!: "+authenticationToken);
-			System.out.println("토큰 생성 됐어요!: "+authenticationToken);
 			
 			return authenticationToken;
 		} else return "토큰 키가 부정확합니다!";

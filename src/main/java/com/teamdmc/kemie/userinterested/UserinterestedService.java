@@ -19,6 +19,7 @@ package com.teamdmc.kemie.userinterested;
 import java.sql.SQLException;
 import java.util.List;
 
+import com.teamdmc.kemie.cmn.MessageVO;
 import com.teamdmc.kemie.userinterested.domain.UserInterestedVO;
 
 /**
@@ -26,28 +27,18 @@ import com.teamdmc.kemie.userinterested.domain.UserInterestedVO;
  *
  */
 public interface UserinterestedService {
+
+	/**
+	 * 관심 코인 조회 후 있으면 delete, 없으면 insert
+	 * @param inVO
+	 * @return MessageVO
+	 * @throws SQLException
+	 */
+	public MessageVO addOrDelete(UserInterestedVO inVO) throws SQLException;
 	
 	/**
-	 * 회원 다건 조회
-	 * @return
+	 * 관심 코인 다건 조회
+	 * @return List<UserInterestedVO>
 	 */
 	public List<UserInterestedVO> getAll(UserInterestedVO inVO);
-	
-	/**
-	 * 게시물 삭제
-	 * @param inVO
-	 * @return 1(성공)/ 0(실패)
-	 * @throws SQLException
-	 */
-	public int doDelete(UserInterestedVO inVO) throws SQLException;
-	
-	/**
-	 * 게시물 등록
-	 * @param inVO
-	 * @return 1(성공)/ 0(실패)
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
-	 */
-	public int doInsert(UserInterestedVO inVO) throws SQLException;
-
 }

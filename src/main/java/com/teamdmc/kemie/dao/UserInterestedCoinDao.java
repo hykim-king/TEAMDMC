@@ -8,6 +8,14 @@ import com.teamdmc.kemie.userinterested.domain.UserInterestedVO;
 public interface UserInterestedCoinDao {
 	
 	/**
+	 * 관심코인 존재여부 확인
+	 * @param inVO
+	 * @return int
+	 * @throws SQLException
+	 */
+	public int uICCheck(UserInterestedVO inVO) throws SQLException;
+	
+	/**
 	 * 사용자 삭제
 	 * @param inVO
 	 * @return 1(성공)/ 0(실패)

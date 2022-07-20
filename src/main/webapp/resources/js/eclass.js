@@ -39,8 +39,6 @@ EClass = {
             console.log("_ASYNC_STATUS:"+_ASYNC_STATUS);
             console.log("=callAjax=========================");
             
-            
-            
             $.ajax({
                 url     : _URL,
                 type    : _METHOD,
@@ -53,9 +51,9 @@ EClass = {
                 
                     console.log("_errorMsg:"+xhr.status);
                     if(xhr.status == 400){
-                         window.location.href = "/ehr/cmn/nullPointerException";
+                         window.location.href = "/KEMIE/exception";
                     }else if(xhr.status == 500){
-                         window.location.href = "/ehr/cmn/error";
+                         window.location.href = "/KEMIE/exception";
                     }else if(_errorMsg != null){
                         alert(_errorMsg);
                     }else{

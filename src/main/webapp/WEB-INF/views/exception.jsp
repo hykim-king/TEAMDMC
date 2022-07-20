@@ -14,9 +14,7 @@
     href="/studyhtml5/favicon (3).ico">
 
 <style>
-@import
-    url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap')
-    ;
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
 </style>
 <!--reset 스타일 시트 -->
 <!--<link rel="stylesheet" type="text/css" href="/studyhtml5/asset/css/reset.css">  -->
@@ -33,6 +31,7 @@
     width: 100%;
     height: calc(100vh - 80px);
     position: relative;
+    background-image: url("${CP_RES}/img/kemieLOGO.png");
 }
 
 .exception {width: 100%; text-ailgn: center;}
@@ -52,7 +51,7 @@
     <!-- 내용 -->
     <div id="wrap">
        <div class="exception">
-            <div class="imgBox"><img src="${CP_RES}/img/kemieLOGO.png"></div>
+            <%--<div class="imgBox"><img src="${CP_RES}/img/kemieLOGO.png"></div>  --%>
             <div class="msgBox">
                 <h3>요청 과정에서 에러가 발생했습니다.</h3>
                     <p>상태 코드 : <c:out value="${requestScope['javax.servlet.error.status_code'] }"/> </p>
@@ -66,13 +65,5 @@
     <!-- 내용 ----------------------------------------------------------->
     <%@include file="footer.jsp" %>
     <!--자바스크립트 코드 -->
-
-    <!--자바스크립트 코드 -->
-    <script type="text/javascript">
-    $(document).ready(function(){
-    
-        
-     });   
-</script>
 </body>
 </html>
